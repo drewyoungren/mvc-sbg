@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Learning Objectives</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
+    h2 { margin-top: 2rem; }
+    ul { list-style: none; padding-left: 1em; }
+    li::before {
+      content: "☐";
+      display: inline-block;
+      width: 1em;
+      margin-right: 0.5em;
+      cursor: pointer;
+    }
+    li.checked::before {
+      content: "☑";
+    }
+    li { cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<h1>Learning Objectives</h1>
+<div id="content">Loading...</div>
+
+<script>
+fetch("learning_objectives.json")
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById("content");
+    container.innerHTML = "";
+
+    data.forEach(entry => {
+      const section = document.createElement("section");
+      const header = document.createElement("h2");
+      header.textContent = entry.title;
+      section.appendChild(header);
+
+      const ul = document.createElement("ul");
+      entry.objectives.forEach(obj => {
+        const li = document.createElement("li");
+        li.innerHTML = obj;
+        li.addEventListener("click", () => {
+          li.classList.toggle("checked");
+        });
+        ul.appendChild(li);
+      });
+
+      section.appendChild(ul);
+      container.appendChild(section);
+    });
+
+    if (window.MathJax) MathJax.typeset();
+  });
+</script>
+
+</body>
+</html>

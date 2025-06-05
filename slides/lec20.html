@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Surfaces</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 20
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/4s4NABcnn9t"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Surfaces &amp; Areas</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+              <!-- <span style="font-size: x-small"
+                ><a
+                  href="https://onlineboard.eu/b/KXfGCnqT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >bb</a
+                ></span
+              > -->
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">
+                <strong>No lecture</strong> Thursday 4/17
+                <ul>
+                  <li>Recording in Video Library</li>
+                  <li>Q&amp;A zoom to follow (see EdStem)</li>
+                </ul>
+              </li>
+              <li class="fragment">HW 12 due Tuesday</li>
+              <li class="fragment">
+                Quiz 8 this week
+                <ul class="fragment">
+                  <li>FTLI</li>
+                  <li>Green's Theorem</li>
+                </ul>
+              </li>
+              <li class="fragment">Recitation as usual</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <h3 class="framelabel">Green's Theorem</h3>
+
+            \[\oint\limits_{\partial D} P\,dx + Q\,dy = \iint\limits_{D}
+            \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}
+            \right)\,dA \]
+
+            <!-- <img src="../img/swirlyD.png" width="33%" style="float: right; right: 100px;" /> -->
+
+            <div style="font-size: smaller">
+              where:
+              <ul>
+                <li class="thm fragment">
+                  $D$ is a (simply connected) region in the plane,
+                </li>
+
+                <li class="thm fragment">
+                  $\partial D$ is an counterclockwise-oriented, simple, closed
+                  curve forming the boundary of $D$, and
+                </li>
+
+                <li class="thm fragment">
+                  $\vec F(x,y) = \langle P(x,y),Q(x,y) \rangle$ is a
+                  continuously differentiable vector field.
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Parametric Surfaces</h1>
+          </section>
+
+          <section data-auto-animate>
+            <h6 class="framelabel">Parametrization</h6>
+            <div class="container">
+              <div class="col r-frame">
+                <h6 class="framelabel">Curves</h6>
+                \[ \vec r: \RR \to \RR^3 \]
+                <div class="r-stretch fragment">
+                  \[ \vec r(t) = \bv{ x(t) \\ y(t) \\ z(t)} \]
+                </div>
+              </div>
+              <div class="col r-frame">
+                <h6 class="framelabel">Surfaces</h6>
+                \[ \vec r: \RR^2 \to \RR^3 \]
+                <div class="r-stretch fragment">
+                  \[ \vec r(u,v) = \bv{ x(u,v) \\ y(u,v) \\ z(u,v)} \]
+                </div>
+              </div>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Parametrization</h6>
+            <div class="container">
+              <div class="col r-frame">
+                <h6 class="framelabel">Curves</h6>
+                \[ \vec r: \RR \to \RR^n \]
+                <div style="width: 500px; height: 400px">
+                  <ul>
+                    <li class="fragment">
+                      <a
+                        href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX3g9dCtjb3MlMjg0K3BpK3QlMjkmb2JqMF9wYXJhbXNfeT10K3NpbiUyODQrcGkrdCUyOSZvYmowX3BhcmFtc196PXQ="
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Curve 1</a
+                      >
+                    </li>
+                    <li class="fragment">
+                      <a
+                        href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzYzcwMDAwJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTEwJm9iajBfcGFyYW1zX3g9ZXhwJTI4LXQlMjkrY29zJTI4NCtwaStleHAlMjgtdCUyOSUyOSZvYmowX3BhcmFtc195PWV4cCUyOC10JTI5K3NpbiUyODQrcGkrZXhwJTI4LXQlMjklMjkmb2JqMF9wYXJhbXNfej1leHAlMjgtdCUyOSs="
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Curve 2</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col r-frame">
+                <h6 class="framelabel">Surfaces</h6>
+                \[ \vec r: \RR^2 \to \RR^n \]
+                <div style="width: 500px; height: 400px">
+                  <ul>
+                    <li class="fragment">
+                      <a
+                        href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LXNxcnQlMjgxKy0rdSU1RTIlMjkmb2JqMF9wYXJhbXNfZD1zcXJ0JTI4MSstK3UlNUUyJTI5Jm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PXYmb2JqMF9wYXJhbXNfej1zcXJ0JTI4dSU1RTIrJTJCK3YlNUUyJTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Cone 1</a
+                      >
+                    </li>
+                    <li class="fragment">
+                      <a
+                        href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzNmI3OGRiJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PXUrY29zJTI4diUyOSZvYmowX3BhcmFtc195PXUrc2luJTI4diUyOSZvYmowX3BhcmFtc196PXUmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >Cone 2</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Kinds of Surfaces</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Graphs of Functions</h6>
+
+            <p>
+              The
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzZGM1ZTY2Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTEmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PXYmb2JqMF9wYXJhbXNfej11JTVFMiUyRjIrLSt2JTVFMislMkYrMyslMkIrdSt2KyUyRisyKyUyQisxJTJGMyZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTE="
+                  target="_blank"
+                  >graph</a
+                ></strong
+              >
+              of a function $z = f(x,y)$ over domain $D$ can be parametrized by
+            </p>
+
+            <div class="container">
+              <div class="col">
+                \[\vec r(u,v) = \bv{ u \\ v \\ f(u,v) } \] with $(u,v) \in D$.
+              </div>
+              <div class="col">
+                <iframe
+                  data-src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzZGM1ZTY2Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTEmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PXYmb2JqMF9wYXJhbXNfej11JTVFMiUyRjIrLSt2JTVFMislMkYrMyslMkIrdSt2KyUyRisyKyUyQisxJTJGMyZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTE="
+                  frameborder="0"
+                  width="500px"
+                  height="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Surfaces of Revolution</h6>
+
+            <p>
+              A
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzODhhZDAwJm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD11Jm9iajBfcGFyYW1zX3k9JTI4MSstK3UlNUUyJTJGMiUyOSpjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3o9JTI4MSstK3UlNUUyJTJGMiUyOSpzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                  target="_blank"
+                  >surface of revolution</a
+                ></strong
+              >
+              of a graph $y = g(x), a \leq x \leq b,$ revolved about the
+              $x$-axis is given by
+            </p>
+
+            <div class="container">
+              <div class="col">
+                \[\vec r(u,v) = \bv{ u \\ g(u) \cos(v) \\ g(u) \sin(v) } \] with
+                $(u,v) \in [a,b]\times [0, 2\pi]$.
+              </div>
+              <div class="col">
+                <iframe
+                  data-src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzODhhZDAwJm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD11Jm9iajBfcGFyYW1zX3k9JTI4MSstK3UlNUUyJTJGMiUyOSpjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3o9JTI4MSstK3UlNUUyJTJGMiUyOSpzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                  frameborder="0"
+                  width="500px"
+                  height="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Piece of Sphere</h6>
+
+            <p>
+              We can use spherical coordinates to parametrize a
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGMwMGFkJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpJTJGMiZvYmowX3BhcmFtc19jPXBpKyUyRisyJm9iajBfcGFyYW1zX2Q9NytwaSslMkYrNCZvYmowX3BhcmFtc194PXNpbiUyOHUlMjkrY29zJTI4diUyOSZvYmowX3BhcmFtc195PXNpbiUyOHUlMjkrc2luJTI4diUyOSZvYmowX3BhcmFtc196PWNvcyUyOHUlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                  target="_blank"
+                  >piece of a sphere</a
+                ></strong
+              >
+            </p>
+
+            <div class="container">
+              <div class="col" style="font-size: smaller">
+                \[\vec r(u,v) = \bv{ R \sin(u) \cos(v) \\ R \sin(u) \sin(v) \\ R
+                \cos(u) } \] with angles $u,v$ restricted appropriately.
+              </div>
+              <div class="col">
+                <iframe
+                  data-src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGMwMGFkJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpJTJGMiZvYmowX3BhcmFtc19jPXBpKyUyRisyJm9iajBfcGFyYW1zX2Q9NytwaSslMkYrNCZvYmowX3BhcmFtc194PXNpbiUyOHUlMjkrY29zJTI4diUyOSZvYmowX3BhcmFtc195PXNpbiUyOHUlMjkrc2luJTI4diUyOSZvYmowX3BhcmFtc196PWNvcyUyOHUlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                  frameborder="0"
+                  width="500px"
+                  height="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Exercise</h6>
+
+            <p>Find a parametrization to model a chocolate kiss.</p>
+            <div class="container">
+              <div class="col" style="font-size: smaller">
+                <img
+                  src="https://economycandy.com/wp-content/uploads/2022/03/1fde8a48-823a-4133-a68f-2e5550af2e42.jpeg"
+                  alt="Heshey's Kiss"
+                  srcset=""
+                  width="500px"
+                  height="400px"
+                />
+              </div>
+              <div class="col">
+                <iframe
+                  data-src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNDYmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9LXBpKyUyRis0Jm9iajBfcGFyYW1zX2I9cGkmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PSUyOGNvcyUyOHUlMjkrJTJCKzElMjkrc2luJTI4diUyOSZvYmowX3BhcmFtc195PSUyOGNvcyUyOHUlMjkrJTJCKzElMjkrY29zJTI4diUyOSZvYmowX3BhcmFtc196PXUmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                  frameborder="0"
+                  width="500px"
+                  height="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Exercise</h6>
+
+            <p>Find a parametrization to model a corrugated roof.</p>
+            <div class="container">
+              <div class="col" style="font-size: smaller">
+                <img
+                  src="assets/Corrugated_iron_cottage.jpg"
+                  alt="Hut with corrugated roof"
+                  srcset=""
+                  width="500px"
+                  height="400px"
+                />
+              </div>
+              <div class="col">
+                <iframe
+                  data-src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTEmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PXYmb2JqMF9wYXJhbXNfej0lMjgxKy0rYWJzJTI4dSUyOSUyOSslMkIrMSUyRjIwKyorc2luJTI4MjArKit2JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                  frameborder="0"
+                  width="500px"
+                  height="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Surface Area</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Recall</h6>
+
+            <p>
+              We defined $ds$ to measure arc length for curves. \[ ds = |\vec
+              r'(t)| \,dt \]
+            </p>
+
+            <p class="fragment">
+              We look for an analogous way to measure area along surfaces.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Piece of tangent</h6>
+
+            <p style="font-size: smaller">
+              We can use a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzOWJkZGZmJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTMmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9NCZvYmowX3BhcmFtc194PSUyOC0xKyUyQit1JTJGMiUyOSp0KyUyQislMjgxKy0rdCUyOSp1Jm9iajBfcGFyYW1zX3k9JTI4LTErJTJCK3UlMkYyKyUyQit2JTJGMiUyOSp0KyUyQislMjgxKy0rdCUyOSp2Jm9iajBfcGFyYW1zX3o9dCpjb3MlMjh2LTElMjkqZXhwJTI4LSUyOC0xKyUyQit1JTI5JTVFMiUyRjIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                parametrization
+              </a>
+              $\vec r(u,v)$ to approximate the surface with a piece of the
+              tangent plane.
+            </p>
+            <div class="container">
+              <div class="col">
+                <p class="fragment" style="font-size: smaller">
+                  Tangent vectors \[\begin{align*}\vec r_u\,\Delta u &=
+                  \left\langle x_u, y_u, z_u \right\rangle\Delta u \\ \vec
+                  r_v\,\Delta v &= \left\langle x_v, y_v, z_v
+                  \right\rangle\Delta v \\ \end{align*} \]
+                </p>
+              </div>
+              <div class="col">
+                <p class="fragment">
+                  The area of a parallelogram defined by these is \[\Delta S =
+                  |\vec r_u \times \vec r_v| \, \Delta u \,\Delta v \]
+                </p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Surface Area</h6>
+
+            <p>
+              If $D\subset \RR^2$ is a domain in $uv$-space and $\vec r: D \to
+              \RR^3$ a parametrization of a smooth surface $\Omega$, then
+              \[\text{SA} = \iint\limits_\Omega dS = \iint\limits_D |\vec r_u
+              \times \vec r_v|\,du\,dv \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Find the surface area of a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MitwaSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3g9Y29zJTI4dSUyOSZvYmowX3BhcmFtc195PXNpbiUyOHUlMjkmb2JqMF9wYXJhbXNfej12Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                >cylinder</a
+              >
+              with height $h$ and radius $R$.
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              <strong>Solution.</strong> $\vec r(u,v) = \langle R\cos u, R \sin
+              u, v\rangle$ for $0\leq u \leq 2\pi, 0\leq v\leq h$. \[ \vec r_u
+              \times \vec r_v = \begin{bmatrix} \vec i & \vec j & \vec k \\ -R
+              \sin u & R \cos u & 0 \\ 0 & 0 & 1 \\ \end{bmatrix} = \bv{ R\cos
+              u\\ R\sin u \\ 0}\]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              \[ \iint_\Omega dS = \int_0^{2\pi} \int_0^h R\,dv\,du = 2\pi R h
+              \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the surface area of the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9dStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9dStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9dStjb3MlMjh2JTI5KyUyQisxJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                >piece of the plane</a
+              >
+              $z = x + 1$ inside the cylinder $x^2 + y^2 = 1$.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              <strong>Solution.</strong> $\vec r(u,v) = \langle u\cos v, u \sin
+              v, u \cos v + 1\rangle$ for $0\leq u \leq 1, 0\leq v\leq 2\pi $.
+              \[ \vec r_u \times \vec r_v = \begin{bmatrix} \vec i & \vec j &
+              \vec k \\ \cos v & \sin v & \cos v \\ -u \sin v & u \cos v & -u
+              \sin v \\ \end{bmatrix} = \bv{ -u \\ 0 \\ u}\]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              \[ \iint_\Omega dS = \int_0^{2\pi} \int_0^1 u\sqrt2\,du\,dv =
+              \pi\sqrt2 \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section id="section-surface-integrals">
+            <h1>Surface Integrals</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">Other Questions</h3>
+
+            <p>Besides area, what might we ask about surfaces?</p>
+
+            <ul>
+              <li class="fragment">
+                What is the
+                <a
+                  href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9c3VyZmFjZSZvYmowX2NvbG9yPSUyMzU4MDFhNSZvYmowX2FuaW1hdGlvbj10cnVlJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD1zaW4lMjh1JTI5K2NvcyUyOHYlMjkmb2JqMF9wYXJhbXNfeT1zaW4lMjh1JTI5K3NpbiUyOHYlMjkmb2JqMF9wYXJhbXNfej1jb3MlMjh1JTI5Jm9iajBfcGFyYW1zX211PXNpbiUyODQreCstKzIrdCUyOWNvcyUyODUreSslMkIrMyt0JTI5c2luJTI4Nit6Ky0rdCslMkIrMSUyRjIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0yK3Bp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >average temperature</a
+                >
+                on the earth's surface?
+              </li>
+              <li class="fragment">
+                What is the probability that a
+                <a
+                  href="https://www.researchgate.net/publication/359917461/figure/fig2/AS:1144233306144771@1649817887905/Map-of-Spain-with-sites-where-the-study-took-place-showing-mean-annual-rainfall-between.png"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >raindrop in Spain</a
+                >
+                falls (mainly) on the plain?
+              </li>
+              <li class="fragment">
+                What is the moment of inertia of a
+                <a
+                  href="https://3demos.ctl.columbia.edu/?c2NhbGU9MC40JnNob3dQYW5lbD1mYWxzZSZncmlkPWZhbHNlJm9ydGhvPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfYW5pbWF0aW9uPXRydWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MiUyRjMmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSsmb2JqMF9wYXJhbXNfeD0zKnUrY29zJTI4diUyOStjb3MlMjh0JTI5Ky0rdSU1RTIrc2luJTI4dCUyOSZvYmowX3BhcmFtc195PTMqdStjb3MlMjh2JTI5K3NpbiUyOHQlMjkrJTJCK3UlNUUyK2NvcyUyOHQlMjkmb2JqMF9wYXJhbXNfej0zKnUrc2luJTI4diUyOSslMkIrMSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTIrcGkmb2JqMF9wYXJhbXNfbXU9MQ=="
+                  target="_blank"
+                  >radar dish</a
+                >
+                spinning on its axis?
+              </li>
+            </ul>
+
+            <p class="fragment">
+              All of these require integrating a scalar function over a surface.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+            <p>
+              A <strong>surface integral</strong> of a function $f$ over a
+              parametric surface $\Omega$ with respect to surface area is
+              written \[ \iint\limits_\Omega f\,dS\]
+            </p>
+
+            <ul>
+              <li class="fragment">
+                <strong>Where?</strong> on a parametric surface $\Omega$
+              </li>
+              <li class="fragment">
+                <strong>What?</strong> scalar field $f$
+                <span class="fragment">
+                  with $\Omega \subset \text{dom }f$</span
+                >
+              </li>
+              <li class="fragment">
+                <strong>How?</strong> w/r/t surface area $dS$
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="framelabel">Formula</h3>
+            <p>
+              \[ \iint\limits_\Omega f\,dS = \iint\limits_D f(\vec
+              r(u,v))\,|\vec r_u \times \vec r_v|\,du\,dv \] where $\vec r(u,v)$
+              is a parametrization of $\Omega$ over domain $D\subset \RR^2$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the moment of inertia of a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkrJm9iajBfcGFyYW1zX3g9c2luJTI4dSUyOStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9c2luJTI4dSUyOStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9Y29zJTI4dSUyOSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTIrcGk="
+                target="_blank"
+                >hollow sphere</a
+              >
+              of radius $R$ with mass $M$ and constant density about a central
+              axis.
+            </p>
+
+            <p class="fragment">
+              <strong>Answer.</strong>
+              <span class="fragment">$\frac23 M R^2$.</span>
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Parameterize surfaces of 3 types:
+                <ul>
+                  <li>graphs of functions of 2 variables.</li>
+                  <li>surfaces of revolution.</li>
+                  <li>parts of spheres.</li>
+                </ul>
+              </li>
+              <li>Compute surface area given a parameterized surface.</li>
+              <li>Integrate scalar fields with respect to surface area.</li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

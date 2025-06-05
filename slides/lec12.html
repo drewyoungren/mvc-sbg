@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Local Extrema</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 12
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/9vtfQajLHrV"
+                target="_blank"
+              >
+                &nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
+            </h3>
+            <h1>Local Min/Max</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">
+                Quiz 4 (on HW 6) this week
+                <ul>
+                  <li>Chain Rule</li>
+                  <li>Directional Derivatives</li>
+                  <li>Properties of the Gradient</li>
+                </ul>
+              </li>
+              <li class="fragment">HW7 due Tues</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <p>
+              The <strong>directional derivative</strong> of a differentiable
+              function $f$ in the direction of unit vector $\vec u$ at $\vec x$
+              is \[D_{\vec u} f(\vec x) = \lim_{h\to 0}\frac{f(\vec x+h\vec u) -
+              f(\vec x)}{h} = \nabla f(\vec x)\cdot\vec u.\]
+            </p>
+            <p>3 important properties:</p>
+            <ul>
+              <li class="fragment">$\nabla f$ is orthogonal to level sets.</li>
+              <li class="fragment">
+                $\nabla f$ points in the direction of greatest change.
+              </li>
+              <li class="fragment">
+                $|\nabla f|$ is the amount of greatest change.
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section
+            data-background-image="assets/adiron.png"
+            data-background-opacity="0.4"
+          >
+            <h1>$\displaystyle \nabla f = \vec 0$</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              A <strong>local minimum</strong> (resp. <strong>maximum</strong>)
+              of a scalar field $f$ is a value $f(\vec a)$ such that \[f(\vec a)
+              \leq f(\vec x)\] (resp. $f(\vec a) \geq f(\vec x)$) for all
+              positions $\vec x$ in some open set containing $\vec a$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              An <strong>absolute minimum</strong> (resp.
+              <strong>maximum</strong>) of a scalar field $f$ on a particular
+              domain $D$ is a value $f(\vec a)$ such that \[f(\vec a) \leq
+              f(\vec x)\] (resp. $f(\vec a) \geq f(\vec x)$) for all positions
+              $\vec x \in D$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Main Examples</h6>
+
+            <p class="smaller">
+              Consider
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWdyYXBoJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTEmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3o9JTI4dCslM0MrMSslM0YrMSslM0ErMystKzIqdCUyOSp4JTVFMislMkIrJTI4dCslM0MrMSslM0YrMSstKzIqdCslM0ErLTElMjkqK3klNUUyJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9Mg=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >functions</a
+              >
+              of the form \[ f(x,y) = \pm x^2 \pm\ y^2. \]
+            </p>
+
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX2FuaW1hdGlvbj10cnVlJm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTEmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3o9JTI4JTI4MSstK2NvcyUyOHQlMjklMjkrJTNDKzErJTNGKzErJTNBKzMrLSsyKiUyODErLStjb3MlMjh0JTI5JTI5JTI5KnglNUUyKyUyQislMjglMjgxKy0rY29zJTI4dCUyOSUyOSslM0MrMSslM0YrMSstKzIqJTI4MSstK2NvcyUyOHQlMjklMjkrJTNBKy0xJTI5Kit5JTVFMiZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTIrcGk="
+                frameborder="0"
+                height="100%"
+                width="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              A <strong>critical point</strong> of a function $f$ is a position
+              $a$ such that $f$ is <em>not</em> differentiable or \[\nabla
+              f(\vec a) = \vec 0. \]
+            </p>
+
+            <div class="fragment">
+              <h6 class="framelabel">Main Result</h6>
+
+              <p>
+                Suppose $f(\vec a)$ is a local extremum, then $\vec a$ is a
+                critical point.
+              </p>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p class="smaller">
+              Identify the critical points from the contour plot below. Do they
+              correspond with a local min or max or neither?
+            </p>
+
+            <p>
+              <img
+                src="./assets/contour_extrema.png"
+                width="500px"
+                height="500px"
+                srcset=""
+              />
+            </p>
+          </section>
+          <section>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9Z3JhcGgmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0tMiZvYmowX3BhcmFtc19kPTImb2JqMF9wYXJhbXNfej0yKmV4cCUyOC0lMjh4JTVFMislMkIreSU1RTIlMjklMjkrLSsxKitleHAlMjgtMisqJTI4JTI4eCstKzElMjklNUUyKyUyQislMjh5Ky0rMyUyRjQlMjklNUUyJTI5JTI5Ky0rMS4zKypleHAlMjgtMisqJTI4JTI4eCstKzElMjklNUUyKyUyQislMjh5KyUyQisxJTJGMiUyOSU1RTIlMjklMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find all critical points of the function \[ f(x,y) = x^4 + y^4 + 4
+              x y - 1.\]
+            </p>
+
+            <p>
+              <span class="fragment">Solution.</span>
+              <span class="fragment">
+                \[\nabla f = \bv{4x^3 + 4y \\ 4 y^3 + 4x} = \bv{0 \\ 0}\]
+              </span>
+            </p>
+          </section>
+          <section>
+            <p>
+              Substituting $y = -x^3$,\[ x^9 - x = \]\[ x(x - 1)(x + 1)(x^2 +
+              1)(x^4 +1) = 0 \] has roots $x = 0, \pm 1$.
+            </p>
+            <p class="fragment">
+              This gives 3 critical points: $(-1,1)$, $(0,0)$, and $(1, -1)$.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Classifying Critical Points</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Recall</h6>
+
+            <p>
+              In 1-D, the second-derivative determines classification at
+              critical points.
+            </p>
+
+            <img
+              src="assets/second_deriv_1d.png"
+              alt="A graph with a min a max and a saddle point in 1-D."
+              class="r-stretch"
+            />
+          </section>
+          <section>
+            <h6 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc196PSUyOHglNUUyKy0reSU1RTIlMjkrJTJGKzMmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM2ZmMDAwYiZvYmoxX3BhcmFtc19hPS0zJm9iajFfcGFyYW1zX2I9MyZvYmoxX3BhcmFtc194PWNvcyUyOGElMjkrdCZvYmoxX3BhcmFtc195PXNpbiUyOGElMjkrdCZvYmoxX3BhcmFtc196PSUyOGNvcyUyOGElMjklNUUyKy0rc2luJTI4YSUyOSU1RTIlMjkqdCU1RTIrJTJGKzMmb2JqMV9wYXJhbXNfYTA9MCZvYmoxX3BhcmFtc19hMT0yK3Bp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                The Second Derivative Test
+              </a>
+            </h6>
+
+            If all 2nd order partials of $f(x,y)$ are continuous in the
+            neighborhood of a critical point $(a,b)$, let \[ D = f_{xx}f_{yy} -
+            f_{xy}f_{yx} = \begin{vmatrix} \frac{\partial ^2 f}{\partial x^2} &
+            \frac{\partial ^2 f}{\partial y \partial x} \\ \frac{\partial ^2
+            f}{\partial x \partial y} & \frac{\partial ^2 f}{\partial y^2}
+            \end{vmatrix}.\]
+            <ul class="fragment">
+              <li>if $D>0$ and $f_{xx} < 0$, $f(a,b)$ is a local maximum.</li>
+              <li>if $D>0$ and $f_{xx} > 0$, $f(a,b)$ is a local minimum.</li>
+              <li>if $D<0$, $(a,b)$ is a saddle point.</li>
+            </ul>
+            <p class="fragment">Otherwise, the test is inconclusive.</p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Classify the critical points of the function \[ f(x,y) = x^4 + y^4
+              + 4xy - 1 \] above.
+            </p>
+          </section>
+          <section>
+            <table>
+              <tr>
+                <th>$(x,y)$</th>
+                <th>$f_{xx}$</th>
+                <th>$f_{yy}$</th>
+                <th>$f_{xy}$</th>
+                <th>$D$</th>
+                <th>class</th>
+              </tr>
+              <tr>
+                <td>$(0,0)$</td>
+                <td>0</td>
+                <td>0</td>
+                <td>4</td>
+                <td>-16</td>
+                <td>saddle</td>
+              </tr>
+              <tr>
+                <td>$(1,-1)$</td>
+                <td>12</td>
+                <td>12</td>
+                <td>4</td>
+                <td>128</td>
+                <td>min</td>
+              </tr>
+              <tr>
+                <td>$(-1,1)$</td>
+                <td>12</td>
+                <td>12</td>
+                <td>4</td>
+                <td>128</td>
+                <td>min</td>
+              </tr>
+            </table>
+            <p class="fragment smaller">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9Z3JhcGgmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMyUyRjImb2JqMF9wYXJhbXNfYj0zJTJGMiZvYmowX3BhcmFtc19jPS0zJTJGMiZvYmowX3BhcmFtc19kPTMlMkYyJm9iajBfcGFyYW1zX3o9eCU1RTQrJTJCK3klNUU0KyUyQis0K3greSstKzEmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+                >graph</a
+              >
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Optimization</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Some Topology</h6>
+
+            <p>
+              An <strong>open set</strong> $U\subset \RR^n$ is one where each
+              element can be surrounded by a (small) ball of elements in the
+              set.
+            </p>
+
+            <p class="fragment">
+              A <strong>closed set</strong> contains all its boundary points.
+            </p>
+
+            <div class="fragment container">
+              <div class="col r-stretch">
+                <img
+                  src="assets/Interior_Boundary.png"
+                  alt="Illustration of niterior point and boundary point"
+                  srcset=""
+                />
+              </div>
+              <div class="col r-stretch">
+                <img
+                  src="assets/Open_Closed.png"
+                  alt="Illustration of sets that are closed, open, and neither."
+                  srcset=""
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h3>Kinds of Optimization</h3>
+            <h6 class="framelabel fragment">Unconstrained</h6>
+            <p class="fragment">
+              On open sets
+              <span class="fragment"
+                >$\longrightarrow$ look for critical points</span
+              >
+            </p>
+            <h6 class="framelabel fragment">Constrained</h6>
+            <p class="fragment">
+              On boundary points
+              <span class="fragment">
+                $\longrightarrow$ Lagrange multipliers
+              </span>
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example - Unconstrained</h6>
+
+            <p>
+              Find the closest point to the origin on the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9Z3JhcGgmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0tMiZvYmowX3BhcmFtc19kPTImb2JqMF9wYXJhbXNfej14Ky0rMit5KyUyQiszJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >plane</a
+              >
+              \[z = x -2y + 3.\]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>Provide a technical definition of local extrema.</li>
+              <li>Identify critical points of scalar fields.</li>
+              <li>
+                Give examples of each class of critical point in 2 and 3
+                dimensions.
+              </li>
+              <li>
+                Correctly implement the 2nd derivative test in 2 dimensions.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

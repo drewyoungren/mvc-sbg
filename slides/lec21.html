@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Flux</title>
+
+    <link rel="heet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">Lecture 21</h3>
+            <h1>Flux</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+              <!-- <span style="font-size: x-small"
+                ><a
+                  href="https://onlineboard.eu/b/58CULOTm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >bb</a
+                ></span
+              > -->
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+            <ul>
+              <li class="fragment">HW 12 due Tuesday</li>
+              <li class="fragment">
+                Quiz 8 this week
+                <ul class="fragment">
+                  <li>FTLI</li>
+                  <li>Green's Theorem</li>
+                </ul>
+              </li>
+              <li class="fragment">Recitation as usual</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <h3 class="framelabel">
+              <a
+                href="lec20.html#/section-surface-integrals"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Surface Integral</a
+              >
+            </h3>
+
+            \[ \iint\limits_\Omega f\,dS = \iint\limits_D f(\vec r(u,v)) |\vec
+            r_u \times \vec r_v|\,dA \]
+
+            <p>
+              where $\vec r: D \to \Omega \subset \RR^3$ is a parametrization of
+              surface $\Omega$.
+            </p>
+
+            <p class="fragment">If $f \equiv 1$, we get surface area.</p>
+            <!-- <img src="../img/swirlyD.png" width="33%" style="float: right; right: 100px;" /> -->
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the moment of inertia of a uniformly-dense
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzImc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTIrcGkmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9NCtwaSZvYmowX3BhcmFtc194PTIrc2luJTI4dSslMkYrMiUyOStjb3MlMjh2KyUyRisyJTI5Jm9iajBfcGFyYW1zX3k9MitzaW4lMjh1KyUyRisyJTI5K3NpbiUyOHYrJTJGKzIlMjkmb2JqMF9wYXJhbXNfej0yK2NvcyUyOHUrJTJGKzIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+                >spherical</a
+              >
+              shell about its central axis.
+            </p>
+            <div class="fragment" style="font-size: smaller">
+              <p>
+                <strong>Solution.</strong>
+                \[ \begin{align*} \vec r_u \times \vec r_v &= \begin{vmatrix}
+                \vec i & \vec j & \vec k \\ R\cos u \cos v & R\cos u \sin v &
+                -R\sin u \\ -R\sin u \sin v & R\sin u \cos v & 0 \\
+                \end{vmatrix} \\ &= \bv{ R^2 \sin^2 u \cos v \\ R^2 \sin^2 u
+                \sin v \\ R^2 \sin u \cos u} = R \sin (u)\, \vec
+                r(u,v)\end{align*} \]
+                <span class="fragment"> has magnitude $R^2 \sin u$. </span>
+              </p>
+            </div>
+          </section>
+          <section>
+            <p>
+              <strong>Solution cont'd.</strong> \[I_z = \iint_{\mathcal S} (x^2
+              + y^2)\,\mu\,dS \] \[ = \mu\int_0^{2\pi}\int_0^\pi (R\sin u)^2 R^2
+              \sin u \,du\,dv \] \[ = \frac83 \pi \mu R^4 = \frac23 M R^2 \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Orientation</h1>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              A surface $\Omega$ is <strong>oriented</strong> if there is a
+              continuous choice of unit normal vector $\vec N$ at each point of
+              the surface.
+            </p>
+
+            <p class="fragment">
+              In other words, an orientation is choice of positive "side" of a
+              surface. By convention we encode this in the parametrization $\vec
+              r(u,v)$. \[ \vec N = \frac{\vec r_u \times \vec r_v}{|\vec r_u
+              \times \vec r_v | } \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Examples</h6>
+
+            <p class="fragment">
+              A
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMSZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0tMSZvYmowX3BhcmFtc19kPTEmb2JqMF9wYXJhbXNfeD11Jm9iajBfcGFyYW1zX3k9diZvYmowX3BhcmFtc196PXUlNUUzKyUyRiszKy0rdiU1RTIrJTJGKzIrLSt1KyUyRiszJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                >graph</a
+              >
+              $\langle u, v, f(u,v) \rangle$ could be oriented <em>upward</em>.
+              <span class="fragment"
+                >\[ \vec N \sim \langle -f_x, -f_y, 1 \rangle\]</span
+              >
+            </p>
+            <p class="fragment">
+              A
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMSZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PXUmb2JqMF9wYXJhbXNfeT0lMjh1JTVFMyslMkYrMysrLSt1KyUyRiszKyUyQisxJTI5Kyorc2luJTI4diUyOSZvYmowX3BhcmFtc196PSUyOHUlNUUzKyUyRiszKystK3UrJTJGKzMrJTJCKzElMjkrKitjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                >surface of revolution</a
+              >
+              $\langle u, g(u) \sin v, g(u)\cos v \rangle $ could be oriented
+              <em>outward</em>.
+              <span class="fragment"
+                >\[ \vec N \sim g(u) \langle -g'(u), \sin v, \cos v
+                \rangle\]</span
+              >
+            </p>
+          </section>
+
+          <section>
+            <h3 class="framelabel">WARNING</h3>
+
+            <p>
+              The
+              <a
+                href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9c3VyZmFjZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9JTI4MSslMkIrdSUyRjIqY29zJTI4diUyRjIlMjklMjkrKitjb3MrJTI4diUyOSZvYmowX3BhcmFtc195PSUyODErJTJCK3UlMkYyKypjb3MlMjh2JTJGMiUyOSUyOSsqK3NpbislMjh2JTI5Jm9iajBfcGFyYW1zX3o9dSUyRjIrKnNpbiUyOHYlMkYyJTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmowX3BhcmFtc19tdT16"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Möbius strip</a
+              >
+              is, famously, <strong>non-orientable</strong>.
+            </p>
+            <p class="fragment">
+              We will not deal with such surfaces in this class, but it should
+              be known such exist.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find a parametrization of the unit sphere
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MitwaSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD1waSZvYmowX3BhcmFtc194PXNpbiUyOHYlMjkrY29zJTI4dSUyOSZvYmowX3BhcmFtc195PXNpbiUyOHYlMjkrc2luJTI4dSUyOSZvYmowX3BhcmFtc196PWNvcyUyOHYlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                target="_blank"
+              >
+                oriented inward</a
+              >.
+            </p>
+
+            <p class="fragment">
+              <strong>Solution.</strong>
+              \[ \vec r(u,v) = \bv{ \sin(v) \cos(u) \\ \sin(v) \sin(u) \\
+              \cos(v) \\ }\] so $v$ plays the role of $\phi$ and $u$ that of
+              $\theta$ is one (of many) ways to do this.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Flux</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+            <p style="font-size: smaller">
+              A <strong>flux integral</strong> of a vector field $\vec F$
+              through a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzgmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc194PTErJTJCK3NpbiUyODIrdSUyOSslMkYrMiZvYmowX3BhcmFtc195PXNpbiUyOHUlMjkqJTI4MSslMkIrMC4yNSpzaW4lMjh2JTI5JTI5Jm9iajBfcGFyYW1zX3o9diZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzMTI4ODEyJm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfcD14KyUyRisyJm9iajFfcGFyYW1zX3E9eSslMkYrMiZvYmoxX3BhcmFtc19yPXorJTJGKzgmb2JqMV9wYXJhbXNfblZlYz01"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                surface
+              </a>
+              $\Omega$ (somethimes just the "surface integral of a vector
+              field") with orientation $\vec N$ corresponding to parametrization
+              $\vec r: D \to \RR^3$ is
+            </p>
+
+            <p>
+              \[\iint_\Omega \vec F\cdot d\vec S = \iint_\Omega \vec F \cdot
+              \vec N\,dS \]
+            </p>
+            <ul style="font-size: smaller">
+              <li class="fragment">
+                <strong>Where?</strong> on a 2D surface $\Omega$ in $\RR^3$.
+              </li>
+              <li class="fragment">
+                <strong>What?</strong> a vector field $\vec F$.
+              </li>
+              <li class="fragment">
+                <strong>How?</strong> in the (positive) direction perpendicular
+                to the surface.
+              </li>
+            </ul>
+
+            <p class="smaller fragment">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzgmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc194PTErJTJCK3NpbiUyODIrdSUyOSslMkYrMiZvYmowX3BhcmFtc195PXNpbiUyOHUlMjkqJTI4MSslMkIrMC4yNSpzaW4lMjh2JTI5JTI5Jm9iajBfcGFyYW1zX3o9diZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzMTI4ODEyJm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfcD14KyUyRisyJm9iajFfcGFyYW1zX3E9eSslMkYrMiZvYmoxX3BhcmFtc19yPXorJTJGKzgmb2JqMV9wYXJhbXNfblZlYz01"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click
+              </a>
+              and find <code>Story &rarr; Flux Integrals</code> for a
+              visualization.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Formula</h6>
+
+            <p>
+              \[ \iint\limits_\Omega \vec F \cdot \vec N\,dS = \iint\limits_D
+              \vec F(\vec r(u,v))\cdot \frac{\vec r_u\times \vec r_v}{|\vec r_u
+              \times \vec r_v|} |\vec r_u \times \vec r_v|\,dA \]
+            </p>
+            <p class="fragment">
+              \[ = \iint\limits_D \vec F(\vec r(u,v))\cdot \vec r_u\times \vec
+              r_v\,dA\]
+            </p>
+            <p class="fragment">
+              That integrand $\vec F(\vec r(u,v))\cdot \vec r_u\times \vec r_v$
+              is a triple-product, or, rather, a volume of a parallelopiped, two
+              sides defined by the surface, and one by the vector field.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dStzaW4lMjh0JTI5Jm9iajBfcGFyYW1zX3k9dStjb3MlMjh0JTI5Jm9iajBfcGFyYW1zX3o9diZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPXBpKyUyRisyJm9iajFfa2luZD1maWVsZCZvYmoxX2NvbG9yPSUyM2RjNWU2NiZvYmoxX2FuaW1hdGlvbj10cnVlJm9iajFfcGFyYW1zX3A9MSZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj0wJm9iajFfcGFyYW1zX25WZWM9Ng=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Example
+              </a>
+            </h6>
+
+            <p>
+              Let $\vec F = \vec i$ (a constant) and $\Omega$ the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc194PXUrc2luJTI4dCUyOSZvYmowX3BhcmFtc195PXUrY29zJTI4dCUyOSZvYmowX3BhcmFtc196PXYmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT1waSslMkYrMiZvYmoxX2tpbmQ9ZmllbGQmb2JqMV9jb2xvcj0lMjNkYzVlNjYmb2JqMV9hbmltYXRpb249dHJ1ZSZvYmoxX3BhcmFtc19wPTEmb2JqMV9wYXJhbXNfcT0wJm9iajFfcGFyYW1zX3I9MCZvYmoxX3BhcmFtc19uVmVjPTY="
+                target="_blank"
+                rel="noopener noreferrer"
+                >unit square</a
+              >
+              in the $yz$-plane. Compute the flux $\iint_\Omega \vec F\cdot
+              d\vec S$.
+            </p>
+            <p class="fragment">
+              <strong>Solution.</strong>$\int_0^1 \int_0^1 \vec i \cdot \vec i\,
+              du\,dv = 1$
+            </p>
+            <p class="fragment">
+              Repeat for the part of the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9Myt1KyolMjgxKy0rdSUyOSZvYmowX3BhcmFtc195PXUmb2JqMF9wYXJhbXNfej12Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9cGkrJTJGKzImb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfcD0xJm9iajFfcGFyYW1zX3E9MCZvYmoxX3BhcmFtc19yPTAmb2JqMV9wYXJhbXNfblZlYz02"
+                target="_blank"
+                >surface</a
+              >
+              $x = 3y(1 - y)$ with $0 \leq y,z \leq 1$.
+            </p>
+            <p class="fragment">
+              <strong>Solution.</strong>$\int_0^1 \int_0^1 \vec i \cdot (\vec i
+              + (6u - 3)\vec j)\, du\,dv = 1$
+            </p>
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjM2ODY1YWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9dStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9dStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9dSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX3A9MCZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj16Jm9iajFfcGFyYW1zX25WZWM9Ng=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                flux
+              </a>
+              of the vector field $z\,\vec k$ through the piece of the cone
+              $z=\sqrt{x^2 + y^2}$ below $z=2$, oriented upward.
+            </p>
+            <p class="fragment r-stretch"></p>
+          </section>
+          <section>
+            <p>
+              <strong>Solution</strong>. \[ \vec r(u,v) = \langle u \cos v, u
+              \sin v, u \rangle \qquad 0 \leq u \leq 2, 0 \leq v \leq 2 \pi \]
+            </p>
+            <p class="fragment">
+              \[\vec r_u \times \vec r_v = \langle -u \cos v, -u \sin v, u
+              \rangle \]
+            </p>
+            <p class="fragment">
+              \[ \iint_{\mathcal C} \vec F\cdot d\vec S = \int_0^{2\pi}
+              \int_{0}^{2} u^2\,du\,dv = \frac{16\pi}{3} \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Div &amp; Curl</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Differential Calc in 30 Seconds</h6>
+
+            <ul>
+              <li class="fragment">
+                One-variable calculus: $\displaystyle \frac{dy}{dx}$
+              </li>
+              <li class="fragment">curves: $\displaystyle \vec r'(t)$</li>
+              <li class="fragment">
+                scalar fields: $\displaystyle \nabla f(x,y)$
+              </li>
+              <li class="fragment">
+                vector fields:
+                <span class="fragment">$\displaystyle D \vec F?$</span>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="framelabel">Curl and Div in 2D</h3>
+
+            <div style="font-size: smaller">
+              <p>If $\vec F(x,y) = \langle P(x,y),Q(x,y) \rangle $, then</p>
+
+              \[\operatorname{curl} \vec F (x,y) = Q_x - P_y = \text{
+              ``circulation density''}\]
+
+              <ul>
+                <li class="fragment">
+                  positive $\leftrightarrow$ counterclockwise spin
+                </li>
+                <li class="fragment">
+                  negative $\leftrightarrow$ clockwise spin
+                </li>
+                <li class="fragment">zero $\leftrightarrow$ irrotational</li>
+              </ul>
+
+              <div class="fragment">
+                \[\operatorname{div} \vec F (x,y) = P_x + Q_y = \text{ ``flux
+                density''}\]
+
+                <ul>
+                  <li class="fragment">positive $\leftrightarrow$ expansion</li>
+                  <li class="fragment">
+                    negative $\leftrightarrow$ compression
+                  </li>
+                  <li class="fragment">
+                    zero $\leftrightarrow$ incompressibility
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Div in 3D</h3>
+
+            <div style="font-size: smaller">
+              With $\vec F (x,y,z) = P \,\vec i + Q \,\vec j + R \,\vec k$,
+              \[\operatorname{div} \vec F (x,y,z) = P_x + Q_y + R_z = \text{
+              ``flux density''}\]
+
+              <ul>
+                <li class="fragment">positive $\leftrightarrow$ expansion</li>
+                <li class="fragment">negative $\leftrightarrow$ compression</li>
+                <li class="fragment">
+                  zero $\leftrightarrow$ incompressibility
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Curl in 3D</h3>
+            <div style="font-size: smaller">
+              With $\vec F (x,y,z) = P\,\vec i + Q\,\vec j + R\,\vec k$,
+              \[\operatorname{curl} \vec F (x,y,z) = (R_y - Q_z)\,\vec i + ( P_z
+              - R_x)\,\vec j + (Q_x - P_y)\,\vec k \]
+
+              <p class="fragment">It's a little complicated</p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">"Del"</h3>
+
+            <div>
+              <p>Consider a "vector" of operators</p>
+              <div class="aglow">
+                \[ \nabla = \frac{\partial}{\partial x} \,\vec i +
+                \frac{\partial}{\partial y} \,\vec j + \frac{\partial}{\partial
+                z} \,\vec k \]
+              </div>
+            </div>
+            <p class="fragment" style="font-size: smaller">
+              Let's ignore that $\nabla$ is not technically a vector and use it
+              with vector operations anyway:
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Scalar Multiplication</h6>
+
+            <p>
+              Let $f(x,y,z)$ be a scalar field. Then "vector times scalar is
+              vector" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla f = \frac{\partial f}{\partial x} \,\vec i +
+              \frac{\partial f}{\partial y} \,\vec j + \frac{\partial
+              f}{\partial z} \,\vec k \]
+            </p>
+            <p class="fragment">aka the <strong>gradient</strong></p>
+          </section>
+          <section>
+            <h6 class="framelabel">Dot Product</h6>
+
+            <p style="font-size: smaller">
+              Let $ \vec F(x,y,z) = P(x,y,z)\,\vec i + Q(x,y,z)\,\vec j +
+              R(x,y,z)\,\vec k$ be a vector field. Then "vector dot vector is
+              scalar" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla \cdot \vec F = \frac{\partial P}{\partial x} +
+              \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} \]
+            </p>
+            <p class="fragment">aka the <strong>divergence</strong></p>
+          </section>
+          <section>
+            <h6 class="framelabel">Cross Product</h6>
+
+            <p style="font-size: smaller">
+              Let $ \vec F(x,y,z) = P(x,y,z)\,\vec i + Q(x,y,z)\,\vec j +
+              R(x,y,z)\,\vec k$ be a vector field. Then "vector cross vector is
+              vector" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla \times \vec F = \begin{vmatrix} \vec i & \vec j & \vec k
+              \\ \frac{\partial }{\partial x} & \frac{\partial }{\partial y} &
+              \frac{\partial }{\partial z} \\ P & Q & R \end{vmatrix} \]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              \[ = \left( \frac{\partial R}{\partial y} - \frac{\partial
+              Q}{\partial z} \right) \,\vec i + \left( \frac{\partial
+              P}{\partial z} - \frac{\partial R}{\partial x} \right)\,\vec j +
+              \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial
+              y} \right)\,\vec k \]
+            </p>
+            <p class="fragment">aka the <strong>curl</strong></p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Describe what it means for a surface to be oriented (and
+                orientable).
+              </li>
+              <li>
+                Given a specified orientation of a surface, find a
+                parametrization that is compatible.
+              </li>
+              <li>
+                Construct a flux integral as a double integral via
+                parametrization.
+              </li>
+              <li>
+                Reason, without direct computation, about the sign or magnitude
+                of a flux integral.
+              </li>
+              <li>Compute the divergence and curl of a 3D vector field.</li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+    </script>
+  </body>
+</html>

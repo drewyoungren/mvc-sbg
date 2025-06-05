@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Chain Rule</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+    <style>
+      .smaller {
+        font-size: smaller;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 10
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/A7CJe11qWhu"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Chain Rule</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">No quiz this week</li>
+              <li class="fragment">Recitation 6 this week</li>
+              <li class="fragment">HW6 due next Tuesday</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Linearization</h6>
+
+            <p>
+              The <strong>linearization</strong> of a differentiable function
+              $f(x,y)$ about a point $(a,b)$ is the linear function \[ L(x,y) =
+              f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b) \] $ \approx f(x,y)$. Its
+              graph is tangent to the graph of $f$.
+            </p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Error</h6>
+            <p>\[ f(x,y) \approx f(a,b) + f_x(a,b)(x-a) + f_y(a,b)(y-b) \]</p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Error</h6>
+            <p>\[ f(x,y) - f(a,b) \approx f_x(a,b)(x-a) + f_y(a,b)(y-b) \]</p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Error</h6>
+            <p>\[ \Delta f \approx f_x(a,b)\Delta x + f_y(a,b)\Delta y \]</p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Error</h6>
+            <p>\[ df = f_x(a,b) dx + f_y(a,b)dy \]</p>
+
+            <p class="fragment">
+              This <strong>differential</strong> of $f$ estimates the error of
+              $f$. That is, it approximates how much the output will change for
+              given changes of the input.
+            </p>
+            <p>
+              <a
+                href="lec09.html#can-example"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Example</a
+              >
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">Theorem</h3>
+
+            <p>
+              If all partial derivatives of a function of several variables $f$
+              exist <em>and are continuous</em> in a neighborhood of a position
+              $\vec a$, then $f(\vec x)$ is differentiable at $\vec a$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Non-example</h6>
+            <p>\[ f(x,y) = \frac{xy}{\sqrt{x^2 + y^2}} \]</p>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?currentChapter=How+To&showPanel=false&obj0_kind=graph&obj0_color=%230d0887&obj0_params_a=-2&obj0_params_b=2.1&obj0_params_c=-2&obj0_params_d=2&obj0_params_z=x+y+%2F+%28sqrt%28x%5E2+%2B+y%5E2%29%29+&obj0_params_t0=0&obj0_params_t1=1"
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section data-background-image="assets/PatchedCabinets.jpeg">
+            <h1>The Chain Rule</h1>
+            <p
+              class="fragment"
+              style="
+                position: absolute;
+                right: 2px;
+                bottom: 2px;
+                font-size: x-small;
+              "
+            >
+              Photo credit:
+              <a
+                href="http://paradiso.media.mit.edu/synth.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Joe Paradiso</a
+              >
+            </p>
+          </section>
+          <section
+            data-background-video="assets/chain_rule_1d.mp4"
+            data-background-opacity="0.3  "
+          >
+            <h6 class="framelabel">1-D Chain Rule</h6>
+
+            <div class="r-stack">
+              <p class="fragment current-visible fade-out">
+                \[ \frac{d}{dx} (f\circ g)(x) = f'(g(x))g'(x) \]
+              </p>
+              <p class="fragment fade">
+                \[ \frac{d}{dx} f(g(x)) = \frac{df}{du} \frac{du}{dx} \] where
+                $u = g(x)$.
+              </p>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Main problem</h6>
+
+            <p>
+              A smooth curve $\left\langle x(t), y(t) \right\rangle$ moves
+              through a domain of a differentiable function $f(x,y)$. What is
+              $\frac{df}{dt} \Big\vert_{t = t_0}$?
+            </p>
+
+            <p class="fragment">
+              <em>Hint:</em>
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPWdyYXBoJm9iajBfY29sb3I9JTIzMzIzMmZmJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3o9MS0lMjh4Ky0rMSUyOSU1RTIlMkY2Ky0rJTI4eSslMkIrMSUyOSU1RTIrJTJGKzEwJm9iajBfcGFyYW1zX3RhdT0wJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjNGRkREMzMmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MipwaSZvYmoxX3BhcmFtc194PWNvcyUyOHQlMjkmb2JqMV9wYXJhbXNfeT1zaW4lMjh0JTI5Jm9iajFfcGFyYW1zX3o9MS0lMjhjb3MlMjh0JTI5Ky0rMSUyOSU1RTIlMkY2Ky0rJTI4c2luJTI4dCUyOSslMkIrMSUyOSU1RTIrJTJGKzEwJm9iajFfcGFyYW1zX3RhdT0wJm9iajJfa2luZD1jdXJ2ZSZvYmoyX2NvbG9yPSUyM0ZGREQzMyZvYmoyX3BhcmFtc19hPS1waSUyRjYmb2JqMl9wYXJhbXNfYj1waSUyRjYmb2JqMl9wYXJhbXNfeD1jb3MlMjh0JTI5Jm9iajJfcGFyYW1zX3k9c2luJTI4dCUyOSZvYmoyX3BhcmFtc196PTklMkYxMCstKyUyOHNpbiUyOHQlMjklMjklMkY1Jm9iajJfcGFyYW1zX3RhdT0w"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Replace</a
+              >
+              $f$ with $L$.
+            </p>
+          </section>
+          <section>
+            <p>
+              Let $L(x,y)$ be the linearization of $f$ around $\left\langle a, b
+              \right\rangle = \left\langle x(t_0), y(t_0) \right\rangle$.
+            </p>
+            <p class="fragment">
+              \[ \frac{df}{dt} \Big\vert_{t = t_0} = \frac{dL }{dt} \Big\vert_{t
+              = t_0} L(x(t), y(t)) = \]
+            </p>
+            <p class="fragment">
+              \[ \frac{d}{dt} \Big\vert_{t_0}(f(a, b) + f_x(a,b)(x(t) - a) +
+              f_y(a,b)(y(t) - b)) \]
+            </p>
+            <p class="fragment">\[ = f_x(a,b) x'(t_0) + f_y(a,b) y'(t_0) \]</p>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h3 class="framelabel">Multivariable Chain Rule</h3>
+              <p>
+                If $f(x_1, \ldots, x_n)$ is a differentiable function and each
+                $x_i$ depends smoothly on $t$, then \[ \frac{df}{dt} =
+                \sum_{i=1}^n \frac{\partial f}{\partial x_i} \frac{d x_i}{dt} \]
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Notation</h3>
+
+            <p>
+              We write \[\nabla f = \left\langle \frac{\partial f}{\partial
+              x_1}, \ldots, \frac{\partial f}{\partial x_n} \right\rangle \]
+            </p>
+            <p class="fragment">
+              Thus, the chain rule becomes \[ \frac{d}{dt} f ( \vec x(t)) =
+              \nabla f(\vec x(t)) \cdot \vec x'(t) \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Other Forms</h6>
+
+            <p>
+              Other cases can be handled by extrapolating from the case above.
+              \[\frac{\partial}{\partial t} f(x(s,t),y(s,t),z(s,t)) =\]\[
+              \frac{\partial f}{\partial x} \frac{\partial x}{\partial t} +
+              \frac{\partial f}{\partial y}\frac{\partial y}{\partial t}
+              +\frac{\partial f}{\partial z}\frac{\partial z}{\partial t} \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Examples</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Elevation change</h6>
+            <p>
+              A particle circles the $z$-axis
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1wb2ludCZvYmowX2NvbG9yPSUyMzAwMDAwMCZvYmowX2FuaW1hdGlvbj10cnVlJm9iajBfcGFyYW1zX2E9Y29zJTI4K3BpK3QlMjkmb2JqMF9wYXJhbXNfYj1zaW4lMjgrcGkrdCUyOSZvYmowX3BhcmFtc19jPWNvcyUyOCtwaSt0JTI5K3NpbiUyOCtwaSt0JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MiZvYmoxX2tpbmQ9Z3JhcGgmb2JqMV9jb2xvcj0lMjNiMTdkZGUmb2JqMV9wYXJhbXNfYT0tMS4xJm9iajFfcGFyYW1zX2I9MS4xJm9iajFfcGFyYW1zX2M9LTEuMSZvYmoxX3BhcmFtc19kPTEuMSZvYmoxX3BhcmFtc196PXgreSZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTE="
+                target="_blank"
+                rel="noopener noreferrer"
+                >every second</a
+              >
+              at a distance of 1 unit. If it is confined to the surface $z=xy$,
+              find the maximum of $\frac{dz}{dt}$.
+            </p>
+          </section>
+          <section>
+            <strong>Solution</strong>.
+            <p class="fragment">
+              $z = xy$ and $\left\langle x(t), y(t) \right\rangle = \left\langle
+              \cos(2 \pi t), \sin (2 \pi t) \right\rangle $. \[\frac{dz}{dt} =
+              \frac{\partial z}{\partial x} \frac{dx}{dt} + \frac{\partial
+              z}{\partial y} \frac{dy}{dt} \]
+            </p>
+            <p class="fragment">
+              \[ = y (-2\pi\sin (2\pi t)) + x(2\pi \cos(2\pi t)) \] \[ =
+              -2\pi\sin^2 (2\pi t) + 2\pi \cos^2(2\pi t) \] \[ = 2\pi \cos(4\pi
+              t) \] which has a maximum of $2\pi$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Related Rates</h6>
+
+            <p class="smaller">
+              The base radius of a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNjQmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMmMyN2QzJm9iajBfYW5pbWF0aW9uPXRydWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9JTI4NCslMkIrMSt0JTI5K3UrY29zJTI4diUyOSZvYmowX3BhcmFtc195PSUyODQrJTJCKzErdCUyOSt1K3NpbiUyOHYlMjkrJm9iajBfcGFyYW1zX3o9JTI4OCstKzIrdCslMjkrJTI4MSstK3UlMjkmb2JqMF9wYXJhbXNfdDA9LTEmb2JqMF9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >right cone</a
+              >
+              is increasing at a rate of 1 cm/min, and its height is decreasing
+              at 2cm/min. When the base has radius 4 cm and the height is 8 cm,
+              is the volume increasing or decreasing?
+            </p>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNjQmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMmMyN2QzJm9iajBfYW5pbWF0aW9uPXRydWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9JTI4NCslMkIrMSt0JTI5K3UrY29zJTI4diUyOSZvYmowX3BhcmFtc195PSUyODQrJTJCKzErdCUyOSt1K3NpbiUyOHYlMjkrJm9iajBfcGFyYW1zX3o9JTI4OCstKzIrdCslMjkrJTI4MSstK3UlMjkmb2JqMF9wYXJhbXNfdDA9LTEmb2JqMF9wYXJhbXNfdDE9MQ=="
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <strong>Solution</strong>.
+
+            <p class="fragment">
+              $V = \frac\pi3 r^2 h$ and thus \[ \frac{dV}{dt} = \frac{\partial
+              V}{\partial r}\frac{dr}{dt} + \frac{\partial V}{\partial
+              h}\frac{dh}{dt} \] \[ = \frac23 \pi r h \frac{dr}{dt} + \frac13
+              \pi r^2 \frac{dh}{dt} \] \[ = \frac23 \pi (4) (8) (1) + \frac13
+              \pi 4^2 (-2) = \frac{32 \pi}{3} > 0 \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Polar Coordinates</h6>
+
+            <p>
+              Suppose $f(x,y)$ has continuous derivatives of all order. Express
+              $\frac{\partial^2 f}{\partial r\partial \theta}$ in terms of the
+              partial derivatives of $f$.
+            </p>
+            <p>$r$ and $\theta$ are the usual polar coordinates.</p>
+          </section>
+          <section>
+            <p><strong>Solution</strong>.</p>
+            <p class="fragment">
+              \[\frac{\partial f}{\partial r} = f_x \frac{\partial x}{\partial
+              r} + f_y \frac{\partial y}{\partial r} = f_x \cos \theta + f_y
+              \sin \theta \]
+            </p>
+            <p class="fragment r-stretch">
+              \[\frac{\partial^2 f}{\partial \theta \partial r } = \left(f_{xx}
+              \frac{\partial x}{\partial \theta} + f_{xy} \frac{\partial
+              y}{\partial \theta}\right)\cos \theta - f_x \sin \theta \]\[+
+              \left(f_{yx} \frac{\partial x}{\partial \theta} + f_{yy}
+              \frac{\partial y}{\partial \theta}\right)\sin \theta + f_y \cos
+              \theta \] \[ = (f_{yy} - f_{xx})r\sin\theta \cos \theta + f_{xy} r
+              \cos (2\theta) + f_y \cos \theta - f_x \sin\theta \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Chain chain chain</h6>
+
+            <p>
+              Suppose \[ \begin{align*} z &= z(x,y) \\ x &= x(u,v) \\ y &=
+              y(u,v) \\ u &= u(s,t) \\ v &= v(s,t) \\ \end{align*}\] are all
+              differentiable. Find an expression for $\frac{\partial z}{\partial
+              s}$.
+            </p>
+          </section>
+          <section>
+            <p><strong>Solution</strong>.</p>
+            <p class="fragment">
+              \[ \begin{align*} \frac{\partial z}{\partial s} =& \frac{\partial
+              z}{\partial x}\frac{\partial x}{\partial u}\frac{\partial
+              u}{\partial s} + \frac{\partial z}{\partial x}\frac{\partial
+              x}{\partial v}\frac{\partial v}{\partial s} \\ &+ \frac{\partial
+              z}{\partial y}\frac{\partial y}{\partial u}\frac{\partial
+              u}{\partial s} + \frac{\partial z}{\partial y}\frac{\partial
+              y}{\partial v}\frac{\partial v}{\partial s} \\ \end{align*} \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Implicit Differentiation</h1>
+          </section>
+          <section>
+            <h3>Implicit Relationships</h3>
+
+            <p>
+              Every implicit relationship among variables $x$ and $y$ can be
+              expressed as a level set \[ F(x,y) = c. \]
+            </p>
+
+            <div class="fragment">
+              <h6 class="framelabel">Examples</h6>
+              <ul>
+                <li class="fragment">
+                  The circle
+                  <span class="r-stack">
+                    <span class="fragment current-visible"
+                      >$y = \pm\sqrt{R^2 - x^2}$</span
+                    >
+                    <span class="fragment fade-in">$ x^2 + y^2 = R^2$</span>
+                  </span>
+                </li>
+                <li class="fragment">
+                  <a
+                    href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc196PWNvcyUyOHgreSUyOSslMkIreCstK2V4cCUyOC14JTI5K3krLSsxJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MQ=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Something</a
+                  >
+                  else
+                  <span class="r-stack">
+                    <span class="fragment current-visible"
+                      >$\cos(xy) + x - 1 = e^{-x}y$</span
+                    >
+                    <span class="fragment fade-in"
+                      >$\cos(xy) + x - e^{-x}y = 1$</span
+                    >
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Main Problem</h6>
+            Given $y$ implicitly defined as a function of $x$ via $F(x,y) = c$,
+            find an expression for $\frac{dy}{dx}$ in terms of derivatives of
+            $F$.
+          </section>
+
+          <section>
+            \[ \frac{d}{dx}F(x,y) = 0\]
+            <div class="fragment">
+              <strong>WARNING</strong> Mind your $d$'s and $\partial$'s.
+            </div>
+
+            <div class="fragment">\[ \frac{d}{dx}F(x,y(x)) = 0 \]</div>
+            <div class="fragment">
+              \[ \frac{\partial F}{\partial x}\frac{dx}{dx} + \frac{\partial
+              F}{\partial y}\frac{dy}{dx} = 0\]
+            </div>
+            <div class="fragment">\[ \frac{dy}{dx} = -\frac{F_x}{F_y} \]</div>
+          </section>
+          <section
+            data-background-image="assets/implicit_example.png"
+            data-background-opacity="0.6"
+          >
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the slope of the tangent line to \[ x \sin(y) - \frac12 =
+              \sqrt{2} - 2\cos(xy)\] at the point
+              $\left(\frac12,\frac\pi2\right)$.
+            </p>
+          </section>
+          <section>
+            <p><strong>Solution</strong>.</p>
+
+            <p class="fragment">
+              \[F(x,y) = x \sin y + 2\cos(xy) = \frac12 + \sqrt 2 \] \[
+              \frac{dy}{dx} = \left.-\frac{F_x}{F_y} \right\rvert_{(1/2,\pi/2)}
+              = \left.-\frac{\sin y -2\sin(xy)y}{x\cos y -2
+              \sin(xy)x}\right\rvert_{(1/2,\pi/2)} \] \[ = - \frac{1 -
+              \frac{\pi}{\sqrt2}}{-\frac{1}{\sqrt2}} = \sqrt2 - \pi \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>Sketch a dependence tree for compositions.</li>
+              <li>
+                Select the correct form of the chain rule for arbitrary
+                compositions of scalar fields.
+              </li>
+              <li>Compute higher order derivatives via the chain rule.</li>
+              <li>
+                Implicitly find rates of change by reexpressing relations
+                between quantities as level sets.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Lines &amp; Planes</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section data-auto-animate>
+            <h3 class="framelabel">
+              Lecture 03
+              <a
+                href="https://excalidraw.com/#room=c29cc686b5dbb8898534,twVMNXhJXLjYdunc8zEvGw"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Lines &amp; Planes</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <h2>Announcements</h2>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <ul>
+              <li class="fragment">
+                Quiz 1 (HW1 topics) this week.
+                <ul>
+                  <li>HW1 topics</li>
+                  <li>on Gradescope</li>
+                  <li>open for 24 hours (starting Thurs 7pm)</li>
+                  <li>30 minutes window</li>
+                </ul>
+              </li>
+              <li class="fragment">HW2 due next Tues</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h3>Vector Operations</h3>
+
+            <table>
+              <tr>
+                <th>Operation</th>
+                <th>Notation</th>
+                <th>Formula</th>
+              </tr>
+              <tr>
+                <td>Magnitude</td>
+                <td>$| \mathbf v |$</td>
+                <td>$\sqrt{\sum v_i^2}$</td>
+              </tr>
+              <tr>
+                <td>Scalar Multiplication</td>
+                <td>$c \mathbf v$</td>
+                <td>$\left\langle c v_1, \ldots, c v_n \right\rangle$</td>
+              </tr>
+              <tr>
+                <td>Vector Addition</td>
+                <td>$\mathbf v + \mathbf w$</td>
+                <td>
+                  $\left\langle v_1 + w_1, \ldots, v_n + w_n \right\rangle$
+                </td>
+              </tr>
+              <tr>
+                <td>Dot Product</td>
+                <td>$\mathbf v \cdot \mathbf w$</td>
+                <td>$\sum v_i w_i$</td>
+              </tr>
+              <tr class="fragment">
+                <td>Cross Product</td>
+                <td>$\mathbf v \times \mathbf w$</td>
+                <td>
+                  $ \langle v_2 w_3 - v_3 w_2, v_3 w_1 - v_1 w_3, v_1 w_2 - v_2
+                  w_1 \rangle $
+                </td>
+              </tr>
+            </table>
+          </section>
+          <section>
+            <h3>Odds and ends</h3>
+
+            <div class="container">
+              <div class="col">
+                <div
+                  id="box-lin-combo"
+                  class="jxgbox"
+                  style="width: 400px; height: 400px"
+                ></div>
+                <script src="js/projection.js"></script>
+              </div>
+              <div class="col">
+                <ul>
+                  <li class="fragment">
+                    $\proj_{\vec w} \vec v = \frac{\vec v \cdot \vec w}{\vec w
+                    \cdot \vec w}\vec w$
+                  </li>
+                  <li class="fragment">
+                    projection breaks vectors into (orthogonal) components
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>The Cross Product</h1>
+          </section>
+          <section>
+            <p>
+              There is a special <strong>vector product</strong>, or
+              <strong>cross product</strong> in <strong>$\RR^3$ only</strong>.
+              \[\vec v \times \vec w = \vec u\] "A vector cross a vector is a
+              vector."
+            </p>
+          </section>
+          <section>
+            <div class="r-stretch"></div>
+
+            <h6 class="framelabel">Defining properties</h6>
+            <ul class="squarelist">
+              <li class="fragment">
+                bilinearity: $ \vec u \times (c\vec v + d\vec w) = c \vec u
+                \times \vec v + d \vec u \times \vec w$
+              </li>
+              <li class="fragment">
+                skew-symmetry: $\vec v \times \vec w = - \vec w \times \vec v$
+              </li>
+              <li class="fragment">
+                $\vec i \times \vec j = \vec k, \qquad \vec j \times \vec k =
+                \vec i, \qquad \vec k \times \vec i = \vec j$
+              </li>
+            </ul>
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <h3>Formula</h3>
+            <div class="fragment">
+              \[\langle a,b,c \rangle\times \langle d,e,f \rangle = (a\vec i +
+              b\vec j + c \vec k)\times(d\vec i + e\vec j + f \vec k) \]
+            </div>
+            <div class="fragment">
+              \[ = (bf - ce) \vec i + (cd - af) \vec j + (ae - bd) \vec k \]
+            </div>
+            <div class="fragment">
+              $ = \begin{vmatrix} \vec i & \vec j & \vec k \\a &b &c \\ d & e &
+              f \\ \end{vmatrix} $
+              <span class="fragment"
+                >$ \begin{matrix} \vec i & \vec j \\a &b \\ d & e \\
+                \end{matrix} $</span
+              >
+            </div>
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <h3 class="framelabel">Properties of $\vec v \times \vec w$</h3>
+            <ul>
+              <li>
+                $\vec v \times \vec w$ is perpendicular to
+                <strong>both</strong> $\vec v $ and $\vec w$.
+              </li>
+              <li>
+                $\vec v \times \vec w$ points in the direction according to the
+                right-hand-rule.
+              </li>
+              <li>
+                $|\vec v \times \vec w| = |\vec v ||\vec w|\sin\theta$ where
+                theta is the (positive) angle between the vectors.
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3 class="framelabel">Cross Products and Area</h3>
+            <p>
+              If $\vec v$ and $\vec w$ define adjacent sides of a parallelogram,
+              the area is $|\vec v \times \vec w|$.
+            </p>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD12ZWN0b3Imb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0xJm9iajBfcGFyYW1zX3g9MSUyRjImb2JqMF9wYXJhbXNfeT0xJTJGMiZvYmowX3BhcmFtc196PTElMkYyJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfYT0lMjgxKy0rbiUyOSozKyorMSsqK3NpbiUyOHQlMjkrJTJGK3NxcnQlMjg1JTI5KyUyQituKislMjgwLjY2NjY2Nytjb3MlMjh0JTI5Ky0rMC41OTYyODUrc2luJTI4dCUyOSUyOSZvYmoxX3BhcmFtc19iPW4rKislMjgwLjY2NjY2Nytjb3MlMjh0JTI5KyUyQiswLjc0NTM1NitzaW4lMjh0JTI5JTI5Jm9iajFfcGFyYW1zX2M9JTI4MSstK24lMjkqMysqKzIrKitzaW4lMjh0JTI5KyUyRitzcXJ0JTI4NSUyOSsrJTJCK24rKislMjgtMC4zMzMzMzMrY29zJTI4dCUyOSslMkIrMC4yOTgxNDIrc2luJTI4dCUyOSUyOSZvYmoxX3BhcmFtc194PTElMkYyJm9iajFfcGFyYW1zX3k9MSUyRjImb2JqMV9wYXJhbXNfej0xJTJGMiZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTIrcGkmb2JqMV9wYXJhbXNfbjA9MCZvYmoxX3BhcmFtc19uMT0xJm9iajJfa2luZD1zdXJmYWNlJm9iajJfY29sb3I9JTIzNGU0YmY3Jm9iajJfYW5pbWF0aW9uPXRydWUmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9MSZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfZD0xJm9iajJfcGFyYW1zX3g9MSUyRjIrJTJCKzIrdSslMkIrJTI4MC42NjY2NjcrY29zJTI4dCUyOSstKzAuNTk2Mjg1K3NpbiUyOHQlMjklMjkrKit2Jm9iajJfcGFyYW1zX3k9MSUyRjIrJTJCKzIrdSslMkIrJTI4MC42NjY2NjcrY29zJTI4dCUyOSslMkIrMC43NDUzNTYrc2luJTI4dCUyOSUyOSsqK3Ymb2JqMl9wYXJhbXNfej0xJTJGMistK3UrJTJCKyUyOC0wLjMzMzMzMytjb3MlMjh0JTI5KyUyQiswLjI5ODE0MitzaW4lMjh0JTI5JTI5KnYmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0yK3Bp"
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Lines</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">Parametric Form</h3>
+
+            <p>
+              A line in $\RR^n$ with position $\vec p$ and direction $\vec v$
+              has
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc194PS0xKyUyQit0Jm9iajBfcGFyYW1zX3k9KzElMkYyK3Qmb2JqMF9wYXJhbXNfej0tMSslMkIrMit0Jm9iajBfcGFyYW1zX2EwPTAmb2JqMF9wYXJhbXNfYTE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzMDg4NzBhJm9iajFfcGFyYW1zX2E9LTErJTJCKyUyOG4lMkYyJTI5KyorMSZvYmoxX3BhcmFtc19iPTAlMkIrJTI4bislMkYrMiUyOSsqKzElMkYyJm9iajFfcGFyYW1zX2M9LTErJTJCKyUyOG4rJTJGKzIlMjkrKisyJm9iajFfcGFyYW1zX3g9MCZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MSZvYmoxX3BhcmFtc19uMD0wJm9iajFfcGFyYW1zX24xPTAmb2JqMl9raW5kPXZlY3RvciZvYmoyX2NvbG9yPSUyM2RjNWU2NiZvYmoyX3BhcmFtc19hPTEmb2JqMl9wYXJhbXNfYj0xJTJGMiZvYmoyX3BhcmFtc19jPTImb2JqMl9wYXJhbXNfeD0tMSZvYmoyX3BhcmFtc195PTAmb2JqMl9wYXJhbXNfej0tMSZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTE="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >parametric form</a
+                ></strong
+              >
+              \[ \vec r(t) = \vec p + t\,\vec v \]
+            </p>
+
+            <div class="fragment">
+              <h6 class="framelabel">Example</h6>
+              <p>
+                Find a parametric form for the line through $(-1, 0, -1)$ and
+                $(1, 1,1)$.
+              </p>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find position and director vectors for the line with parametric
+              equations: \[ \begin{align*} x &= t - 1 \\ y &= t /2 \\ z &= 3 -
+              3t \\ \end{align*} \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNjQmc2hvd1BhbmVsPWZhbHNlJmdyaWQ9dHJ1ZSZvYmowX2tpbmQ9Y3VydmUmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMTAmb2JqMF9wYXJhbXNfYj0xMCZvYmowX3BhcmFtc194PTIrdCZvYmowX3BhcmFtc195PXQmb2JqMF9wYXJhbXNfej0wJm9iajBfcGFyYW1zX2EwPTAmb2JqMF9wYXJhbXNfYTE9MSZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjNkYzVlNjYmb2JqMV9wYXJhbXNfYT0tMTAmb2JqMV9wYXJhbXNfYj0xMCZvYmoxX3BhcmFtc194PTYrJTJCKzQrdCsmb2JqMV9wYXJhbXNfeT0tMSstKzYrdCZvYmoxX3BhcmFtc196PTAmb2JqMV9wYXJhbXNfYTA9MCZvYmoxX3BhcmFtc19hMT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                intersection
+              </a>
+              of the line through $(0,0)$ and $(2,1)$ and the line with position
+              $\langle 6, -1 \rangle$ and direction $\langle 4, -6 \rangle$.
+            </p>
+            <div class="fragment">
+              <p><strong>Solution.</strong></p>
+              \[ t \bv{2 \\ 1} = \bv{6 \\ -1} + s \bv{4 \\ -6} \]
+              <p class="fragment">
+                $t = 2, s = - \frac{1}{2}$ means intersection point is $(4, 2)$.
+              </p>
+            </div>
+
+            <p class="fragment">
+              <strong>Follow up.</strong> At what angle do these lines meet?
+            </p>
+
+            <div class="r-stretch"></div>
+          </section>
+        </section>
+        <section>
+          <section><h1>Planes</h1></section>
+          <section>
+            <h6 class="framelabel">Forms</h6>
+            <p>
+              We <em>could</em> define a plane via its
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMDg4NzIxJm9iajBfcGFyYW1zX2E9LTMmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTMmb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3g9MSstK3UrJTJGKzIrJTJCK3YrJTJGKzQmb2JqMF9wYXJhbXNfeT0xKyUyQit1KyUyQit2Jm9iajBfcGFyYW1zX3o9MSslMkIrdislMkY4Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MSZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfYz0xJm9iajFfcGFyYW1zX3g9MCZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MSZvYmoyX2tpbmQ9dmVjdG9yJm9iajJfY29sb3I9JTIzZmJmZjAwJm9iajJfcGFyYW1zX2E9LTElMkYyJm9iajJfcGFyYW1zX2I9MSZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfeD0xJm9iajJfcGFyYW1zX3k9MSZvYmoyX3BhcmFtc196PTEmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0xJm9iajNfa2luZD12ZWN0b3Imb2JqM19jb2xvcj0lMjNmNjhlNDUmb2JqM19wYXJhbXNfYT0xJTJGNCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfYz0xJTJGOCZvYmozX3BhcmFtc194PTEmb2JqM19wYXJhbXNfeT0xJm9iajNfcGFyYW1zX3o9MSZvYmozX3BhcmFtc190MD0wJm9iajNfcGFyYW1zX3QxPTE="
+                target="_blank"
+                >parametric form</a
+              >
+              with a position vector and 2 direction vectors. \[\vec r(s,t)
+              =\vec p + s \vec v + t \vec w\]
+            </p>
+            <p class="fragment">
+              But in $\RR^3$, we can define a plane with a 1 position vector
+              $\vec p$ and one <strong>normal</strong> vector $\vec n$ to define
+              the
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMDg4NzIxJm9iajBfcGFyYW1zX2E9LTMmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTMmb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3g9MSstK3UrJTJGKzIrJTJCK3YrJTJGKzQmb2JqMF9wYXJhbXNfeT0xKyUyQit1KyUyQit2Jm9iajBfcGFyYW1zX3o9MSslMkIrdislMkY4Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MSZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfYz0xJm9iajFfcGFyYW1zX3g9MCZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MSZvYmoyX2tpbmQ9dmVjdG9yJm9iajJfY29sb3I9JTIzZmJmZjAwJm9iajJfcGFyYW1zX2E9LTElMkY0Jm9iajJfcGFyYW1zX2I9LTElMkYxNiZvYmoyX3BhcmFtc19jPTEmb2JqMl9wYXJhbXNfeD0xJm9iajJfcGFyYW1zX3k9MSZvYmoyX3BhcmFtc196PTEmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0x"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >plane equation</a
+                ></strong
+              >.
+            </p>
+            <div class="fragment">\[\vec n \cdot (\vec x - \vec p) = 0\]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Exercise</h6>
+            <p>
+              What is a normal vector to the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPXgrJTJCKzIreSslMkIrOCt6Jm9iajBfcGFyYW1zX2s9MTYmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0tMiZvYmowX3BhcmFtc19kPTImb2JqMF9wYXJhbXNfZT0tMiZvYmowX3BhcmFtc19mPTU="
+                target="_blank"
+                rel="noopener noreferrer"
+                >plane</a
+              >
+              given by \[ x+2y = 16-8z \,?\] Find a point on this plane.
+            </p>
+            <div class="framelabel"></div>
+          </section>
+          <section>
+            <h6 class="framelabel">Exercises</h6>
+            <ol>
+              <li class="fragment">
+                Find an equation of the
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1wb2ludCZvYmowX2NvbG9yPSUyM2ZlZmIwMCZvYmowX3BhcmFtc19hPTEmb2JqMF9wYXJhbXNfYj0wJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPXBvaW50Jm9iajFfY29sb3I9JTIzZmVmYjAwJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MSZvYmoyX2tpbmQ9cG9pbnQmb2JqMl9jb2xvcj0lMjNmZWZiMDAmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9MCZvYmoyX3BhcmFtc19jPTEmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0xJm9iajNfa2luZD1sZXZlbCZvYmozX2NvbG9yPSUyMzAwZmNmZiZvYmozX3BhcmFtc19nPXgrJTJCK3krJTJCK3omb2JqM19wYXJhbXNfaz0xJm9iajNfcGFyYW1zX2E9LTImb2JqM19wYXJhbXNfYj0yJm9iajNfcGFyYW1zX2M9LTImb2JqM19wYXJhbXNfZD0yJm9iajNfcGFyYW1zX2U9LTImb2JqM19wYXJhbXNfZj01"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  plane through</a
+                >
+                $(1,0,0)$, $(0,1,0)$, and $(0,0,1)$.
+                <div class="fragment">\[x + y + z = 1\]</div>
+              </li>
+              <li class="fragment">
+                Find a parametric form for the line of intersection of the
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9dHJ1ZSZvYmowX2tpbmQ9bGV2ZWwmb2JqMF9jb2xvcj0lMjNmZjI2MDAmb2JqMF9wYXJhbXNfZz14KyUyQit5Ky0reiZvYmowX3BhcmFtc19rPTImb2JqMF9wYXJhbXNfYT0tMyZvYmowX3BhcmFtc19iPTMmb2JqMF9wYXJhbXNfYz0tMyZvYmowX3BhcmFtc19kPTMmb2JqMF9wYXJhbXNfZT0tMyZvYmowX3BhcmFtc19mPTMmb2JqMV9raW5kPWxldmVsJm9iajFfY29sb3I9JTIzMDBmOTAwJm9iajFfcGFyYW1zX2c9Mip4Ky0reSslMkIrMyp6Jm9iajFfcGFyYW1zX2s9MSZvYmoxX3BhcmFtc19hPS0zJm9iajFfcGFyYW1zX2I9MyZvYmoxX3BhcmFtc19jPS0zJm9iajFfcGFyYW1zX2Q9MyZvYmoxX3BhcmFtc19lPS0zJm9iajFfcGFyYW1zX2Y9Mw=="
+                  target="_blank"
+                >
+                  planes
+                </a>
+                given by $x+y-z = 2$ and <br />$2x - y + 3z = 1$.
+                <div class="fragment">
+                  \[\langle 1 + 2t, 1 - 5t, -3t \rangle\]
+                </div>
+              </li>
+            </ol>
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <ol start="3">
+              <li>
+                Find an equation of the plane through the origin and
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNSZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX3g9MistK3Qmb2JqMF9wYXJhbXNfeT10Jm9iajBfcGFyYW1zX3o9Mit0KyUyQisxJm9iajBfcGFyYW1zX2EwPTAmb2JqMF9wYXJhbXNfYTE9MQ=="
+                  >the line</a
+                >
+                \[\vec r(t) = \bv{2 - t \\ t \\ 2t + 1}.\]
+              </li>
+            </ol>
+          </section>
+          <section>
+            <h3 class="framelabel">Distances</h3>
+
+            <p>
+              The distance between sets is defined as the minimum of all
+              distances between points in the respective sets. \[
+              \operatorname{dist}(X,Y) = \operatorname{min}\limits_{\vec x \in
+              X, \vec y \in Y} |\vec x - \vec y| \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Point-to-Plane</h6>
+            <p>
+              Find the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPXBvaW50Jm9iajBfY29sb3I9JTIzZmQyNjI2Jm9iajBfcGFyYW1zX2E9MSZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0yJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9bGV2ZWwmb2JqMV9jb2xvcj0lMjMyNzA1OTImb2JqMV9wYXJhbXNfZz14Ky0reSslMkIrNCt6Jm9iajFfcGFyYW1zX2s9MCZvYmoxX3BhcmFtc19hPS0yJm9iajFfcGFyYW1zX2I9MyZvYmoxX3BhcmFtc19jPS0yJm9iajFfcGFyYW1zX2Q9MyZvYmoxX3BhcmFtc19lPS0yJm9iajFfcGFyYW1zX2Y9MiZvYmoyX2tpbmQ9dmVjdG9yJm9iajJfY29sb3I9JTIzOTkwZDAwJm9iajJfcGFyYW1zX2E9MSZvYmoyX3BhcmFtc19iPS0xJm9iajJfcGFyYW1zX2M9NCZvYmoyX3BhcmFtc194PTAmb2JqMl9wYXJhbXNfeT0wJm9iajJfcGFyYW1zX3o9MCZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTEmb2JqM19raW5kPXZlY3RvciZvYmozX2NvbG9yPSUyM2EyMDBmZiZvYmozX3BhcmFtc19hPTEmb2JqM19wYXJhbXNfYj0xJm9iajNfcGFyYW1zX2M9MiZvYmozX3BhcmFtc194PTAmb2JqM19wYXJhbXNfeT0wJm9iajNfcGFyYW1zX3o9MCZvYmozX3BhcmFtc190MD0wJm9iajNfcGFyYW1zX3QxPTEmb2JqNF9raW5kPXZlY3RvciZvYmo0X2NvbG9yPSUyMzAwMDAwMCZvYmo0X3BhcmFtc19hPTErKis0JTJGKzkmb2JqNF9wYXJhbXNfYj0tMSsqKzQlMkYrOSZvYmo0X3BhcmFtc19jPTQrKis0JTJGKzkmb2JqNF9wYXJhbXNfeD0wJm9iajRfcGFyYW1zX3k9MCZvYmo0X3BhcmFtc196PTAmb2JqNF9wYXJhbXNfdDA9MCZvYmo0X3BhcmFtc190MT0xJm9iajVfa2luZD1jdXJ2ZSZvYmo1X2NvbG9yPSUyM2ZmMDBmMiZvYmo1X3BhcmFtc19hPTAmb2JqNV9wYXJhbXNfYj0xJm9iajVfcGFyYW1zX3g9NCUyRjkrJTJCKyUyODErLSs0JTJGOSUyOSp0Jm9iajVfcGFyYW1zX3k9LTQlMkY5KyUyQislMjgxKyUyQis0JTJGOSUyOSp0Jm9iajVfcGFyYW1zX3o9MTYlMkY5KyUyQislMjgyKy0rMTYlMkY5JTI5KnQ="
+                target="_blank"
+                rel="noopener noreferrer"
+                >distance</a
+              >
+              from a position $\vec y$ to a plane with normal $\vec n$ and
+              position $\vec p$.
+            </p>
+            <div class="fragment">\[ |\proj_{\vec n} (\vec y - \vec p)| \]</div>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Compute and articulate the direction and magnitude of the
+                cross-product in terms of the inputs.
+              </li>
+              <li>
+                Demonstrate that both lines and planes (in dim 3) can be
+                determined with 2 vectors.
+              </li>
+              <li>
+                Contrast the (prescriptive) parametric form with the
+                (descriptive) equation forms of each.
+              </li>
+              <li>
+                Find intersections and generally solve problems of the form
+                "Find the line plane that..."
+              </li>
+              <li>
+                Select the appropriate role of projection in distance problems
+                between points, lines, and planes.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

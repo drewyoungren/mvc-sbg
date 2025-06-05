@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Changing Coordinates</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 15
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/Apl6HXeGgvW"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Changing Coordinates</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW8 due after break</li>
+              <li class="fragment">
+                Quiz 5 this week
+                <ul class="fragment">
+                  <li>Local min/max</li>
+                  <li>Optimization</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Double Integrals</h6>
+            <p>
+              \[ \iint\limits_{\mathcal R} f\,dA =\int_a^b \int_{g(x)}^{h(x)}
+              f(x,y)\,dy\,dx. \]
+            </p>
+            <h6 class="framelabel">Triple Integrals</h6>
+            <p>
+              \[ \iiint\limits_{\mathcal E} f\,dV =\int_a^b \int_{g(x)}^{h(x)}
+              \int_{j(x,y)}^{k(x,y)}f(x,y,z)\,dz\,dy\,dx. \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Properties</h6>
+            <ul class="squarelist">
+              <li class="fragment">
+                $\displaystyle \iint_{\mathcal R} (f + g)\,dA = \iint_{\mathcal
+                R} f\,dA + \iint_{\mathcal R} g\,dA$
+              </li>
+              <li class="fragment">
+                $\displaystyle \iint_{\mathcal R} cf\,dA = c\iint_{\mathcal R}
+                f\,dA$
+              </li>
+              <li class="fragment">
+                $\displaystyle \iint_{\mathcal R} c\,dA =
+                c\operatorname{Area}(\mathcal R)$.
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Let $E = [-1,1]^3$. Which of the following triple integrals is
+              $0$?
+            </p>
+
+            <p>
+              \[ \begin{align*}&\iiint\limits_E (1 - x)\,dV & \iiint\limits_E
+              e^{-yz}\,dV \\ &\iiint\limits_E yz^2\,dV & \iiint\limits_E x^2\,dV
+              \end{align*}\]
+            </p>
+
+            <p style="font-size: small">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9cmVjdCZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPS0xJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc19lPS0xJm9iajBfcGFyYW1zX2Y9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Demo</a
+              >. Use the density feature to visualize the different integrands
+              above.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Order of Integration</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Let $\mathcal E$ be the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9cmVjdCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPXgrJTVFKzImb2JqMF9wYXJhbXNfZT0wJm9iajBfcGFyYW1zX2Y9MSstK3g="
+                target="_blank"
+                rel="noopener noreferrer"
+                >solid region</a
+              >
+              in the first octant of $\RR^3$ bound by the surfaces $x + z = 1$
+              and $y = x^2$. Write the triple integral \[\iiint\limits_{\mathcal
+              E} f\,dV\] as an iterated integral at least 2 ways.
+            </p>
+          </section>
+          <section>
+            <p><strong>Solution</strong>.</p>
+            \[ \int_{0}^{1} \int_{0}^{x^2}\int_{0}^{1-x} f(x,y,z)\,dz\,dy\,dx \]
+            \[ \int_{0}^{1} \int_{\sqrt y}^{1}\int_{0}^{1-x}
+            f(x,y,z)\,dz\,dx\,dy \]
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Coordinate Systems</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">Polar Coordinates</h3>
+
+            <div class="container">
+              <div class="col">
+                \[\begin{align*} x &= r \cos \theta \\ y &= r \sin \theta \\
+                \end{align*}\]
+                <p class="fragment" style="font-size: smaller">
+                  \[\begin{align*} 0 &\leq r \lt \infty \\ 0 &\leq \theta < 2\pi
+                  \end{align*}\]
+                </p>
+              </div>
+              <div class="col">
+                <iframe
+                  src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZncmlkPXRydWUmb2JqMF9raW5kPXBvaW50Jm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MSUyRjImb2JqMF9wYXJhbXNfYj1zcXJ0JTI4MyUyOSUyRjImb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjNmZjAwMDAmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MSZvYmoxX3BhcmFtc194PXQlMkYyJm9iajFfcGFyYW1zX3k9c3FydCUyODMlMjkrdCslMkYrMiZvYmoxX3BhcmFtc196PTAmb2JqMl9raW5kPWN1cnZlJm9iajJfY29sb3I9JTIzZmYwMDAwJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPXBpJTJGMyZvYmoyX3BhcmFtc194PWNvcyUyOHQlMjklMkYzJm9iajJfcGFyYW1zX3k9c2luJTI4dCUyOSUyRjMmb2JqMl9wYXJhbXNfej0wJm9iajNfa2luZD1jdXJ2ZSZvYmozX2NvbG9yPSUyMzAwMDAwMCZvYmozX3BhcmFtc19hPTAmb2JqM19wYXJhbXNfYj0xJm9iajNfcGFyYW1zX3g9MCZvYmozX3BhcmFtc195PXQlMkYyJm9iajNfcGFyYW1zX3o9MCZvYmo0X2tpbmQ9Y3VydmUmb2JqNF9jb2xvcj0lMjMwMDAwMDAmb2JqNF9wYXJhbXNfYT0wJm9iajRfcGFyYW1zX2I9MSZvYmo0X3BhcmFtc194PTErJTJGKzImb2JqNF9wYXJhbXNfeT10K3NxcnQlMjgzJTI5KyUyRisyJm9iajRfcGFyYW1zX3o9MA=="
+                  frameborder="0"
+                  width="700px"
+                  height="500px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4 class="framelabel">Areas</h4>
+            <p style="font-size: smaller">
+              Consider a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZncmlkPXRydWUmb2JqMF9raW5kPXNvbGlkJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2Nvb3Jkcz1jeWwmb2JqMF9wYXJhbXNfYT1waSUyRjgmb2JqMF9wYXJhbXNfYj1waSUyRjMmb2JqMF9wYXJhbXNfYz0wLjUmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX2U9MCZvYmowX3BhcmFtc19mPTA="
+                target="_blank"
+                rel="noopener noreferrer"
+                >region</a
+              >
+              with bounded polar coordinates $r_1 \leq r \leq r_2$ and $\theta_1
+              \leq \theta \leq \theta_2$.
+            </p>
+            <div class="r-stack">
+              <p class="fragment current-visible">
+                \[ \Delta A = \frac12 r_2^2 (\theta_2 - \theta_1) - \frac12
+                r_1^2 (\theta_2 - \theta_1) \]
+              </p>
+              <p class="fragment current-visible">
+                \[ \Delta A = \frac{r_1 + r_2}{2} (r_2 - r_1) (\theta_2 -
+                \theta_1) \]
+              </p>
+              <p class="fragment current-visible">
+                \[ \Delta A = \bar r\,\Delta r\, \Delta \theta \]
+              </p>
+              <p class="fragment current-visible">\[ \longrightarrow \]</p>
+              <p class="fragment current-visible">\[dA = r\,dr\,d\theta\]</p>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Converting Integrals</h6>
+
+            <p style="font-size: smaller">
+              If $\mathcal R \subset \RR^2$ can be described with $\theta_1 \leq
+              \theta \leq \theta_2$ and $g(\theta) \leq r \leq h(\theta)$ in
+              polar coordinates, then \[ \iint\limits_{\mathcal R} f(x,y)\,dA =
+              \int_{\theta_1}^{\theta_2} \int_{g(\theta)}^{h(\theta)} f(r \cos
+              \theta, r\sin \theta)\,r\,dr\,d\theta \]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              Remember to convert all parts of the integral:
+            </p>
+
+            <ul>
+              <li class="fragment">
+                <strong>Where?</strong> the limits of integration
+              </li>
+              <li class="fragment"><strong>What?</strong> the integrand</li>
+              <li class="fragment"><strong>How?</strong> the differential</li>
+            </ul>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Solve the
+              <a
+                href="lec14.html#/first-volume-example"
+                target="_blank"
+                rel="noopener noreferrer"
+                >volume problem from Lec 14</a
+              >
+              using a polar integral.
+            </p>
+
+            <div class="fragment">
+              <p>
+                <strong>Solution.</strong> \[ V = \int_0^{\pi/2}\int_0^2 (4 -
+                r^2)\,r\,dr\,d\theta = 2\pi \]
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Cylindrical Coordinates</h3>
+
+            <div class="container">
+              <div class="col">
+                \[\begin{align*} x &= r \cos \theta \\ y &= r \sin \theta \\ z
+                &= z \\ \end{align*}\]
+                <p class="fragment" style="font-size: smaller">
+                  \[\begin{align*} 0 &\leq r \lt \infty \\ 0 &\leq \theta < 2\pi
+                  \\ -\infty &< z < \infty \end{align*}\]
+                </p>
+              </div>
+              <div class="col">
+                <iframe
+                  src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9cG9pbnQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0xJTJGMiZvYmowX3BhcmFtc19iPXNxcnQlMjgzJTI5JTJGMiZvYmowX3BhcmFtc19jPTEmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM2ZmMDAwMCZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0xJm9iajFfcGFyYW1zX3g9dCUyRjImb2JqMV9wYXJhbXNfeT1zcXJ0JTI4MyUyOSt0KyUyRisyJm9iajFfcGFyYW1zX3o9MCZvYmoyX2tpbmQ9Y3VydmUmb2JqMl9jb2xvcj0lMjNmZjAwMDAmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9cGklMkYzJm9iajJfcGFyYW1zX3g9Y29zJTI4dCUyOSUyRjMmb2JqMl9wYXJhbXNfeT1zaW4lMjh0JTI5JTJGMyZvYmoyX3BhcmFtc196PTAmb2JqM19raW5kPWN1cnZlJm9iajNfY29sb3I9JTIzODAwMDAwJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfeD0xJTJGMiZvYmozX3BhcmFtc195PXNxcnQlMjgzJTI5KyUyRisyJm9iajNfcGFyYW1zX3o9dCZvYmo0X2tpbmQ9Y3VydmUmb2JqNF9jb2xvcj0lMjMwMDAwMDAmb2JqNF9wYXJhbXNfYT0wJm9iajRfcGFyYW1zX2I9MSZvYmo0X3BhcmFtc194PTAmb2JqNF9wYXJhbXNfeT10JTJGMiZvYmo0X3BhcmFtc196PTAmb2JqNV9raW5kPWN1cnZlJm9iajVfY29sb3I9JTIzMDAwMDAwJm9iajVfcGFyYW1zX2E9MCZvYmo1X3BhcmFtc19iPTEmb2JqNV9wYXJhbXNfeD0xKyUyRisyJm9iajVfcGFyYW1zX3k9dCtzcXJ0JTI4MyUyOSslMkYrMiZvYmo1X3BhcmFtc196PTA="
+                  frameborder="0"
+                  width="700px"
+                  height="500px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h4 class="framelabel">Volumes</h4>
+            <p style="font-size: smaller">
+              Consider a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9Y3lsJm9iajBfcGFyYW1zX2E9cGklMkY4Jm9iajBfcGFyYW1zX2I9cGklMkYzJm9iajBfcGFyYW1zX2M9MC41Jm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0xKyUyRisy"
+                target="_blank"
+                rel="noopener noreferrer"
+                >region</a
+              >
+              with bounded cylindrical coordinates $r_1 \leq r \leq r_2$,
+              $\theta_1 \leq \theta \leq \theta_2$, and $z_1 \leq z \leq z_2$.
+            </p>
+            <div class="r-stack">
+              <p class="fragment current-visible">
+                \[ \Delta V = \frac12 (r_2^2 - r_1^2) (\theta_2 - \theta_1) (z_2
+                - z_1) \]
+              </p>
+              <p class="fragment current-visible">
+                \[ \Delta V = \bar r\,\Delta r\, \Delta \theta\,\Delta z \]
+              </p>
+              <p class="fragment current-visible">\[ \longrightarrow \]</p>
+              <p class="fragment current-visible">
+                \[dV = r\,dz\,dr\,d\theta\]
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Spherical Coordinates</h3>
+
+            <div class="container">
+              <div class="col">
+                \[\begin{align*} x &= \rho \sin \phi \cos \theta \\ y &= \rho
+                \sin \phi \sin \theta \\ z &= \rho \cos \phi \\ \end{align*}\]
+
+                <p class="fragment" style="font-size: smaller">
+                  \[\begin{align*} 0 &\leq \rho \lt \infty \\ 0 &\leq \theta <
+                  2\pi \\ 0 &\leq \phi \leq \pi \end{align*}\]
+                </p>
+              </div>
+              <div class="col">
+                <iframe
+                  src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9cG9pbnQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0xJTJGMiZvYmowX3BhcmFtc19iPXNxcnQlMjgzJTI5JTJGMiZvYmowX3BhcmFtc19jPTEmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM2ZmMDAwMCZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0xJm9iajFfcGFyYW1zX3g9dCUyRjImb2JqMV9wYXJhbXNfeT1zcXJ0JTI4MyUyOSt0KyUyRisyJm9iajFfcGFyYW1zX3o9dCZvYmoyX2tpbmQ9Y3VydmUmb2JqMl9jb2xvcj0lMjNmZjAwMDAmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9cGklMkY0Jm9iajJfcGFyYW1zX3g9c2luJTI4dCUyOSUyRjQmb2JqMl9wYXJhbXNfeT1zcXJ0JTI4MyUyOStzaW4lMjh0JTI5JTJGNCZvYmoyX3BhcmFtc196PWNvcyUyOHQlMjkrJTJGKzImb2JqM19raW5kPWN1cnZlJm9iajNfY29sb3I9JTIzMDAwMDAwJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfeD0xJTJGMiZvYmozX3BhcmFtc195PXNxcnQlMjgzJTI5KyUyRisyJm9iajNfcGFyYW1zX3o9dCZvYmo0X2tpbmQ9Y3VydmUmb2JqNF9jb2xvcj0lMjMwMDAwMDAmb2JqNF9wYXJhbXNfYT0wJm9iajRfcGFyYW1zX2I9MSZvYmo0X3BhcmFtc194PXQrJTJGKzImb2JqNF9wYXJhbXNfeT10K3NxcnQlMjgzJTI5KyUyRisyJm9iajRfcGFyYW1zX3o9MCZvYmo1X2tpbmQ9Y3VydmUmb2JqNV9jb2xvcj0lMjNmZjAwMDAmb2JqNV9wYXJhbXNfYT0wJm9iajVfcGFyYW1zX2I9cGkrJTJGKzMmb2JqNV9wYXJhbXNfeD1jb3MlMjh0JTI5JTJGMiZvYmo1X3BhcmFtc195PXNpbiUyOHQlMjklMkYyJm9iajVfcGFyYW1zX3o9MA=="
+                  frameborder="0"
+                  width="700px"
+                  height="500px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p style="font-size: smaller">
+              Write the point $(-1, -1, 1)$ in cylindrical and spherical
+              coordinates.
+            </p>
+            <iframe
+              src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9cG9pbnQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0tMSZvYmowX3BhcmFtc19iPS0xJm9iajBfcGFyYW1zX2M9MSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzMDAwMGZmJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfeD0tdCZvYmoxX3BhcmFtc195PS10Jm9iajFfcGFyYW1zX3o9dCZvYmoyX2tpbmQ9Y3VydmUmb2JqMl9jb2xvcj0lMjMwMDAwZmYmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9YWNvcyUyODElMkZzcXJ0JTI4MyUyOSUyOSZvYmoyX3BhcmFtc194PS1zaW4lMjh0JTI5JTJGc3FydCUyODIlMjkmb2JqMl9wYXJhbXNfeT0tc2luJTI4dCUyOSUyRnNxcnQlMjgyJTI5Jm9iajJfcGFyYW1zX3o9Y29zJTI4dCUyOSZvYmozX2tpbmQ9Y3VydmUmb2JqM19jb2xvcj0lMjNmZjAwZmYmb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9NStwaSUyRjQmb2JqM19wYXJhbXNfeD1jb3MlMjh0JTI5Jm9iajNfcGFyYW1zX3k9c2luJTI4dCUyOSZvYmozX3BhcmFtc196PTAmb2JqNF9raW5kPWN1cnZlJm9iajRfY29sb3I9JTIzZmYwMDAwJm9iajRfcGFyYW1zX2E9MCZvYmo0X3BhcmFtc19iPTEmb2JqNF9wYXJhbXNfeD0tMSZvYmo0X3BhcmFtc195PS0xJm9iajRfcGFyYW1zX3o9dCZvYmo1X2tpbmQ9Y3VydmUmb2JqNV9jb2xvcj0lMjNmZjAwMDAmb2JqNV9wYXJhbXNfYT0wJm9iajVfcGFyYW1zX2I9MSZvYmo1X3BhcmFtc194PS10Jm9iajVfcGFyYW1zX3k9LXQmb2JqNV9wYXJhbXNfej0w"
+              frameborder="0"
+              width="800px"
+              height="500px"
+            ></iframe>
+          </section>
+          <section>
+            <h4 class="framelabel">Volumes</h4>
+            <p style="font-size: smaller">
+              Consider a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9c3BoZXImb2JqMF9wYXJhbXNfYT1waSUyRjgmb2JqMF9wYXJhbXNfYj1waSUyRjMmb2JqMF9wYXJhbXNfYz0wLjUmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX2U9MC41Jm9iajBfcGFyYW1zX2Y9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >region</a
+              >
+              with bounded spherical coordinates $\rho_1 \leq \rho \leq \rho_2$,
+              $\theta_1 \leq \theta \leq \theta_2$, and $\phi_1 \leq \phi \leq
+              \phi_2$.
+            </p>
+            <div class="r-stack">
+              <p class="fragment current-visible">
+                \[ \Delta V \approx (\Delta \rho)(\rho\Delta\phi)(\rho \sin \phi
+                \Delta \theta) \]
+              </p>
+
+              <p class="fragment current-visible">\[ \longrightarrow \]</p>
+              <p class="fragment current-visible">
+                \[dV = \rho^2 \sin \phi \,d\rho\,d\phi\,d\theta\]
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Practice</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Sketch the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9cmVjdCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9c3FydCUyODErLSt4KyU1RSsyJTI5Jm9iajBfcGFyYW1zX2Q9c3FydCUyODQrLSt4KyU1RSsyJTI5Jm9iajBfcGFyYW1zX2U9MCZvYmowX3BhcmFtc19mPTAuMDAxJm9iajFfa2luZD1zb2xpZCZvYmoxX2NvbG9yPSUyM2RjNWU2NiZvYmoxX3BhcmFtc19jb29yZHM9cmVjdCZvYmoxX3BhcmFtc19hPTEmb2JqMV9wYXJhbXNfYj0yJm9iajFfcGFyYW1zX2M9MCZvYmoxX3BhcmFtc19kPXNxcnQlMjg0Ky0reCslNUUrMiUyOSZvYmoxX3BhcmFtc19lPTAmb2JqMV9wYXJhbXNfZj0wLjAwMQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >region</a
+              >
+              of integration in the definite integral below and then evaluate it
+              using polar coordinates.
+              \[\int_0^1\int_{\sqrt{1-x^2}}^{\sqrt{4-x^2}} x\,dy\,dx +
+              \int_1^2\int_{0}^{\sqrt{4-x^2}} x\,dy\,dx \]
+            </p>
+            <p class="fragment r-stretch">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9Y3lsJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpKyUyRisyJm9iajBfcGFyYW1zX2M9MSZvYmowX3BhcmFtc19kPTImb2JqMF9wYXJhbXNfZT0wJm9iajBfcGFyYW1zX2Y9citjb3MlMjh0aGV0YSUyOQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Solution</a
+              >
+              \[ \int_0^{\pi/2} \int_1^2 r^2\cos\theta\,dr\,d\theta = \frac73 \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Find the total mass of a solid region that is a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9c29saWQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfY29vcmRzPWN5bCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0yK3BpJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTEmb2JqMF9wYXJhbXNfZT0wJm9iajBfcGFyYW1zX2Y9MistKzIrcg=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >right cone</a
+              >
+              with base radius $R$, height $h$, and constant density $\mu$.
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              <strong>Solution.</strong>
+              \[ \int_0^{2\pi} \int_0^R \int_0^{h - \frac{h}{R}r} \mu r
+              \,dz\,dr\,d\theta = 2 \pi \mu (hr^2/2 - h r^3/(3R))\Big\vert_0^R\]
+              \[ = \frac13 \pi R^2 h \mu \]
+            </p>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Find the average $z$ coordinate of the "<a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9c29saWQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfY29vcmRzPXNwaGVyJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTIrcGkmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9cGkrJTJGKzImb2JqMF9wYXJhbXNfZT0wJm9iajBfcGFyYW1zX2Y9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >half-ball</a
+              >" \[ \begin{cases} x^2 + y^2 +z^2 \leq R^2 \\ z \geq 0
+              \end{cases}. \]
+            </p>
+            <p class="fragment">
+              We define the <strong>average value</strong> of a function $f$ on
+              a region $\mathcal E$ to be \[ f_{\text{avg}} =
+              \frac{\iiint_{\mathcal E} f\,dV}{\iiint_{\mathcal E} \,dV} \]
+            </p>
+          </section>
+          <section>
+            <p><strong>Solution.</strong></p>
+            <p class="fragment">
+              We know the total volume is $\frac23 \pi R^3$.
+            </p>
+            <p class="fragment">
+              \[ \iiint\limits_{\mathcal E} z\,dV = \int_0^{2\pi}\int_0^{\pi/2}
+              \int_0^R (\rho \cos \phi)\rho^2 \sin \phi
+              \,d\rho\,d\phi\,d\theta\]
+            </p>
+            <p class="fragment">
+              \[ = 2\pi \frac{R^4}{4} \int_0^{\pi/2}\sin\phi \cos\phi\,d\phi =
+              \frac14 \pi R^4 \]
+            </p>
+            <p class="fragment">Dividing, we get $z_\text{avg} = \frac38 R$.</p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Convert a specific point's coordinates between
+                rectangular/cylindrical/spherical coordinates.
+              </li>
+              <li>
+                Convert a general expression in rectangular coordinates into
+                cylindrical and spherical coordinates.
+              </li>
+              <li>
+                Select an appropriate coordinate system, convert, and compute
+                for multiple integrals.
+              </li>
+              <li>
+                Explain the role of the Jacobian term in area/volume integrals.
+              </li>
+              <li>
+                Recognize and formulate expressions for planes, cones,
+                cylinders, and spheres in various coordinate systems.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: 'latest',
+          delimiters: [
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

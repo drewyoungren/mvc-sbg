@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Summary of Things</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 24
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/49kX8er3Som"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Vector Calc Wrap-up</h1>
+            <!-- <h3 class="fragment">[ sum&prime;&middot;ma&middot;ry ]</h3> -->
+            <h2>APMA E2000</h2>
+
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW 14 "due" Tues</li>
+              <li class="fragment">
+                Quiz 10 this week
+                <ul>
+                  <li>Gauss' and Stokes'</li>
+                </ul>
+              </li>
+              <li class="fragment">Regular recitation schedule</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">The Divergence Theorem</h3>
+            <h5 class="framelabel">
+              aka
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMTQmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXNvbGlkJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2Nvb3Jkcz1yZWN0Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPS4wNSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0wLjA1Jm9iajBfcGFyYW1zX2U9MCZvYmowX3BhcmFtc19mPTAuMDUmb2JqMV9raW5kPXN1cmZhY2Umb2JqMV9jb2xvcj0lMjNkYzVlNjYmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9cGkmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9MitwaSZvYmoxX3BhcmFtc194PSUyODElMkIxJTJGMypzaW4lMjh1KjIlMjklNUUyKnNpbiUyOHYqMyUyOSU1RTIlMjkqc2luJTI4dSUyOSpjb3MlMjh2JTI5Jm9iajFfcGFyYW1zX3k9JTI4MSUyQjElMkYzKnNpbiUyOHUqMiUyOSU1RTIqc2luJTI4diozJTI5JTVFMiUyOSpzaW4lMjh1JTI5KnNpbiUyOHYlMjkmb2JqMV9wYXJhbXNfej0lMjgxJTJCMSUyRjMqc2luJTI4dSoyJTI5JTVFMipzaW4lMjh2KjMlMjklNUUyJTI5KmNvcyUyOHUlMjkmb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0xJm9iajJfa2luZD1maWVsZCZvYmoyX2NvbG9yPSUyMzU4MDFhNSZvYmoyX3BhcmFtc19wPXomb2JqMl9wYXJhbXNfcT15Jm9iajJfcGFyYW1zX3I9eiZvYmoyX3BhcmFtc19uVmVjPTY="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Gauss' Theorem</a
+              >
+            </h5>
+
+            <p>
+              Let $E$ be a solid region in $\RR^3$ and $\partial E$ its
+              outward-oriented boundary. If $\vec F(x,y,z)$ is a smooth vector
+              field, then \[ \iint\limits_{\partial E} \vec F \cdot \vec N\,d S
+              = \iiint\limits_E \nabla \cdot \vec F\,dV \]
+            </p>
+          </section>
+
+          <section
+            data-background-iframe="https://3demos.ctl.columbia.edu/?c2NhbGU9MC4xNCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9c3VyZmFjZSZvYmowX2NvbG9yPSUyM2E1OWI3NCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj1waSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9JTI4MSUyQjElMkYzKnNpbiUyOHUqMiUyOSU1RTIqc2luJTI4diozJTI5JTVFMiUyOSpzaW4lMjh1JTI5KmNvcyUyOHYlMjkmb2JqMF9wYXJhbXNfeT0tJTI4MSUyQjElMkYzKnNpbiUyOHUqMiUyOSU1RTIqc2luJTI4diozJTI5JTVFMiUyOSpzaW4lMjh1JTI5KnNpbiUyOHYlMjkmb2JqMF9wYXJhbXNfej0lMjgxJTJCMSUyRjMqc2luJTI4dSoyJTI5JTVFMipzaW4lMjh2KjMlMjklNUUyJTI5KmNvcyUyOHUlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajBfcGFyYW1zX211PTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzNTgwMWE1Jm9iajFfcGFyYW1zX3A9MCZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj0xJm9iajFfcGFyYW1zX25WZWM9Ng=="
+            data-background-opacity="0.4"
+          >
+            <h6 class="framelabel">Buoyancy</h6>
+
+            <p style="font-size: smaller">
+              Ηydrostatic pressure is proportional to depth. $P = \rho g d$.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              The force on a small piece of
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMTQmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzZGM1ZTY2Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD0lMjgxJTJCMSUyRjMqc2luJTI4dSoyJTI5JTVFMipzaW4lMjh2KjMlMjklNUUyJTI5KnNpbiUyOHUlMjkqY29zJTI4diUyOSZvYmowX3BhcmFtc195PS0lMjgxJTJCMSUyRjMqc2luJTI4dSoyJTI5JTVFMipzaW4lMjh2KjMlMjklNUUyJTI5KnNpbiUyOHUlMjkqc2luJTI4diUyOSZvYmowX3BhcmFtc196PSUyODElMkIxJTJGMypzaW4lMjh1KjIlMjklNUUyKnNpbiUyOHYqMyUyOSU1RTIlMjkqY29zJTI4dSUyOSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzNTgwMWE1Jm9iajFfcGFyYW1zX3A9MCZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj0xJm9iajFfcGFyYW1zX25WZWM9Ng=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >submerged surface</a
+              >
+              is $-P\, \vec N\,dS$ where $\vec N$ is the normal vector to the
+              surface.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              The (net) buoyant force on the hull of a watercraft is the
+              component of this force in the upward direction.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              What is the net buoyant force on the whole surface?
+            </p>
+          </section>
+          <section>
+            <p style="font-size: smaller">
+              <strong>Solution.</strong> Suppose an object is modeled by a solid
+              $E$ with outward-oriented normal $\vec N$ on the boundary
+              $\partial E = \Sigma$, where the surface of the water is $z = 0$.
+            </p>
+            <p style="font-size: smaller">
+              Then the total buoyant force is \[ \iint_\Sigma \rho g (-z)(-\vec
+              N)\cdot \vec k\, dS = \rho g \iint_{\partial E} z\,\vec k \cdot
+              d\vec S \]
+            </p>
+            <p style="font-size: smaller">
+              but the vector field $z\,\vec k$ has divergence 1, so the RHS is
+              just $\rho g \operatorname{Vol}(E)$, the weight of the water
+              displaced by $E$.
+            </p>
+          </section>
+
+          <section>
+            <h1>Gauss' Law</h1>
+          </section>
+          <section>
+            <p>
+              <strong>Coulomb's Law</strong> states that the strength of the
+              electric field $\vec E$ from a charge $q$ at the origin is given
+              by \[ \vec E(x,y,z) = \frac{q}{4\pi\varepsilon_0} \frac{\langle x,
+              y, z \rangle}{\sqrt{x^2 + y^2 + z^2}^3} \] i.e., has strength
+              inversely proportional to the distance squared. Let's compute
+              $\nabla\cdot \vec E$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+
+            <p style="font-size: smaller">
+              \[ P_x = \frac{\partial}{\partial x} \frac{x}{(x^2 + y^2
+              +z^2)^{3/2}} \] \[ = \frac{(x^2 + y^2 +z^2)^{3/2} - 3 x^2 (x^2 +
+              y^2 +z^2)^{1/2}}{(x^2 + y^2 +z^2)^{3}} \] \[ = \frac{1}{(x^2 + y^2
+              +z^2)^{3/2}} - \frac{3 x^2 } {(x^2 + y^2 +z^2)^{5/2}} \] Repeating
+              this for $Q_y$ and $R_z$ gives \[ P_x + Q_y + R_z = \frac{3}{(x^2
+              + y^2 +z^2)^{3/2}} - \frac{3 x^2 + 3y^2 + 3z^2} {(x^2 + y^2
+              +z^2)^{5/2}} = 0 \]
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">Gauss' Law</h3>
+            <p>
+              \[ \iint\limits_{\Sigma} \vec E\cdot d\vec S =
+              \frac{Q}{\varepsilon_0} \] where $\vec E$ is the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzQmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMDA1MjEwJm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD0zK3UrJTJGKzImb2JqMF9wYXJhbXNfeT0tJTI4MSslMkIrdSUyRjQlMjkqc3FydCUyODErLSt1JTVFMiUyOSpjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3o9JTI4MSslMkIrdSUyRjQlMjkqc3FydCUyODErLSt1JTVFMiUyOSpzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9c3VyZmFjZSZvYmoxX2NvbG9yPSUyMzAwOGExYyZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj1waSZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0yK3BpJm9iajFfcGFyYW1zX3g9MSUyRjMrc2luJTI4dSUyOXNpbiUyOHYlMjkrJTJCKzElMkYyJm9iajFfcGFyYW1zX3k9MSUyRjMrc2luJTI4dSUyOStjb3MlMjh2JTI5Jm9iajFfcGFyYW1zX3o9MSUyRjMrY29zJTI4dSUyOSZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEmb2JqMl9raW5kPWZpZWxkJm9iajJfY29sb3I9JTIzNTgwMWE1Jm9iajJfcGFyYW1zX3A9JTI4eCstKzElMkYyJTI5KyUyRitzcXJ0JTI4LjErJTJCKyUyOHgrLSsxJTJGMiUyOSU1RTIrJTJCK3klNUUyKyUyQit6JTVFMiUyOSU1RTMmb2JqMl9wYXJhbXNfcT15KyUyRitzcXJ0JTI4LjErJTJCKyUyOHgrLSsxJTJGMiUyOSU1RTIrJTJCK3klNUUyKyUyQit6JTVFMiUyOSU1RTMmb2JqMl9wYXJhbXNfcj16KyUyRitzcXJ0JTI4LjErJTJCKyUyOHgrLSsxJTJGMiUyOSU1RTIrJTJCK3klNUUyKyUyQit6JTVFMiUyOSU1RTMmb2JqMl9wYXJhbXNfblZlYz02"
+                target="_blank"
+                rel="noopener noreferrer"
+                >electric field</a
+              >, $\varepsilon$ is the permittivity, $\Sigma$ is a closed
+              surface, and $Q$ is the total charge contained therein.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              Why don't we
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwMDUyMTAmb2JqMF9wYXJhbXNfYT0tMSZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PTMrdSslMkYrMiZvYmowX3BhcmFtc195PSUyODErJTJCK3UlMkY0JTI5KnNxcnQlMjgxKy0rdSU1RTIlMjkqY29zJTI4diUyOSZvYmowX3BhcmFtc196PS1tYXglMjglMjgxKyUyQit1JTJGNCUyOSpzcXJ0JTI4YWJzJTI4MSstK3UlNUUyJTI5JTI5Kyorc2luJTI4diUyOSUyQytzcXJ0JTI4YWJzJTI4bWF4JTI4MSUyRjQrLSslMjgzK3UrJTJGKzIrLSsxJTJGMislMjklNUUyKy0rJTI4JTI4MSslMkIrdSUyRjQlMjkqc3FydCUyOGFicyUyODErLSt1JTVFMiUyOSUyOSpjb3MlMjh2JTI5JTI5JTVFMiUyQyswJTI5JTI5JTI5JTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9c3VyZmFjZSZvYmoxX2NvbG9yPSUyMzAwNTIxMCZvYmoxX3BhcmFtc19hPS0xJm9iajFfcGFyYW1zX2I9MSZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0yK3BpJm9iajFfcGFyYW1zX3g9Myt1KyUyRisyJm9iajFfcGFyYW1zX3k9MislMkIrY29zJTI4dCUyRjMlMjklMjglMjgxKyUyQit1JTJGNCUyOSpzcXJ0JTI4MSstK3UlNUUyJTI5KmNvcyUyOHYlMjkrLSsyJTI5KyUyQitzaW4lMjh0JTJGMyUyOSptYXglMjglMjgxKyUyQit1JTJGNCUyOSpzcXJ0JTI4YWJzJTI4MSstK3UlNUUyJTI5JTI5Kyorc2luJTI4LXYlMjklMkMrc3FydCUyOGFicyUyOG1heCUyODElMkY0Ky0rJTI4Myt1KyUyRisyKy0rMSUyRjIrJTI5JTVFMistKyUyOCUyODErJTJCK3UlMkY0JTI5KnNxcnQlMjhhYnMlMjgxKy0rdSU1RTIlMjklMjkqY29zJTI4diUyOSUyOSU1RTIlMkMrMCUyOSUyOSUyOSUyOSZvYmoxX3BhcmFtc196PS1zaW4lMjh0JTJGMyUyOSUyOCUyODErJTJCK3UlMkY0JTI5KnNxcnQlMjgxKy0rdSU1RTIlMjkqY29zJTI4diUyOSstKzIlMjkrJTJCK2NvcyUyOHQlMkYzJTI5Km1heCUyOCUyODErJTJCK3UlMkY0JTI5KnNxcnQlMjhhYnMlMjgxKy0rdSU1RTIlMjklMjkrKitzaW4lMjgtdiUyOSUyQytzcXJ0JTI4YWJzJTI4bWF4JTI4MSUyRjQrLSslMjgzK3UrJTJGKzIrLSsxJTJGMislMjklNUUyKy0rJTI4JTI4MSslMkIrdSUyRjQlMjkqc3FydCUyOGFicyUyODErLSt1JTVFMiUyOSUyOSpjb3MlMjh2JTI5JTI5JTVFMiUyQyswJTI5JTI5JTI5JTI5Jm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9Mw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >get zero</a
+              >?
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Is there a flux integral for which
+              <a
+                href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9c3VyZmFjZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj1waSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9c2luJTI4dSUyOStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9c2luJTI4dSUyOStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9Y29zJTI4dSUyOSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMF9wYXJhbXNfbXU9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfYT0tc2luJTI4Zmxvb3IlMjhuKyUyRisxMCUyOSslMkYrMTArKisyK3BpKyUyQislMjgxLjIrLSslMjhuKyUyNSsxMCUyOSslMkYrMTArJTI5JTVFMysqK3QlMjkrKislMjgxLjIrLSslMjhuKyUyNSsxMCUyOSslMkYrMTArJTI5JTVFMysqKyUyOCUyOG4rJTI1KzEwJTI5KyUyRisxMCslMkIrLjIrJTI5JTVFJTI4MSUyRjIlMjkrJTJGKzMmb2JqMV9wYXJhbXNfYj1jb3MlMjhmbG9vciUyOG4rJTJGKzEwJTI5KyUyRisxMCsqKzIrcGkrJTJCKyUyODEuMistKyUyOG4rJTI1KzEwJTI5KyUyRisxMCslMjklNUUzKyordCUyOSorJTI4MS4yKy0rJTI4bislMjUrMTAlMjkrJTJGKzEwKyUyOSU1RTMrKislMjglMjhuKyUyNSsxMCUyOSslMkYrMTArJTJCKy4yKyUyOSU1RSUyODElMkYyJTI5KyUyRiszJm9iajFfcGFyYW1zX2M9MCZvYmoxX3BhcmFtc194PXNpbiUyOCslMjhuKyUyNSsxMCUyOSslMkYrMTArKitwaSslMkIrLjIlMjkrY29zJTI4Zmxvb3IlMjhuKyUyRisxMCUyOSslMkYrMTArKisyK3BpKyUyQislMjgxLjIrLSslMjhuKyUyNSsxMCUyOSslMkYrMTArJTI5JTVFMysqK3QlMjkmb2JqMV9wYXJhbXNfeT1zaW4lMjgrJTI4bislMjUrMTAlMjkrJTJGKzEwKyorcGkrJTJCKy4yJTI5K3NpbiUyOGZsb29yJTI4bislMkYrMTAlMjkrJTJGKzEwKyorMitwaSslMkIrJTI4MS4yKy0rJTI4bislMjUrMTAlMjkrJTJGKzEwKyUyOSU1RTMrKit0JTI5Jm9iajFfcGFyYW1zX3o9Y29zJTI4KyUyOG4rJTI1KzEwJTI5KyUyRisxMCsqK3BpKyUyQisuMiUyOSZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEwK3BpJm9iajFfcGFyYW1zX24wPTAmb2JqMV9wYXJhbXNfbjE9OTk="
+                target="_blank"
+                rel="noopener noreferrer"
+                >both</a
+              >
+              Stokes and Gauss Theorems apply?
+            </p>
+
+            <p>
+              <img
+                src="assets/eye_vf.png"
+                alt="Swirling vector field on surface of a sphere"
+                srcset=""
+              />
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vector Calc Review</h1>
+          </section>
+          <section
+            data-background-opacity="0.5"
+            data-background-image="assets/FTLI.png"
+            data-auto-animate
+          >
+            <h6 class="framelabel">Four Big Theorems</h6>
+            <h3>FTLI</h3>
+
+            <p style="font-size: larger">
+              \[ f(C_{1}) - f(C_0) = \int_{C} \nabla f\cdot d\vec r \]
+            </p>
+          </section>
+          <section
+            data-background-opacity="0.5"
+            data-background-image="assets/greens.png"
+            data-auto-animate
+          >
+            <h6 class="framelabel">Four Big Theorems</h6>
+            <h3>Green's Theorem</h3>
+
+            <p style="font-size: larger">
+              \[ \oint_{\partial D} P\, dx + Q\,dy = \iint_D (Q_x - P_y)\,dA \]
+            </p>
+          </section>
+          <section
+            data-background-opacity="0.5"
+            data-background-image="assets/Stokes.png"
+            data-auto-animate
+          >
+            <h6 class="framelabel">Four Big Theorems</h6>
+            <h3>Stokes' Theorem</h3>
+
+            <p style="font-size: larger">
+              \[ \oint_{\partial \Omega} \vec F\cdot d\vec r = \iint_\Omega
+              \nabla\times \vec F \cdot d\vec S \]
+            </p>
+          </section>
+          <section
+            data-background-opacity="0.5"
+            data-background-image="assets/divergence.png"
+            data-auto-animate
+          >
+            <h6 class="framelabel">Four Big Theorems</h6>
+            <h3>Gauss' Theorem</h3>
+
+            <p style="font-size: larger">
+              \[ \iint_{\partial E} \vec F \cdot d\vec S = \iiint_E \nabla\cdot
+              \vec F \,dV \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Vector Calculus</h2>
+            <h1>Objectives</h1>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">You should be able to...</h6>
+
+            <ul>
+              <li>
+                Parametrize curves $\vec r: [a, b] \to \RR^n$
+                <ul>
+                  <li class="fragment">line segment</li>
+                  <li class="fragment">circle</li>
+                  <li class="fragment">helix</li>
+                  <li class="fragment">graph $y = f(x)$</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">You should be able to...</h6>
+
+            <ul>
+              <li>
+                Parametrize surfaces $\vec r: \RR^2 \to \RR^3$
+                <ul>
+                  <li class="fragment">graph $z = f(x,y)$</li>
+                  <li class="fragment">surface of revolution</li>
+                  <li class="fragment">sphere</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">You should be able to...</h6>
+
+            <ul>
+              <li>
+                Compute path integrals
+                <ul>
+                  <li class="fragment">w/r/t arc length $\int_C f\,ds$</li>
+                  <li class="fragment">of a scalar field $\int_C g\,dx$</li>
+                  <li class="fragment">
+                    of a vector field $\int_C \vec F\cdot d\vec r = \int_C P\,dx
+                    + Q\,dy$
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">You should be able to...</h6>
+
+            <ul>
+              <li>
+                Compute surface integrals
+                <ul>
+                  <li class="fragment">
+                    w/r/t surface area $\iint_\Omega f\,dS$
+                  </li>
+                  <li class="fragment">
+                    flux of a vector field $\iint_\Omega \vec F\cdot d\vec S =
+                    \iint_\Omega \vec F\cdot \vec N\, dS$
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">You should be able to...</h6>
+
+            <ul>
+              <li>
+                Determine if a field is conservative
+                <ul>
+                  <li class="fragment">if so, find potential</li>
+                </ul>
+              </li>
+              <li class="fragment">Compute the curl of a vector field.</li>
+              <li class="fragment">Apply the Big 4 Theorems above</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>One Last Example</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <div class="fragment">
+              <p>
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0zJm9iajBfcGFyYW1zX2I9MyZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT0wJm9iajBfcGFyYW1zX3o9ZXhwJTI4LXQlNUUyJTI5Jm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTMmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9MSZvYmoxX3BhcmFtc194PXUqY29zJTI4dCp2JTI5Jm9iajFfcGFyYW1zX3k9dSpzaW4lMjh0KnYlMjkmb2JqMV9wYXJhbXNfej1leHAlMjgtdSU1RTIlMjkmb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0yK3Bp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Compute</a
+                >
+              </p>
+              <p style="font-size: larger">
+                \[ \int_{-\infty}^\infty e^{-x^2}\,dx \]
+              </p>
+            </div>
+          </section>
+          <!-- <section>
+            <h6 class="framelabel">Solution</h6>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0zJm9iajBfcGFyYW1zX2I9MyZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT0wJm9iajBfcGFyYW1zX3o9ZXhwJTI4LXQlNUUyJTI5Jm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTMmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9MSZvYmoxX3BhcmFtc194PXUqY29zJTI4dCp2JTI5Jm9iajFfcGFyYW1zX3k9dSpzaW4lMjh0KnYlMjkmb2JqMV9wYXJhbXNfej1leHAlMjgtdSU1RTIlMjkmb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0yK3BpJm9iajJfa2luZD1zdXJmYWNlJm9iajJfY29sb3I9JTIzZmYwMDAwJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfYz0tMyZvYmoyX3BhcmFtc19kPTMmb2JqMl9wYXJhbXNfeD12Jm9iajJfcGFyYW1zX3k9MCZvYmoyX3BhcmFtc196PXUrZXhwJTI4LXYlNUUyJTI5Jm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MSZvYmozX2tpbmQ9c3VyZmFjZSZvYmozX2NvbG9yPSUyM2IzNjgwMCZvYmozX2FuaW1hdGlvbj10cnVlJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfYz0tMyZvYmozX3BhcmFtc19kPTMmb2JqM19wYXJhbXNfeD10K3UrLSszJm9iajNfcGFyYW1zX3k9diZvYmozX3BhcmFtc196PWV4cCUyOC0lMjh0K3UrLSszJTI5JTVFMiUyOStleHAlMjgtdiU1RTIlMjkmb2JqM19wYXJhbXNfdDA9MCZvYmozX3BhcmFtc190MT02"
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section> -->
+          <section
+            data-background-iframe="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0zJm9iajBfcGFyYW1zX2I9MyZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT0wJm9iajBfcGFyYW1zX3o9ZXhwJTI4LXQlNUUyJTI5Jm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTMmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9MSZvYmoxX3BhcmFtc194PXUqY29zJTI4dCp2JTI5Jm9iajFfcGFyYW1zX3k9dSpzaW4lMjh0KnYlMjkmb2JqMV9wYXJhbXNfej1leHAlMjgtdSU1RTIlMjkmb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0yK3BpJm9iajJfa2luZD1zdXJmYWNlJm9iajJfY29sb3I9JTIzZmYwMDAwJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfYz0tMyZvYmoyX3BhcmFtc19kPTMmb2JqMl9wYXJhbXNfeD12Jm9iajJfcGFyYW1zX3k9MCZvYmoyX3BhcmFtc196PXUrZXhwJTI4LXYlNUUyJTI5Jm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MSZvYmozX2tpbmQ9c3VyZmFjZSZvYmozX2NvbG9yPSUyM2IzNjgwMCZvYmozX2FuaW1hdGlvbj10cnVlJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfYz0tMyZvYmozX3BhcmFtc19kPTMmb2JqM19wYXJhbXNfeD10K3UrLSszJm9iajNfcGFyYW1zX3k9diZvYmozX3BhcmFtc196PWV4cCUyOC0lMjh0K3UrLSszJTI5JTVFMiUyOStleHAlMjgtdiU1RTIlMjkmb2JqM19wYXJhbXNfdDA9MCZvYmozX3BhcmFtc190MT02"
+            data-background-opacity="25%"
+          >
+            <h6 class="framelabel">Solution</h6>
+            <p>
+              \[ \left(\int_{-\infty}^{\infty} e^{-x^2}\,dx\right)^2 =
+              \left(\int_{-\infty}^{\infty}
+              e^{-x^2}\,dx\right)\left(\int_{-\infty}^{\infty}
+              e^{-y^2}\,dy\right) \] \[ =
+              \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} e^{-x^2}e^{-
+              y^2}\,dy\,dx = \iint\limits_{\mathbb{R}^2} e^{-(x^2 + y^2)} \,dA
+              \] \[ = \int_{0}^{2 \pi}\int_{0}^{\infty} e^{-r^2}r\,dr\,d\theta =
+              \pi \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+            \[ \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}\]
+          </section>
+        </section>
+        <section>
+          <section data-background-image="assets/fin.jpg"></section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: { pathSize: 2 },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+    </script>
+  </body>
+</html>

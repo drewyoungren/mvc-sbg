@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Points and Vectors</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section data-auto-animate>
+            <h1>Welcome to</h1>
+            <h2>APMA E2000</h2>
+            <h3>
+              <span class="fragment">Multivariable Calculus </span>
+              <span class="fragment">for Engineers</span>
+              <span class="fragment">and Applied Scientists</span>
+            </h3>
+            <p>Drew Youngren <code>dcy2@columbia.edu</code></p>
+          </section>
+          <section data-auto-animate>
+            <h1>Welcome to</h1>
+            <h2>APMA E2000</h2>
+            <h3>MVC</h3>
+            <p>Drew Youngren <code>dcy2@columbia.edu</code></p>
+          </section>
+          <section data-auto-animate>
+            <h1>Welcome to</h1>
+            <h2>APMA E2000</h2>
+            <h3>Multi</h3>
+            <p>Drew Youngren <code>dcy2@columbia.edu</code></p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Logistics</h1>
+          </section>
+          <section>
+            <h2>Courseworks</h2>
+            <p>aka Canvas</p>
+            <p>
+              <a
+                href="https://courseworks2.columbia.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><code>courseworks2.columbia.edu</code></a
+              >
+            </p>
+            <ul>
+              <li class="fragment">Syllabus</li>
+              <li class="fragment">Assignments</li>
+              <li class="fragment">Links</li>
+              <li class="fragment">Grades</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Gradescope</h2>
+            <p>
+              <a
+                href="https://gradescope.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <code>gradescope.com</code>
+              </a>
+            </p>
+            <ul>
+              <li class="fragment">Submit HW</li>
+              <li class="fragment">Take quizzes</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Ed Discussions</h2>
+            <p>
+              <a
+                href="https://edstem.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><code>edstem.org</code></a
+              >
+            </p>
+            <ul>
+              <li class="fragment">Announcements</li>
+              <li class="fragment">Discussion</li>
+              <li class="fragment">Q&amp;A</li>
+            </ul>
+          </section>
+          <section>
+            <h2>
+              <a
+                href="https://drew.youngren.nyc/jupyter-xeus"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                JupyterLite <span class="fragment">(Experimental)</span>
+              </a>
+            </h2>
+            <ul>
+              <li class="fragment">Computational environment</li>
+              <li class="fragment">Extra resources</li>
+            </ul>
+            <div class="r-stretch">
+              <iframe
+                src="https://drew.youngren.nyc/jupyter-xeus/repl/index.html?kernel=xpython&theme=JupyterLab%20Dark&code=import numpy as np"
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section
+            data-background-iframe="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD12ZWN0b3Imb2JqMF9jb2xvcj0lMjMwMDJkNzImb2JqMF9hbmltYXRpb249dHJ1ZSZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0wJm9iajBfcGFyYW1zX2M9c2luJTI4LjErbistK3QlMjkmb2JqMF9wYXJhbXNfeD0wLjErbiZvYmowX3BhcmFtc195PTEmb2JqMF9wYXJhbXNfej0wJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MitwaSZvYmowX3BhcmFtc19uMD0tNTQmb2JqMF9wYXJhbXNfbjE9NTQmb2JqMV9raW5kPXZlY3RvciZvYmoxX2NvbG9yPSUyM2ZmNTkxMCZvYmoxX2FuaW1hdGlvbj10cnVlJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPXNpbiUyODAuMStuKy0rdCUyOSZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfeD0wLjErbiZvYmoxX3BhcmFtc195PTEmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MitwaSZvYmoxX3BhcmFtc19uMD0tNTQmb2JqMV9wYXJhbXNfbjE9NTQmb2JqMl9raW5kPXZlY3RvciZvYmoyX2NvbG9yPSUyM2ZmNTkxMCZvYmoyX2FuaW1hdGlvbj10cnVlJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPWNvcyUyODMqJTI4MC4xK24rLSt0JTI5JTI5Jm9iajJfcGFyYW1zX2M9MCZvYmoyX3BhcmFtc194PTAuMStuJm9iajJfcGFyYW1zX3k9LTEmb2JqMl9wYXJhbXNfej0wJm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MitwaSZvYmoyX3BhcmFtc19uMD0tNTQmb2JqMl9wYXJhbXNfbjE9NTQmb2JqM19raW5kPXZlY3RvciZvYmozX2NvbG9yPSUyMzAwMmQ3MiZvYmozX2FuaW1hdGlvbj10cnVlJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTAmb2JqM19wYXJhbXNfYz1jb3MlMjgzKiUyODAuMStuKy0rdCUyOSUyOSZvYmozX3BhcmFtc194PTAuMStuJm9iajNfcGFyYW1zX3k9LTEmb2JqM19wYXJhbXNfej0wJm9iajNfcGFyYW1zX3QwPTAmb2JqM19wYXJhbXNfdDE9MitwaSZvYmozX3BhcmFtc19uMD0tNTQmb2JqM19wYXJhbXNfbjE9NTQ="
+            data-background-opacity="0.6"
+          >
+            <img
+              src="assets/3demos-logo.svg"
+              width="50%"
+              alt="3Demos Logo"
+              srcset=""
+            />
+            <!-- <h2>3Demos</h2>  -->
+            <p>
+              <a
+                href="https://3demos.ctl.columbia.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><code>3demos.ctl.columbia.edu</code></a
+              >
+            </p>
+            <ul>
+              <li class="fragment">Visualization</li>
+              <li class="fragment">Interaction</li>
+              <li class="fragment">Bells &amp; Whistles</li>
+            </ul>
+            <p class="r-stretch"></p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Spaces</h1>
+          </section>
+          <section>
+            <h3>$\mathbb{R}$ &nbsp;&nbsp; The Real Numbers</h3>
+
+            <p>aka "scalars". The complete, ordered field.</p>
+          </section>
+          <section>
+            <h3>$\mathbb{R}^2$ &nbsp;&nbsp; The Cartesian Plane</h3>
+            \[ \mathbb{R}^2 = \{ (x,y) \mid x,y \in \mathbb{R} \} \]
+          </section>
+          <section>
+            <h3>$\mathbb{R}^3$ &nbsp;&nbsp; 3-space</h3>
+            \[ \mathbb{R}^3 = \{ (x,y,z) \mid x,y,z \in \mathbb{R} \} \]
+          </section>
+          <section>
+            <h3>$\mathbb{R}^n$ &nbsp;&nbsp; $n$-space</h3>
+            \[ \mathbb{R}^n = \{ (x_1, \ldots, x_n) \mid x_i \in \mathbb{R} \}
+            \]
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Definition</h6>
+              <!-- <h3>Distance</h3> -->
+              <p>
+                Let $P = (p_1, \ldots, p_n)$ and $Q = (q_1, \ldots, q_n)$ be two
+                points in $\mathbb{R}^n$. The
+                <strong>
+                  <a
+                    href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzAwMDAwMCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX3g9LTErJTJCKzMlMkYyK3Qmb2JqMF9wYXJhbXNfeT0uNSslMkIrLjUrdCZvYmowX3BhcmFtc196PTAmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzMDAwMDAwJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfeD0tMSslMkIrMS41K3Qmb2JqMV9wYXJhbXNfeT0uNSZvYmoxX3BhcmFtc196PTAmb2JqMl9raW5kPWN1cnZlJm9iajJfY29sb3I9JTIzMDAwMDAwJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfeD0uNSZvYmoyX3BhcmFtc195PS41KyUyQisuNSt0Jm9iajJfcGFyYW1zX3o9MCZvYmozX2tpbmQ9Y3VydmUmb2JqM19jb2xvcj0lMjMwMDAwMDAmb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9MSZvYmozX3BhcmFtc194PS41Jm9iajNfcGFyYW1zX3k9MSZvYmozX3BhcmFtc196PXQmb2JqNF9raW5kPWN1cnZlJm9iajRfY29sb3I9JTIzODcxMzAwJm9iajRfcGFyYW1zX2E9MCZvYmo0X3BhcmFtc19iPTEmb2JqNF9wYXJhbXNfeD0tMSslMkIrMyUyRjIrdCZvYmo0X3BhcmFtc195PS41KyUyQisuNSt0Jm9iajRfcGFyYW1zX3o9dCZvYmo1X2tpbmQ9cG9pbnQmb2JqNV9jb2xvcj0lMjNmZmU4MDAmb2JqNV9wYXJhbXNfYT0tMSZvYmo1X3BhcmFtc19iPTAuNSZvYmo1X3BhcmFtc19jPTAmb2JqNV9wYXJhbXNfdDA9MCZvYmo1X3BhcmFtc190MT0xJm9iajZfa2luZD1wb2ludCZvYmo2X2NvbG9yPSUyM2ZmZTUwMCZvYmo2X3BhcmFtc19hPTElMkYyJm9iajZfcGFyYW1zX2I9MSZvYmo2X3BhcmFtc19jPTEmb2JqNl9wYXJhbXNfdDA9MCZvYmo2X3BhcmFtc190MT0x"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >distance formula</a
+                  >
+                </strong>
+                is:
+              </p>
+              <div class="fragment">
+                \[ d(P, Q) = \sqrt{\sum_{i = 1}^n (p_i - q_i)^2} \]
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vectors</h1>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Definition</h6>
+
+              <p>
+                A <strong>vector</strong> is a
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD12ZWN0b3Imb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wLjEzMiZvYmowX3BhcmFtc19iPS0wLjQ2Jm9iajBfcGFyYW1zX2M9MC4yMTgmb2JqMF9wYXJhbXNfeD1jb3MlMjhuKyorcGkrJTJGKzEzJTI5Jm9iajBfcGFyYW1zX3k9c2luJTI4bisqK3BpKyUyRisxMyUyOSZvYmowX3BhcmFtc196PXNpbiUyODIrKituKyorcGkrJTJGKzEzJTI5KyUyRisyJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmowX3BhcmFtc19uMD0wJm9iajBfcGFyYW1zX24xPTA="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >directed line segment</a
+                >
+                in \(\mathbb{R}^n\)
+                <span class="fragment"> modulo location.</span>
+              </p>
+            </div>
+
+            <p class="fragment">
+              Two vectors are considered the same if they have the same
+              <strong>magnitude</strong> and <strong>direction</strong>.
+            </p>
+            <div class="r-stretch"></div>
+            <aside class="notes">Use <code>one-vector.json</code>.</aside>
+          </section>
+          <section>
+            <h3>Vector Notation</h3>
+
+            <p>
+              \[ \mathbf v = \vec v = \langle v_1, v_2, \ldots, v_n \rangle =
+              \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix} \]
+            </p>
+            <p>
+              The $v_i$'s are the <strong>components</strong> of $\mathbf{v}$,
+              the displacements in each dimension.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vector Operations</h1>
+          </section>
+          <section>
+            <h3>Magnitude</h3>
+
+            \[|\mathbf{v}| = \sqrt {\sum_{i=1}^n v_i^2}\]
+
+            <p>
+              The <strong>magnitude</strong> or <strong>length</strong> of a
+              vector is a nonnegative scalar.
+            </p>
+
+            <div class="fragment">
+              It is <strong>non-degenerate</strong> which just means \[ \mathbf
+              v = \mathbf 0 \iff |\mathbf v| = 0.\]
+            </div>
+          </section>
+          <section>
+            <h3>Scaling</h3>
+            <p>
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXZlY3RvciZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS41Jm9iajBfcGFyYW1zX2I9LjQmb2JqMF9wYXJhbXNfYz0xJm9iajBfcGFyYW1zX3g9MCZvYmowX3BhcmFtc195PTAmb2JqMF9wYXJhbXNfej0wJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MC41K3Qmb2JqMV9wYXJhbXNfYj0wLjQrdCZvYmoxX3BhcmFtc19jPTErdCZvYmoxX3BhcmFtc194PTAmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9MCZvYmoxX3BhcmFtc190MD0tMiZvYmoxX3BhcmFtc190MT0y"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Scalar multiplication</a
+                ></strong
+              >, or really scalar-vector multiplication, simply scales each
+              component by a common factor.
+            </p>
+
+            \[ c\mathbf v = \left\langle c v_1, c v_2, \ldots, c v_n
+            \right\rangle \]
+          </section>
+          <section>
+            <div class="r-frame">
+              <h4 class="framelabel">Question</h4>
+              <p>
+                What happens to the magnitude when of a vector when scaling?
+              </p>
+
+              <!-- $ |c \mathbf{v} | = $ -->
+              <div class="r-stack">
+                <span class="fragment current-visible">
+                  $ |c \mathbf{v} | = $
+                </span>
+                <span class="fragment current-visible">
+                  $ |c \mathbf{v} | = c|\mathbf v| $
+                </span>
+                <span class="fragment current-visible">
+                  $ |c \mathbf{v} | = \sout{c|\mathbf v|} $
+                </span>
+                <span class="fragment current-visible">
+                  $ |c \mathbf{v} | = |c||\mathbf v| $
+                </span>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Application</h6>
+            <h3>Normalization</h3>
+            <p>
+              A <strong>unit vector</strong> has magnitude 1. \[|\mathbf u| =
+              1\]
+            </p>
+            <div class="fragment">
+              <p>
+                Every <em>nonzero</em> vector $\mathbf v \neq \mathbf 0$ can be
+                <strong>normalized</strong> by dividing by its magnitude.
+              </p>
+              <div class="r-stack">
+                <div class="fragment current-visible">
+                  \[ \mathbf u = \frac{\mathbf v}{|\mathbf v|} \]
+                </div>
+                <div class="fragment current-visible">
+                  \[ \mathbf u = \frac{\mathbf v}{|\mathbf v|} =
+                  \frac{1}{|\mathbf v|} \mathbf v \]
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- <section>
+            <h6 class="framelabel">Code</h6>
+            <p>Python</p>
+            <pre><code class="language-python" data-trim>
+              from numpy import array, dot, sqrt
+              from numpy.linalg import norm
+
+              v = array((.6, .3, .2))
+              u = v / norm(v)
+            </code></pre>
+
+            <p>Mathematica</p>
+            <pre><code class="language-mathematica" data-trim>
+              v = {.6, .3, .2};
+              u = v / Norm[v]
+            </code></pre>
+
+            <div class="r-stretch"></div>
+          </section> -->
+          <section>
+            <h3>Addition</h3>
+            <p>
+              <strong>Vector addition</strong> works exactly how one thinks it
+              would.
+            </p>
+
+            \[ \mathbf v + \mathbf w = \left\langle v_1 + w_1, \ldots, v_n + w_n
+            \right\rangle \]
+
+            <div class="fragment">
+              Geometrically, we refer to this as
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzgmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD12ZWN0b3Imb2JqMF9jb2xvcj0lMjNkYzVlNjYmb2JqMF9wYXJhbXNfYT0wLjMmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9MSUyRjImb2JqMF9wYXJhbXNfeD0tMC4zKnQmb2JqMF9wYXJhbXNfeT0wLjkqdCZvYmowX3BhcmFtc196PTAuOSp0Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzNTgwMWE1Jm9iajFfcGFyYW1zX2E9LTAuMyZvYmoxX3BhcmFtc19iPTAuOSZvYmoxX3BhcmFtc19jPTAuOSZvYmoxX3BhcmFtc194PTAuMyp0Jm9iajFfcGFyYW1zX3k9Mip0Jm9iajFfcGFyYW1zX3o9dCslMkYrMiZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEmb2JqMl9raW5kPXZlY3RvciZvYmoyX2NvbG9yPSUyM2Y2OGU0NSZvYmoyX3BhcmFtc19hPTAmb2JqMl9wYXJhbXNfYj0yLjkmb2JqMl9wYXJhbXNfYz0xLjQmb2JqMl9wYXJhbXNfeD0wJm9iajJfcGFyYW1zX3k9MCZvYmoyX3BhcmFtc196PTAmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0x"
+                target="_blank"
+                >tip-to-tail</a
+              >
+              addition.
+            </div>
+          </section>
+          <section>
+            <div class="container">
+              <div class="col">
+                <p style="font-size: smaller">
+                  A sum of scaled vectors is called a
+                  <strong>linear combination</strong> and is the fundamental
+                  vector expression.
+                </p>
+                \[ a \mathbf v + b \mathbf w \] \[ \sum_{i = 1}^m c_i\mathbf
+                v_i\]
+              </div>
+              <div class="col">
+                <div
+                  id="box-lin-combo"
+                  class="jxgbox"
+                  style="width: 400px; height: 400px"
+                ></div>
+                <script
+                  src="js/linear-combo.js"
+                  type="text/javascript"
+                ></script>
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vector Uses</h1>
+          </section>
+          <section>
+            <h3>Points or Vectors?</h3>
+
+            <div class="fragment">
+              \[(22, 3) \leftrightarrow \left\langle 22, 3 \right\rangle\]
+            </div>
+            <div class="fragment">
+              22nd St &amp; 3rd Ave $\leftrightarrow$ 22 blocks N, 3 blocks W
+            </div>
+
+            <p class="fragment">
+              A <strong>position vector</strong> (or vectors) can be used to
+              specify a point (or set of points).
+            </p>
+          </section>
+
+          <section
+            data-background-image="assets/midtown.png"
+            data-background-opacity="0.34"
+          >
+            <div class="r-frame" data-id="boxframe">
+              <h6 class="framelabel" data-id="boxframe2">Question</h6>
+              <p data-id="boxframe3">
+                What location is halfway between 22nd St &amp; 3rd Ave and 42nd
+                &amp; 5th?
+              </p>
+            </div>
+            <div class="r-stretch"></div>
+          </section>
+          <section data-background-image="assets/midtown.png"></section>
+          <section
+            data-background-image="assets/midtown.png"
+            data-background-opacity="0.34"
+          >
+            <div class="r-frame" data-id="boxframe">
+              <h6 class="framelabel" data-id="boxframe2">Question</h6>
+              <p data-id="boxframe3">
+                What location is halfway between 22nd St &amp; 3rd Ave and 42nd
+                &amp; 5th?
+              </p>
+            </div>
+            \[ \mathbf p = \left\langle 22, 3 \right\rangle \qquad \mathbf q =
+            \left\langle 42, 5 \right\rangle\ \]
+
+            <div class="fragment">
+              \[ \mathbf m = \mathbf p + \frac12 (\mathbf q - \mathbf p) \]
+
+              <div class="fragment">
+                \[ = \frac{\mathbf p + \mathbf q}{2} = \left\langle 32, 4
+                \right\rangle\]
+              </div>
+            </div>
+
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <div class="r-frame" data-id="boxframe">
+              <h6 class="framelabel" data-id="boxframe2">Question</h6>
+              <p data-id="boxframe3">
+                What location is $\frac34$ of the way from 22nd St &amp; 3rd Ave
+                to 42nd &amp; 5th?
+              </p>
+            </div>
+
+            <div class="fragment">
+              \[ \mathbf x = \mathbf p + \frac34 (\mathbf q - \mathbf p) \]
+
+              <div class="fragment">
+                \[ = \frac34\mathbf q + \frac14\mathbf p = \text{37th \&
+                Madison} \]
+              </div>
+            </div>
+
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Definition</h6>
+
+              Special linear combinations of the form \[ (1 - t) \mathbf v + t
+              \mathbf w \] for some $0 \leq t \leq 1$ are called
+              <strong>convex combinations</strong>.
+            </div>
+
+            <p>
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD12ZWN0b3Imb2JqMF9jb2xvcj0lMjMwNDMzZmYmb2JqMF9wYXJhbXNfYT0xLjUmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc194PTAmb2JqMF9wYXJhbXNfeT0wJm9iajBfcGFyYW1zX3o9MCZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPXZlY3RvciZvYmoxX2NvbG9yPSUyM2ZmMjYwMCZvYmoxX3BhcmFtc19hPS0xJm9iajFfcGFyYW1zX2I9LjUmb2JqMV9wYXJhbXNfYz0uMjUmb2JqMV9wYXJhbXNfeD0wJm9iajFfcGFyYW1zX3k9MCZvYmoxX3BhcmFtc196PTAmb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0xJm9iajJfa2luZD12ZWN0b3Imb2JqMl9jb2xvcj0lMjNjMjNkODEmb2JqMl9wYXJhbXNfYT0lMjgxKy0rdCUyOSsxLjUrJTJCK3QrKislMjgtMSUyOSZvYmoyX3BhcmFtc19iPSUyODErLSt0JTI5KzErJTJCK3QrKislMjguNSUyOSZvYmoyX3BhcmFtc19jPSt0KyorJTI4LjI1JTI5Jm9iajJfcGFyYW1zX3g9MCZvYmoyX3BhcmFtc195PTAmb2JqMl9wYXJhbXNfej0wJm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >3Demos example</a
+              >
+            </p>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Question</h6>
+              <p>What is this linear combination?</p>
+
+              \[ \frac14 \mathbf h + \frac14 \mathbf q + \frac{3}{10} \mathbf m
+              + \frac15 \mathbf f \]
+            </div>
+
+            <p class="fragment">See syllabus.</p>
+
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Example</h6>
+              <p>
+                Write a vector equation for the position on the sphere centered
+                at $\mathbf p = \left\langle p_1, p_2, p_3 \right\rangle$ with
+                radius $R$.
+              </p>
+            </div>
+
+            <p class="fragment">Solution: \[|\mathbf x - \mathbf p | = R \]</p>
+
+            <p class="fragment">
+              Note: This is exactly the distance formula. We use the vector
+              variable $\mathbf x$ here to represent all the positions. We will
+              do that a lot.
+            </p>
+
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Example</h6>
+              <p>
+                Write an equation for the set of points whose distances to the
+                origin and to $(2, 0, 0)$ sum to $4$.
+              </p>
+            </div>
+
+            <p class="fragment">
+              Solution: \[|\mathbf x | + | \mathbf x - \left\langle 2, 0, 0
+              \right\rangle | = 4 \]
+            </p>
+
+            <p class="fragment">
+              But what is this set?
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPTMlMkY0KyoreCslNUUyKyUyQit5KyU1RTIrJTJCK3orJTVFMistKzMrJTJGKzIreCZvYmowX3BhcmFtc19rPTkrJTJGNCZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MyZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc19lPS0yJm9iajBfcGFyYW1zX2Y9Mg=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >3Demos</a
+              >
+            </p>
+
+            <div class="r-stretch"></div>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Link relations on variables to sets in Euclidean space
+                (coordinate axies, planes, etc.).
+              </li>
+              <li>
+                Evaluate the results of vector operations formulaically and
+                visually.
+              </li>
+              <li>
+                Use linear combinations to specify positions in relation to one
+                another.
+              </li>
+              <li>
+                Express linear interpolations and weighted averages as convex
+                combinations.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+    </script>
+  </body>
+
+  <style>
+    .container {
+      display: flex;
+    }
+    .col {
+      flex: 1;
+      margin: 20px;
+    }
+    .framelabel {
+      text-align: left;
+      padding-left: 10px;
+      padding-top: 10px;
+    }
+  </style>
+</html>

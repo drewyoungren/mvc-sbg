@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Optimization</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+    <style>
+      #lagframe {
+        width: auto;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        border: 0;
+        max-width: 100vw;
+        max-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 13
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/9wWOSs8BAz5"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
+            </h3>
+            <h1>Optimization</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">
+                Quiz 4 (on HW 6) this week
+                <ul>
+                  <li class="fragment">Chain Rule</li>
+                  <li class="fragment">Directional Derivative</li>
+                  <li class="fragment">Properties of the Gradient</li>
+                </ul>
+              </li>
+              <li class="fragment">HW7 due Tues</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <ul>
+              <li>
+                <em>Critical points</em> of a function $f$ are those where $f$
+                is not differentiable or $\nabla f = 0$.
+              </li>
+              <li class="fragment">
+                Local mins and maxes (on open sets) only occur at critical
+                points.
+              </li>
+              <li class="fragment">
+                The
+                <a
+                  href="https://drew.youngren.nyc/mvc-slides/lec12.html#/3/2/1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >second derivative</a
+                >
+                test can classify some critical points of $f(x,y)$.
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Preliminaries</h1>
+          </section>
+          <section>
+            <h3>Kinds of Optimization</h3>
+            <h6 class="framelabel fragment">Unconstrained</h6>
+            <p class="fragment">
+              On open sets
+              <span class="fragment"
+                >$\longrightarrow$ look for critical points</span
+              >
+            </p>
+            <h6 class="framelabel fragment">Constrained</h6>
+            <p class="fragment">
+              On boundary points
+              <span class="fragment"
+                >$\longrightarrow$ Lagrange multipliers</span
+              >
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Framework</h1>
+          </section>
+          <section>
+            <p>
+              For an <strong>optimization problem</strong> one must identify:
+            </p>
+
+            <ul>
+              <li class="fragment">
+                The <em>target function</em> or <em>desideratum</em> $f$
+              </li>
+              <li class="fragment">
+                The <em>control variables</em> $x, y, \ldots$
+                <ul class="">
+                  <li>Give description and units where appropriate</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                The <em>domain</em> $D$ of admissible values
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h6 class="framelabel">Example - Unconstrained</h6>
+
+            <p>
+              Find the closest point to the origin on the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc196PXgrLSsyK3krJTJCKzMmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+                >plane</a
+              >
+              \[z = x - 2y + 3.\]
+            </p>
+
+            <p class="fragment">
+              <strong>Solution.</strong> We will choose $x$ and $y$ freely (so
+              $D = \RR^2$, open) and minimize the distance to $(x,y,x - 2y +
+              3)$. \[f(x,y) = x^2 + y^2 + (x - 2y + 3)^2\]
+            </p>
+          </section>
+          <section>
+            <p>
+              \[\nabla f = \bv{2x + 2(x - 2y + 3) \\ 2y - 4(x - 2y + 3)} = \bv{0
+              \\ 0}\] \[ = \bv{4x - 4y + 6 \\ - 4x + 10y - 12} = \bv{0 \\ 0}\]
+            </p>
+            <p class="fragment">\[ \implies y = 1, x = -\frac12 \]</p>
+            <p class="fragment">
+              which means the closest point is $(-1/2, 1, 1/2)$
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Lagrange Multipliers</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Constraint Function</h6>
+            <p>
+              In most real applications, we cannot choose out control variables
+              freely, but rather they are subject to a
+              <strong>constraint</strong>.
+            </p>
+            <p class="fragment">
+              Often, we express this by specifying this as a
+              <strong>level set</strong>
+              \[g(x,y,\ldots) = k \]
+            </p>
+            <p class="fragment">
+              e.g., a fixed budget or a set proportion of ingredients for a
+              recipe.
+            </p>
+          </section>
+          <section>
+            <p class="smaller">
+              What does the gradient tell us at local extremes on constrained
+              sets?
+            </p>
+
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzZmY0MDAwJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX3g9dCUyRjIlMkJzaW4lMjgyKnQlMjkmb2JqMF9wYXJhbXNfeT0uMiUyQi45KnQrJTJCKy4yKmNvcyUyODcqdCUyOSstKyUyOGFicyUyOHQlMjkrLSt0JTI5JTVFMiUyRjQ4Jm9iajBfcGFyYW1zX3o9MSpleHAlMjgtMiolMjglMjh0JTJGMiUyQnNpbiUyODIqdCUyOSUyOSU1RTIlMkIlMjguMiUyQi45KnQrJTJCKy4yKmNvcyUyODcqdCUyOSstKyUyOGFicyUyOHQlMjkrLSt0JTI5JTVFMiUyRjQ4JTI5JTVFMiUyOSUyOSslMkIrMy4yJTJGMipleHAlMjgtMSolMjglMjglMjh0JTJGMiUyQnNpbiUyODIqdCUyOSUyOS0xJTI5JTVFMiUyQiUyOCUyOC4yJTJCLjkqdCslMkIrLjIqY29zJTI4Nyp0JTI5Ky0rJTI4YWJzJTI4dCUyOSstK3QlMjklNUUyJTJGNDglMjktMS4yJTI5JTVFMiUyOSUyOSZvYmowX3BhcmFtc190YXU9MCZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjNmZjQwMDAmb2JqMV9wYXJhbXNfYT0tMiZvYmoxX3BhcmFtc19iPTImb2JqMV9wYXJhbXNfeD10JTJGMiUyQnNpbiUyODIqdCUyOSZvYmoxX3BhcmFtc195PS4yJTJCLjkqdCslMkIrLjIqY29zJTI4Nyp0JTI5Ky0rJTI4YWJzJTI4dCUyOSstK3QlMjklNUUyJTJGNDgmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3RhdT0wJm9iajJfa2luZD1ncmFwaCZvYmoyX2NvbG9yPSUyMzMyMzJmZiZvYmoyX3BhcmFtc19hPS0yJm9iajJfcGFyYW1zX2I9MiZvYmoyX3BhcmFtc19jPS0yJm9iajJfcGFyYW1zX2Q9MiZvYmoyX3BhcmFtc196PTEqZXhwJTI4LTIqJTI4eCU1RTIlMkJ5JTVFMiUyOSUyOSslMkIrMy4yJTJGMipleHAlMjgtMSolMjglMjh4LTElMjklNUUyJTJCJTI4eS0xLjIlMjklNUUyJTI5JTI5Jm9iajJfcGFyYW1zX3RhdT0wJm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MQ=="
+                frameborder="0"
+                height="100%"
+                width="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Identify the local minima of the distance to the Sun from a body
+              restricted to the drawn "orbit".
+            </p>
+
+            <div class="r-stretch">
+              <iframe
+                src="./lagrange-2d.html"
+                id="lagframe"
+                frameborder="0"
+              ></iframe>
+            </div>
+
+            <!-- <div
+              id="lagbox"
+              class="jxgbox"
+              style="width: 600px; height: 600px"
+            ></div> -->
+
+            <!-- <script type="text/javascript" src="./js/attractor.js"></script> -->
+          </section>
+          <section>
+            <h6 class="framelabel">Theorem - Lagrange Multipliers</h6>
+            <p>
+              A local minimum (or maximum) of $f(\vec x)$ subject to the
+              constraint $g(\vec x) = k$ occurs at $\vec a$ only if $\nabla g(a)
+              = \vec 0$ or \[\nabla f(\vec a) = \lambda \nabla g(\vec a)\] for
+              some scalar $\lambda$.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example (Reprise)</h6>
+
+            <p>
+              Find the closest point to the origin on the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1maWVsZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19wPXgmb2JqMF9wYXJhbXNfcT15Jm9iajBfcGFyYW1zX3I9eiZvYmowX3BhcmFtc19uVmVjPTYmb2JqMV9raW5kPWxldmVsJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2c9eistK3grJTJCKzIreSZvYmoxX3BhcmFtc19rPTMmb2JqMV9wYXJhbXNfYT0tMiZvYmoxX3BhcmFtc19iPTImb2JqMV9wYXJhbXNfYz0tMiZvYmoxX3BhcmFtc19kPTImb2JqMV9wYXJhbXNfZT0tMiZvYmoxX3BhcmFtc19mPTI="
+                target="_blank"
+                rel="noopener noreferrer"
+                >plane</a
+              >
+              \[z = x - 2y + 3.\]
+            </p>
+            <p class="r-stretch"></p>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+            <p>
+              Viewed as a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyM2Q2NmI3MiZvYmowX3BhcmFtc19nPXorLSt4KyUyQisyK3kmb2JqMF9wYXJhbXNfaz0zJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX2U9LTImb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1sZXZlbCZvYmoxX2NvbG9yPSUyMzdkN2Q3ZCZvYmoxX3BhcmFtc19nPXglNUUyKyUyQit5JTVFMislMkIreiU1RTImb2JqMV9wYXJhbXNfaz0yJm9iajFfcGFyYW1zX2E9LTImb2JqMV9wYXJhbXNfYj0wJm9iajFfcGFyYW1zX2M9MCZvYmoxX3BhcmFtc19kPTImb2JqMV9wYXJhbXNfZT0wJm9iajFfcGFyYW1zX2Y9MiZvYmoyX2tpbmQ9bGV2ZWwmb2JqMl9jb2xvcj0lMjM3ZDdkN2Qmb2JqMl9wYXJhbXNfZz14JTVFMislMkIreSU1RTIrJTJCK3olNUUyJm9iajJfcGFyYW1zX2s9MSZvYmoyX3BhcmFtc19hPS0yJm9iajJfcGFyYW1zX2I9MCZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfZD0yJm9iajJfcGFyYW1zX2U9MCZvYmoyX3BhcmFtc19mPTImb2JqM19raW5kPWxldmVsJm9iajNfY29sb3I9JTIzN2Q3ZDdkJm9iajNfcGFyYW1zX2c9eCU1RTIrJTJCK3klNUUyKyUyQit6JTVFMiZvYmozX3BhcmFtc19rPTMlMkYyJm9iajNfcGFyYW1zX2E9LTImb2JqM19wYXJhbXNfYj0wJm9iajNfcGFyYW1zX2M9MCZvYmozX3BhcmFtc19kPTImb2JqM19wYXJhbXNfZT0wJm9iajNfcGFyYW1zX2Y9Mg=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >constrained problem</a
+              >
+              in $\mathbb{R}^3$, we target distance$^2$ and use the plane
+              equation as the constraint. \[ f(x,y,z) = x^2 + y^2 + z^2,\
+              g(x,y,z) = x - 2y - z + 3 = 0 \]
+            </p>
+            <p class="fragment">
+              \[ \nabla f = 2\bv{x \\ y \\ z} = \lambda \bv{1 \\ -2 \\ -1} =
+              \lambda \nabla g\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example &ndash; Cobb-Douglass</h6>
+
+            <div class="container">
+              <div class="col">
+                <p style="font-size: smaller">
+                  By investing $x$ units of labor and $y$ units of capital, a
+                  low-end watch manufacturer can produce $x^{0.4}y^{0.6}$
+                  watches. Find the maximum number of watches that can be
+                  produced with a budget of $\$20000$ if labor costs $\$100$ per
+                  unit and capital costs $\$200$ per unit.
+                </p>
+              </div>
+              <div class="col fragment">
+                <img
+                  src="./assets/cobb-doug-contours.png"
+                  alt=""
+                  class="fragment"
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example &ndash; 3D</h6>
+
+            <p>
+              Find the minimum surface area of a lidless shoebox with volume $32
+              \text{ L}$.
+            </p>
+            <div class="r-stretch"></div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>XVT</h1>
+            <h3 class="fragment">Extreme Value Theorem</h3>
+          </section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Theorem</h6>
+
+              <p>
+                A
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzZmYzMzMzJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTIqcGkmb2JqMF9wYXJhbXNfeD0xJTJGMislMkIrMyUyRjIlMjh0KyUzRStwaSUyRjIrJTI2K3QrJTNDK3BpKyUzRislMjgyJTJGMyUyQjElMkYzKmNvcyUyODIqdCUyOSU1RTIlMjkrJTNBKzElMjkqK2NvcyUyOHQlMjkmb2JqMF9wYXJhbXNfeT0zJTJGMiUyOHQrJTNFK3BpJTJGMislMjYrdCslM0MrcGkrJTNGKyUyODIlMkYzJTJCMSUyRjMqY29zJTI4Mip0JTI5JTVFMiUyOSslM0ErMSUyOSorc2luJTI4dCUyOSZvYmowX3BhcmFtc196PTAmb2JqMF9wYXJhbXNfdGF1PTAmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzZmYzMzMzJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTIqcGkmb2JqMV9wYXJhbXNfeD0xJTJGMislMkIrMyUyRjIqJTI4dCslM0UrcGklMkYyKyUyNit0KyUzQytwaSslM0YrJTI4MiUyRjMlMkIxJTJGMypjb3MlMjgyKnQlMjklNUUyJTI5KyUzQSsxJTI5Kitjb3MlMjh0JTI5Jm9iajFfcGFyYW1zX3k9MyUyRjIqJTI4dCslM0UrcGklMkYyKyUyNit0KyUzQytwaSslM0YrJTI4MiUyRjMlMkIxJTJGMypjb3MlMjgyKnQlMjklNUUyJTI5KyUzQSsxJTI5KitzaW4lMjh0JTI5Jm9iajFfcGFyYW1zX3o9LSUyOCUyODElMkYyKyUyQiszJTJGMiolMjh0KyUzRStwaSUyRjIrJTI2K3QrJTNDK3BpKyUzRislMjgyJTJGMyUyQjElMkYzKmNvcyUyODIqdCUyOSU1RTIlMjkrJTNBKzElMjkqK2NvcyUyOHQlMjklMjklNUU0KyUyQislMjgzJTJGMiolMjh0KyUzRStwaSUyRjIrJTI2K3QrJTNDK3BpKyUzRislMjgyJTJGMyUyQjElMkYzKmNvcyUyODIqdCUyOSU1RTIlMjkrJTNBKzElMjkqK3NpbiUyOHQlMjklMjklNUU0Ky0rNColMjgxJTJGMislMkIrMyUyRjIqJTI4dCslM0UrcGklMkYyKyUyNit0KyUzQytwaSslM0YrJTI4MiUyRjMlMkIxJTJGMypjb3MlMjgyKnQlMjklNUUyJTI5KyUzQSsxJTI5Kitjb3MlMjh0JTI5JTI5KiUyODMlMkYyKiUyOHQrJTNFK3BpJTJGMislMjYrdCslM0MrcGkrJTNGKyUyODIlMkYzJTJCMSUyRjMqY29zJTI4Mip0JTI5JTVFMiUyOSslM0ErMSUyOSorc2luJTI4dCUyOSUyOSstKzElMjkrJTJGJTI4MTArJTJCKzEwKyUyOCUyODElMkYyKyUyQiszJTJGMiolMjh0KyUzRStwaSUyRjIrJTI2K3QrJTNDK3BpKyUzRislMjgyJTJGMyUyQjElMkYzKmNvcyUyODIqdCUyOSU1RTIlMjkrJTNBKzElMjkqK2NvcyUyOHQlMjklMjkrLSslMjgzJTJGMiolMjh0KyUzRStwaSUyRjIrJTI2K3QrJTNDK3BpKyUzRislMjgyJTJGMyUyQjElMkYzKmNvcyUyODIqdCUyOSU1RTIlMjkrJTNBKzElMjkqK3NpbiUyOHQlMjklMjklMjklNUUyJTI5Ky41KyUyQisxJm9iajFfcGFyYW1zX3RhdT0wJm9iajJfa2luZD1ncmFwaCZvYmoyX2NvbG9yPSUyMzMyMzJmZiZvYmoyX3BhcmFtc19hPS0xJm9iajJfcGFyYW1zX2I9MiZvYmoyX3BhcmFtc19jPS0zJTJGMiZvYmoyX3BhcmFtc19kPTMlMkYyJm9iajJfcGFyYW1zX3o9LSUyOHglNUU0KyUyQit5JTVFNCstKzQqeCp5Ky0rMSUyOSslMkYlMjgxMCslMkIrMTArJTI4eCstK3klMjklNUUyJTI5Ky41KyUyQisxJm9iajJfcGFyYW1zX3RhdT0wJm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >continuous function</a
+                >
+                on a <em>closed and bounded</em> set $D$ must achieve its
+                absolute minimum and maximum.
+              </p>
+            </div>
+            <div class="fragment">
+              The upshot is:
+              <ul>
+                <li class="fragment">
+                  Find critical points on interior of $D$.
+                </li>
+                <li class="fragment">
+                  Find Lagrange points on boundary of $D$.
+                </li>
+                <li class="fragment">
+                  Choose least/greatest value of $f$ on combined list.
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <div class="container">
+              <div class="col">
+                <p>
+                  Suppose the temperature distribution on the closed half-disk
+                  $0 \leq y \leq \sqrt{16-x^2}$ is given by \[u(x,y) = x^2 - 6x
+                  + 4y^2 - 8y. \] Find the hottest and coldest points.
+                </p>
+              </div>
+              <div class="col">
+                <img src="assets/half-disk-lagrange.png" alt="" />
+              </div>
+            </div>
+            <p></p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Model an optimization problem by identifying:
+                <ul>
+                  <li>the target function.</li>
+                  <li>the variables and domain of feasibility.</li>
+                  <li>any constraint functions.</li>
+                </ul>
+              </li>
+              <li>
+                Identify whether a domain is open, closed, or neither, and where
+                to look for extrema.
+              </li>
+              <li>
+                Set up and solve systems of equations for the method of Lagrange
+                multipliers.
+              </li>
+              <li>Interpret the Lagrange equations geometrically.</li>
+              <li>
+                Utilize the Extreme Value Theorem to find global minima and
+                maxima.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: 'latest',
+          delimiters: [
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        },
+
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

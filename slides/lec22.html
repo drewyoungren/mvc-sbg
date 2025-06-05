@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Stokes' Theorem</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 22
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/9mltqPtwQjd"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Stokes' Theorem</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+              <!-- <span style="font-size: x-small"
+                ><a
+                  href="https://onlineboard.eu/b/CakPZcTM"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >bb</a
+                ></span
+              > -->
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW 13 due Tuesday</li>
+              <li class="fragment">
+                Quiz 9
+                <ul>
+                  <li>Surface &amp; Flux Integrals</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                Final exam schedule released
+                <ul>
+                  <li>See edstem announcement</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Definition</h6>
+            <p style="font-size: smaller">
+              A <strong>flux integral</strong> of a vector field $\vec F$
+              through a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMDYmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PXYmb2JqMF9wYXJhbXNfej0xJTJGMistK3UlNUUyKyUyRiszKy0rJTI4distKzElMjklNUUyKyUyRisyJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9ZmllbGQmb2JqMV9jb2xvcj0lMjNkYzVlNjYmb2JqMV9wYXJhbXNfcD0teislMkYrNCZvYmoxX3BhcmFtc19xPXgrJTJGKzUmb2JqMV9wYXJhbXNfcj16KyUyQisxJTJGMiZvYmoxX3BhcmFtc19uVmVjPTY="
+                target="_blank"
+                rel="noopener noreferrer"
+                >surface</a
+              >
+              $\Omega$ (somethimes just the "surface integral of a vector
+              field") with orientation $\vec N$ corresponding to parametrization
+              $\vec r:\mathcal D \to \RR^3$ is
+            </p>
+
+            <p>
+              \[\iint_\Omega \vec F\cdot d\vec S = \iint_\Omega \vec F \cdot
+              \vec N\,dS \]
+            </p>
+            <p class="fragment">
+              \[ = \iint\limits_D \vec F(\vec r(u,v))\cdot (\vec r_u \times \vec
+              r_v) \,du\,dv \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p class="smaller">
+              Find the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjM2ODY1YWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9dStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9dStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9dSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX3A9MCZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj16Jm9iajFfcGFyYW1zX25WZWM9Ng=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                flux
+              </a>
+              of the vector field $z\,\vec k$ through the piece of the cone
+              $z=\sqrt{x^2 + y^2}$ below $z=2$, oriented upward.
+            </p>
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjM2ODY1YWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9dStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9dStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9dSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX3A9MCZvYmoxX3BhcmFtc19xPTAmb2JqMV9wYXJhbXNfcj16Jm9iajFfcGFyYW1zX25WZWM9Ng=="
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <p>
+              <strong>Solution</strong>. \[ \vec r(u,v) = \langle u \cos v, u
+              \sin v, u \rangle \qquad 0 \leq u \leq 2, 0 \leq v \leq 2 \pi \]
+            </p>
+            <p class="fragment">
+              \[\vec r_u \times \vec r_v = \langle -u \cos v, -u \sin v, u
+              \rangle \]
+            </p>
+            <p class="fragment">
+              \[ \iint_{\mathcal C} \vec F\cdot d\vec S = \int_0^{2\pi}
+              \int_{0}^{2} u^2\,du\,dv = \frac{16\pi}{3} \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Div &amp; Curl</h1>
+          </section>
+
+          <section>
+            <h3 class="framelabel">"Del"</h3>
+
+            <p>
+              Consider a "vector" of operators \[ \nabla =
+              \frac{\partial}{\partial x} \,\vec i + \frac{\partial}{\partial y}
+              \,\vec j + \frac{\partial}{\partial z} \,\vec k \]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              Let's ignore that $\nabla$ is not a vector and use it with vector
+              operations anyway:
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Scalar Multiplication</h6>
+
+            <p>
+              Let $f(x,y,z)$ be a scalar field. Then "vector times scalar is
+              vector" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla f = \frac{\partial f}{\partial x} \,\vec i +
+              \frac{\partial f}{\partial y} \,\vec j + \frac{\partial
+              f}{\partial z} \,\vec k \]
+            </p>
+            <p class="fragment">aka the <strong>gradient</strong></p>
+          </section>
+          <section>
+            <h6 class="framelabel">Dot Product</h6>
+
+            <p style="font-size: smaller">
+              Let $ \vec F(x,y,z) = P(x,y,z)\,\vec i + Q(x,y,z)\,\vec j +
+              R(x,y,z)\,\vec k$ be a vector field. Then "vector dot vector is
+              scalar" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla \cdot \vec F = \frac{\partial P}{\partial x} +
+              \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z} \]
+            </p>
+            <p class="fragment">aka the <strong>divergence</strong>.</p>
+          </section>
+          <section>
+            <h6 class="framelabel">Cross Product</h6>
+
+            <p class="smaller">
+              Let $ \vec F(x,y,z) = P(x,y,z)\,\vec i + Q(x,y,z)\,\vec j +
+              R(x,y,z)\,\vec k$ be a vector field. Then "vector cross vector is
+              vector" becomes
+            </p>
+            <p class="fragment">
+              \[ \nabla \times \vec F = \begin{vmatrix} \vec i & \vec j & \vec k
+              \\ \frac{\partial }{\partial x} & \frac{\partial }{\partial y} &
+              \frac{\partial }{\partial z} \\ P & Q & R \end{vmatrix} \]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              \[ = \left( \frac{\partial R}{\partial y} - \frac{\partial
+              Q}{\partial z} \right) \,\vec i + \left( \frac{\partial
+              P}{\partial z} - \frac{\partial R}{\partial x} \right)\,\vec j +
+              \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial
+              y} \right)\,\vec k \]
+            </p>
+            <p class="fragment smaller">
+              aka the <strong>curl</strong>. The curl measures the spin or
+              rotation of a vector field. It is a vector with the direction
+              giving the axis of rotation and the magnitude indicating the
+              strength of the rotation (as indicated by the right hand rule).
+            </p>
+          </section>
+          <section style="font-size: smaller">
+            <h6 class="framelabel">Examples</h6>
+
+            <p class="fragment">
+              Compute the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzYmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWZpZWxkJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfYW5pbWF0aW9uPXRydWUmb2JqMF9wYXJhbXNfcD0teSZvYmowX3BhcmFtc19xPXgreiZvYmowX3BhcmFtc19yPS16KyUyRisxMCZvYmowX3BhcmFtc19uVmVjPTcmb2JqMV9raW5kPWZpZWxkJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX3A9LXgmb2JqMV9wYXJhbXNfcT0wJm9iajFfcGFyYW1zX3I9eislMkIrMSZvYmoxX3BhcmFtc19uVmVjPTYmb2JqMl9raW5kPXN1cmZhY2Umb2JqMl9jb2xvcj0lMjMwZDA4ODcmb2JqMl9hbmltYXRpb249dHJ1ZSZvYmoyX3BhcmFtc19hPS0uMSZvYmoyX3BhcmFtc19iPS4xJm9iajJfcGFyYW1zX2M9LS4xJm9iajJfcGFyYW1zX2Q9LjEmb2JqMl9wYXJhbXNfeD0xKy0rdSslMkYrc3FydCUyODUlMjkrJTJCK3YqJTI4Mitjb3MlMjhzcXJ0JTI4NSUyOSp0JTI5KyUyRitzcXJ0JTI4NSUyOSUyOSZvYmoyX3BhcmFtc195PTErJTJCK3Yqc2luJTI4c3FydCUyODUlMjkqdCUyOSZvYmoyX3BhcmFtc196PTErJTJCKzIqdSslMkYrc3FydCUyODUlMjkrJTJCK3YqJTI4Y29zJTI4c3FydCUyODUlMjkqdCUyOSslMkYrc3FydCUyODUlMjklMjkmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0yK3BpKyUyRitzcXJ0JTI4NSUyOQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                curl
+              </a>
+              of $\vec F(x,y,z) = -y \vec i + x z\,\vec j - \frac{z}{10}\,\vec
+              k$
+              <span class="fragment">
+                \[ \nabla \times \vec F = -x\,\vec i + (z + 1)\,\vec k\]
+              </span>
+            </p>
+
+            <p class="fragment">
+              Compute the divergence of both $\vec F$ and its curl.
+              <span class="fragment">
+                \[ \nabla \cdot \vec F = - \frac{1}{10} \qquad \qquad \qquad
+                \nabla \cdot \nabla \times \vec F = -1 + 1 = 0.\]
+              </span>
+            </p>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>Stokes' Theorem</h1>
+          </section>
+          <section>
+            <h3>Stokes' Theorem</h3>
+
+            <div class="container">
+              <div class="col">
+                <h6>Objectives</h6>
+                <ul>
+                  <li class="fragment">orient a surface and its boundary</li>
+                  <li class="fragment">see a brief justification</li>
+                  <li class="fragment">recognize when it applies</li>
+                </ul>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/george.jpeg"
+                  alt="Portrait of Stokes"
+                  srcset=""
+                />
+                <p style="font-size: xx-small">
+                  <a
+                    href="https://mathshistory.st-andrews.ac.uk/Biographies/Stokes/Stokes_3.jpeg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Photo credit</a
+                  >
+                </p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Orienting a Boundary</h6>
+
+            <p>
+              If $\mathbf \Sigma$ is a parametric surface oriented with normal
+              $\mathbf N$, its boundary $\partial \Sigma$ is
+              <strong>positively-oriented</strong> if when traversed standing
+              with $\mathbf N$ up, the surface is on the left.
+            </p>
+
+            <p class="fragment">
+              Here is a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMTYwZWZmJm9iajBfcGFyYW1zX2E9cGkrJTJGKzYmb2JqMF9wYXJhbXNfYj1waSslMkYrMiZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0yK3BpJm9iajBfcGFyYW1zX3g9c2luJTI4dSUyOStjb3MlMjh2JTI5Jm9iajBfcGFyYW1zX3k9c2luJTI4dSUyOStzaW4lMjh2JTI5Jm9iajBfcGFyYW1zX3o9Y29zJTI4dSUyOSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzZjQwMDA1Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTIqcGkmb2JqMV9wYXJhbXNfeD1jb3MlMjh0JTI5Jm9iajFfcGFyYW1zX3k9c2luJTI4dCUyOSZvYmoxX3BhcmFtc196PTAmb2JqMV9wYXJhbXNfYTA9MCZvYmoxX3BhcmFtc19hMT0xJm9iajJfa2luZD1jdXJ2ZSZvYmoyX2NvbG9yPSUyM2ZmMDAwMiZvYmoyX3BhcmFtc19hPTAmb2JqMl9wYXJhbXNfYj0yKnBpJm9iajJfcGFyYW1zX3g9c2luJTI4dCUyOSslMkYrMiZvYmoyX3BhcmFtc195PWNvcyUyOHQlMjkrJTJGKzImb2JqMl9wYXJhbXNfej1zcXJ0JTI4MyUyOSslMkYrMiZvYmoyX3BhcmFtc19hMD0wJm9iajJfcGFyYW1zX2ExPTEmb2JqM19raW5kPXZlY3RvciZvYmozX2NvbG9yPSUyMzAwMDAwMCZvYmozX2FuaW1hdGlvbj10cnVlJm9iajNfcGFyYW1zX2E9LXNpbiUyOG4rKitwaSslMkYrNCslMkIrdCUyOSslMkYrMiZvYmozX3BhcmFtc19iPWNvcyUyOG4rKitwaSslMkYrNCslMkIrdCUyOSslMkYrMiZvYmozX3BhcmFtc19jPTAmb2JqM19wYXJhbXNfeD1jb3MlMjhuKyorcGkrJTJGKzQrJTJCK3QlMjkmb2JqM19wYXJhbXNfeT1zaW4lMjhuKyorcGkrJTJGKzQrJTJCK3QlMjkmb2JqM19wYXJhbXNfej0wJm9iajNfcGFyYW1zX3QwPTAmb2JqM19wYXJhbXNfdDE9cGkrJTJGKzQmb2JqM19wYXJhbXNfbjA9MCZvYmozX3BhcmFtc19uMT03Jm9iajRfa2luZD12ZWN0b3Imb2JqNF9jb2xvcj0lMjMwMDAwMDAmb2JqNF9hbmltYXRpb249dHJ1ZSZvYmo0X3BhcmFtc19hPWNvcyUyOG4rKitwaSslMkYrNCslMkIrdCUyOSslMkYrNCZvYmo0X3BhcmFtc19iPS1zaW4lMjhuKyorcGkrJTJGKzQrJTJCK3QlMjkrJTJGKzQmb2JqNF9wYXJhbXNfYz0wJm9iajRfcGFyYW1zX3g9c2luJTI4bisqK3BpKyUyRis0KyUyQit0JTI5KyUyRisyJm9iajRfcGFyYW1zX3k9Y29zJTI4bisqK3BpKyUyRis0KyUyQit0JTI5KyUyRisyJm9iajRfcGFyYW1zX3o9c3FydCUyODMlMjkrJTJGKzImb2JqNF9wYXJhbXNfdDA9MCZvYmo0X3BhcmFtc190MT1waSslMkYrNCZvYmo0X3BhcmFtc19uMD0wJm9iajRfcGFyYW1zX24xPTc="
+                target="_blank"
+                rel="noopener noreferrer"
+                >visualization</a
+              >
+              with a piece of the sphere oriented outward.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Stokes' Theorem</h6>
+
+            <p>
+              Let $\Omega$ be an oriented surface in $\RR^3$ and $\partial
+              \Omega$ its
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMDYmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMyNTFmZTAmb2JqMF9wYXJhbXNfYT0xJTJGNCZvYmowX3BhcmFtc19iPTElMkYyJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD0yK3UrY29zJTI4diUyOSslMkIrMSZvYmowX3BhcmFtc195PXUrc2luKyUyOHYlMjkmb2JqMF9wYXJhbXNfej0xKyUyQitjb3MlMjgzJTI4Mit1K2NvcyUyOHYlMjkrJTJCKzErJTJCK3Urc2luJTI4diUyOSslMkYrMiUyOSUyOSslMkYrJTI4MislMkIrdSU1RTIrY29zJTI4diUyOSU1RTIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM2ZmYzAzOCZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0yK3BpJm9iajFfcGFyYW1zX3g9K2NvcyUyOHQlMjkrJTJCKzEmb2JqMV9wYXJhbXNfeT1zaW4rJTI4dCUyOSslMkYrMiZvYmoxX3BhcmFtc196PTErJTJCK2NvcyUyODMlMjgrY29zJTI4dCUyOSslMkIrMSslMkIrK3NpbiUyOHQlMjkrJTJGKzQlMjklMjkrJTJGKyUyODIrJTJCKzElMkY0KmNvcyUyOHQlMjklNUUyJTI5Jm9iajJfa2luZD1jdXJ2ZSZvYmoyX2NvbG9yPSUyM2ZmZmYwMCZvYmoyX3BhcmFtc19hPTAmb2JqMl9wYXJhbXNfYj0yKnBpJm9iajJfcGFyYW1zX3g9K2NvcyUyOHQlMjklMkYyKyUyQisxJm9iajJfcGFyYW1zX3k9c2luKyUyOC10JTI5KyUyRis0Jm9iajJfcGFyYW1zX3o9MSslMkIrY29zJTI4MyUyOCtjb3MlMjh0JTI5JTJGMislMkIrMSslMkIrK3NpbiUyOC10JTI5KyUyRis4JTI5JTI5KyUyRislMjgyKyUyQisxJTJGMTYqY29zJTI4dCUyOSU1RTIlMjk="
+                target="_blank"
+                rel="noopener noreferrer"
+                >positively-oriented boundary</a
+              >. If $\vec F(x,y,z)$ is a smooth vector field, then \[
+              \iint_{\Omega} \nabla \times\vec F \cdot d \vec S =
+              \oint_{\partial \Omega} \vec F\cdot d \vec r \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Faraday's Law</h6>
+
+            <div class="container">
+              <div class="col">
+                \[ \begin{align*} -\frac{\partial \Phi}{\partial t} &=
+                \iint\limits_{D} -\frac{\partial B}{\partial t} d\vec S \\ \ &=
+                \iint\limits_{D} \nabla\times \vec E\cdot d\vec S \\ \ &=
+                \oint\limits_{\partial D} \vec E\cdot d\vec r \end{align*} \]
+
+                <p class="fragment" style="font-size: small">
+                  <a
+                    href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMDAwMDAwJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTIqcGkmb2JqMF9wYXJhbXNfeD1jb3MlMjgzK3QlMjkrJTJGKzImb2JqMF9wYXJhbXNfeT1zaW4lMjgzK3QlMjkrJTJGKzImb2JqMF9wYXJhbXNfej10KyUyRitwaSstKzEmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzMDAwMDAwJm9iajFfcGFyYW1zX2E9LTEuNSZvYmoxX3BhcmFtc19iPTEuNSZvYmoxX3BhcmFtc194PSUyOHQrJTNDKy0xJTI5KyUzRit0KyUyQisyKyUzQSslMjh0KyUzRSsxKyUzRislMjgyKy0rdCUyOSslM0ErMSUyOSZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0lMjh0KyUzQystMSUyOSslM0YrLTErJTNBKyUyOHQrJTNFKzErJTNGKzErJTNBK3QlMjkmb2JqMl9raW5kPXN1cmZhY2Umb2JqMl9jb2xvcj0lMjM2NjY0ZGQmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9MitwaSZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfZD0xJm9iajJfcGFyYW1zX3g9Y29zJTI4Myt1JTI5KyUyRisyKyorJTI4MSstK3YlMjkrJTJCK3Ymb2JqMl9wYXJhbXNfeT1zaW4lMjgzK3UlMjkrJTJGKzIrKislMjgxKy0rdiUyOSsmb2JqMl9wYXJhbXNfej11KyUyRitwaSstKzEmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0xJm9iajNfa2luZD1maWVsZCZvYmozX2NvbG9yPSUyMzBkMDg4NyZvYmozX3BhcmFtc19wPSt6K3grJTJGK3NxcnQlMjh4JTVFMislMkIreSU1RTIlMjkrJTJGKzImb2JqM19wYXJhbXNfcT0reit5KyUyRitzcXJ0JTI4eCU1RTIrJTJCK3klNUUyJTI5KyUyRisyJm9iajNfcGFyYW1zX3I9LWxvZyUyOCUyOHglNUUyKyUyQit5JTVFMiUyOSo0JTI5Jm9iajNfcGFyYW1zX25WZWM9Ng=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Demo</a
+                  >
+                </p>
+              </div>
+              <div class="col">
+                <iframe
+                  src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzAwMDAwMCZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0yKnBpJm9iajBfcGFyYW1zX3g9Y29zJTI4Myt0JTI5KyUyRisyJm9iajBfcGFyYW1zX3k9c2luJTI4Myt0JTI5KyUyRisyJm9iajBfcGFyYW1zX3o9dCslMkYrcGkrLSsxJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyMzAwMDAwMCZvYmoxX3BhcmFtc19hPS0xLjUmb2JqMV9wYXJhbXNfYj0xLjUmb2JqMV9wYXJhbXNfeD0lMjh0KyUzQystMSUyOSslM0YrdCslMkIrMislM0ErJTI4dCslM0UrMSslM0YrJTI4MistK3QlMjkrJTNBKzElMjkmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9JTI4dCslM0MrLTElMjkrJTNGKy0xKyUzQSslMjh0KyUzRSsxKyUzRisxKyUzQSt0JTI5Jm9iajJfa2luZD1zdXJmYWNlJm9iajJfY29sb3I9JTIzNjY2NGRkJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTIrcGkmb2JqMl9wYXJhbXNfYz0wJm9iajJfcGFyYW1zX2Q9MSZvYmoyX3BhcmFtc194PWNvcyUyODMrdSUyOSslMkYrMisqKyUyODErLSt2JTI5KyUyQit2Jm9iajJfcGFyYW1zX3k9c2luJTI4Myt1JTI5KyUyRisyKyorJTI4MSstK3YlMjkrJm9iajJfcGFyYW1zX3o9dSslMkYrcGkrLSsxJm9iajJfcGFyYW1zX3QwPTAmb2JqMl9wYXJhbXNfdDE9MSZvYmozX2tpbmQ9ZmllbGQmb2JqM19jb2xvcj0lMjMwZDA4ODcmb2JqM19wYXJhbXNfcD0reit4KyUyRitzcXJ0JTI4eCU1RTIrJTJCK3klNUUyJTI5KyUyRisyJm9iajNfcGFyYW1zX3E9K3oreSslMkYrc3FydCUyOHglNUUyKyUyQit5JTVFMiUyOSslMkYrMiZvYmozX3BhcmFtc19yPS1sb2clMjglMjh4JTVFMislMkIreSU1RTIlMjkqNCUyOSZvYmozX3BhcmFtc19uVmVjPTY="
+                  width="400px"
+                  height="600px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Compute the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNDYmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTEmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PXUrY29zJTI4diUyOSZvYmowX3BhcmFtc195PXUrc2luJTI4diUyOSZvYmowX3BhcmFtc196PXUrY29zJTI4diUyOSslMkIrMSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzZmZmOTAwJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTIqcGkmb2JqMV9wYXJhbXNfeD1jb3MlMjh0JTI5Jm9iajFfcGFyYW1zX3k9c2luJTI4dCUyOSZvYmoxX3BhcmFtc196PWNvcyUyOHQlMjkrJTJCKzEmb2JqMV9wYXJhbXNfYTA9MCZvYmoxX3BhcmFtc19hMT0xJm9iajJfa2luZD1maWVsZCZvYmoyX2NvbG9yPSUyMzllMDAwYSZvYmoyX3BhcmFtc19wPS16Jm9iajJfcGFyYW1zX3E9MCZvYmoyX3BhcmFtc19yPTAmb2JqMl9wYXJhbXNfblZlYz02"
+                target="_blank"
+                rel="noopener noreferrer"
+                >flux</a
+              >
+              of $\mathbf F(x,y,z) = -z\,\mathbf i$ <em>upward</em> through the
+              piece of the plane $z - x = 1$ inside the cylinder $x^2 + y^2 =
+              1$.
+            </p>
+            <p class="fragment">
+              Hint: $\nabla \times \langle 0, 0, - yz \rangle$
+            </p>
+            <div class="r-stretch"></div>
+            <!-- <p class="fragment"><strong>Solution.</strong>  </p> -->
+          </section>
+          <section>
+            <p>
+              <strong>Solution</strong>. Compute the line integral
+              $\int_{\partial \mathcal \Omega} (-yz)\,dz$
+            </p>
+            <p class="fragment">
+              $\vec r(t) = \langle \cos t, \sin t, 1 + \cos t$ matches the
+              orientation. \[\int_0^{2\pi} -(\sin t)(1 + \cos t)(-\sin t)\,dt =
+              \int_0^{2\pi} \sin^2 t\,dt \]
+            </p>
+            <p class="fragment">\[ = \pi \]</p>
+          </section>
+          <section id="stokes-example">
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Compute the line integral $\oint\limits_{\partial \Omega} \vec
+              F\cdot d\vec r $ around the ccw-oriented boundary of $\Omega$
+              given by \[z = (1 - x^2)(1-y^2)\] for $-1 \leq x \leq 1, -1 \leq y
+              \leq 1$ and \[\vec F(x,y,z) = 2y\,\vec i + 3z\, \vec j + z\, \vec
+              k.\]
+            </p>
+            <p class="fragment">
+              I call this surface the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMDAwMDAwJm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX3g9MSZvYmowX3BhcmFtc195PXQmb2JqMF9wYXJhbXNfej0wJm9iajBfcGFyYW1zX3RhdT0wJm9iajBfcGFyYW1zX2NvbG9yPSUyMzAwMzJhOCZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjMwMDAwMDAmb2JqMV9wYXJhbXNfYT0tMSZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfeD0tMSZvYmoxX3BhcmFtc195PXQmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3RhdT0wJm9iajFfcGFyYW1zX2NvbG9yPSUyMzAwMzJhOCZvYmoyX2tpbmQ9Y3VydmUmb2JqMl9jb2xvcj0lMjMwMDAwMDAmb2JqMl9wYXJhbXNfYT0tMSZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfeD10Jm9iajJfcGFyYW1zX3k9MSZvYmoyX3BhcmFtc196PTAmb2JqMl9wYXJhbXNfdGF1PTAmb2JqMl9wYXJhbXNfY29sb3I9JTIzMDAzMmE4Jm9iajNfa2luZD1jdXJ2ZSZvYmozX2NvbG9yPSUyMzAwMDAwMCZvYmozX3BhcmFtc19hPS0xJm9iajNfcGFyYW1zX2I9MSZvYmozX3BhcmFtc194PXQmb2JqM19wYXJhbXNfeT0tMSZvYmozX3BhcmFtc196PTAmb2JqM19wYXJhbXNfdGF1PTAmb2JqM19wYXJhbXNfY29sb3I9JTIzMDAzMmE4Jm9iajRfa2luZD1maWVsZCZvYmo0X2NvbG9yPSUyMzBkMDg4NyZvYmo0X3BhcmFtc19wPTJ5Jm9iajRfcGFyYW1zX3E9M3omb2JqNF9wYXJhbXNfcj14Jm9iajRfcGFyYW1zX25WZWM9NiZvYmo1X2tpbmQ9c3VyZmFjZSZvYmo1X2NvbG9yPSUyMzA4ODcxMCZvYmo1X3BhcmFtc19hPS0xJm9iajVfcGFyYW1zX2I9MSZvYmo1X3BhcmFtc19jPS0xJm9iajVfcGFyYW1zX2Q9MSZvYmo1X3BhcmFtc194PXUmb2JqNV9wYXJhbXNfeT12Jm9iajVfcGFyYW1zX3o9JTI4MSstK3UlNUUyJTI5KyorJTI4MSstK3YlNUUyJTI5KyorJTI4MSstK3QlMjkmb2JqNV9wYXJhbXNfdDA9MCZvYmo1X3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+                >raviolo</a
+              >.
+            </p>
+          </section>
+          <section>
+            <p>
+              <strong>Solution.</strong> The secret is, per Stokes', we can use
+              <em>any</em> surface $\Omega'$ with the same boundary $\partial
+              \Omega' = \partial \Omega$. Easiest is $z=0$ with same footprint.
+              The normal vector is constant $\mathbf N = \mathbf k$. $\nabla
+              \times \mathbf F = \langle -3, 0, -2\rangle$ so
+            </p>
+            <p class="fragment">
+              \[ \oint_{\partial \Omega} \mathbf F\cdot d\mathbf r =
+              \iint_{\Omega'} (-3\mathbf i - 2\mathbf k) \cdot \mathbf k\, dS \]
+            </p>
+            <p class="fragment">\[ = -2\text{Area}(\Omega') = -8. \]</p>
+            <p class="fragment smaller" style="text-align: right">
+              <a href="./assets/stokes-example.nb" target="_blank"
+                ><em>Mathematica</em> solution</a
+              >
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              A
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNjgmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPXN1cmZhY2Umb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9cGkmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MitwaSZvYmowX3BhcmFtc194PTIrY29zJTI4Myt1JTI5KyUyQisxMDgqc2luJTI4Mip1JTI5JTVFMipzaW4lMjgzKnUlMjkqY29zJTI4Mip1JTI5JTJGc3FydCUyODE2KiUyODkqc2luJTI4Myp1JTI5JTVFMislMkIrNDkqY29zJTI4dSUyOSU1RTIlMjklNUUyKyUyQisxMTY2NCpzaW4lMjgyKnUlMjklNUU0KnNpbiUyODMqdSUyOSU1RTIqY29zJTI4Mip1JTI5JTVFMislMkIrNjM1MDQqc2luJTI4Mip1JTI5JTVFNCpjb3MlMjh1JTI5JTVFMipjb3MlMjgyKnUlMjklNUUyJTI5KmNvcyUyOHYlMjkrLTE0KmNvcyUyOHUlMjklMkZzcXJ0JTI4MzYqc2luJTI4Myp1JTI5JTVFMislMkIrMTk2KmNvcyUyOHUlMjklNUUyJTI5KnNpbiUyOHYlMjkrJm9iajBfcGFyYW1zX3k9MitzaW4lMjh1JTI5KjcrJTJCKy0yNTIqc2luJTI4Mip1JTI5JTVFMipjb3MlMjh1JTI5KmNvcyUyODIqdSUyOSUyRnNxcnQlMjgxNiolMjg5KnNpbiUyODMqdSUyOSU1RTIrJTJCKzQ5KmNvcyUyOHUlMjklNUUyJTI5JTVFMislMkIrMTE2NjQqc2luJTI4Mip1JTI5JTVFNCpzaW4lMjgzKnUlMjklNUUyKmNvcyUyODIqdSUyOSU1RTIrJTJCKzYzNTA0KnNpbiUyODIqdSUyOSU1RTQqY29zJTI4dSUyOSU1RTIqY29zJTI4Mip1JTI5JTVFMiUyOSpjb3MlMjh2JTI5Ky02KnNpbiUyODMqdSUyOSUyRnNxcnQlMjgzNipzaW4lMjgzKnUlMjklNUUyKyUyQisxOTYqY29zJTI4dSUyOSU1RTIlMjkqc2luJTI4diUyOSsmb2JqMF9wYXJhbXNfej1zaW4lMjgyK3UlMjklNUUzKjMrJTJCKyUyODM2KnNpbiUyODMqdSUyOSU1RTIrJTJCKzE5Nipjb3MlMjh1JTI5JTVFMiUyOSUyRnNxcnQlMjgxNiolMjg5KnNpbiUyODMqdSUyOSU1RTIrJTJCKzQ5KmNvcyUyOHUlMjklNUUyJTI5JTVFMislMkIrMTE2NjQqc2luJTI4Mip1JTI5JTVFNCpzaW4lMjgzKnUlMjklNUUyKmNvcyUyODIqdSUyOSU1RTIrJTJCKzYzNTA0KnNpbiUyODIqdSUyOSU1RTQqY29zJTI4dSUyOSU1RTIqY29zJTI4Mip1JTI5JTVFMiUyOSpjb3MlMjh2JTI5KyZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTE="
+                target="_blank"
+                rel="noopener noreferrer"
+                >hose</a
+              >
+              connects two ports, unit circles in the $xz$-plane centered at $x
+              = \pm 2, z = 0$. Find the flux out of the hose of the
+              <em>curl</em> of the vector field \[ \vec F(x,y,z) = z\,\vec i -
+              (xy + z/2)\,\vec j - z \vec k. \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Compute the line integral $\oint_{\partial D} \vec F \cdot d\vec
+              r$ around the ccw (from above) boundary of the surface $D$. \[
+              \vec F(x,y,z) = xyz \,\vec i + y \,\vec j + z \,\vec k \] where
+              $D$ is the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPXRydWUmb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzZmZmZjAwJm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPXBpKyUyRisyJm9iajBfcGFyYW1zX3g9Y29zJTI4dCUyOSZvYmowX3BhcmFtc195PXNpbiUyOHQlMjkmb2JqMF9wYXJhbXNfej1jb3MlMjh0JTI5JTVFMiZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjNmZmZmMDAmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MSZvYmoxX3BhcmFtc194PXQmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9dCU1RTImb2JqMl9raW5kPWN1cnZlJm9iajJfY29sb3I9JTIzZmZmZjAwJm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfeD0wJm9iajJfcGFyYW1zX3k9dCZvYmoyX3BhcmFtc196PTAmb2JqM19raW5kPWZpZWxkJm9iajNfY29sb3I9JTIzOTMxMGEyJm9iajNfcGFyYW1zX3A9MCZvYmozX3BhcmFtc19xPS0reCt5Jm9iajNfcGFyYW1zX3I9LSt4K3omb2JqM19wYXJhbXNfblZlYz02Jm9iajRfa2luZD1zdXJmYWNlJm9iajRfY29sb3I9JTIzMGQwODg3Jm9iajRfcGFyYW1zX2E9MCZvYmo0X3BhcmFtc19iPTEmb2JqNF9wYXJhbXNfYz0wJm9iajRfcGFyYW1zX2Q9cGkrJTJGKzImb2JqNF9wYXJhbXNfeD11K2NvcyUyOHYlMjkmb2JqNF9wYXJhbXNfeT11K3NpbiUyOHYlMjkmb2JqNF9wYXJhbXNfej11JTVFMitjb3MlMjh2JTI5JTVFMiZvYmo0X3BhcmFtc190MD0wJm9iajRfcGFyYW1zX3QxPTE="
+                target="_blank"
+                rel="noopener noreferrer"
+                >portion of the surface
+              </a>
+              $z=x^2$ above $x^2 + y^2 \leq a^2$ in the first octant.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Combine the "del" operations where well-defined and establish
+                which yield zero.
+              </li>
+              <li>
+                Determine if a boundary curve is oriented positively relative to
+                an oriented surface and vice versa.
+              </li>
+              <li>
+                State Stokes' Theorem and identify its necessary components.
+              </li>
+              <li>
+                Verify both sides of the equality in Stokes' in basic examples.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: 'latest',
+          delimiters: [
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

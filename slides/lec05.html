@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Motion in Space</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">Lecture 05</h3>
+            <h1>Motion in Space</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">Recitation 03 this week.</li>
+              <li class="fragment">Quiz 2 (HW2 topics) this week.</li>
+              <li class="fragment">HW3 due next Tues</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT10JTVFMiUyRjImb2JqMF9wYXJhbXNfej10JTVFMyUyRjYmb2JqMF9wYXJhbXNfYTA9MCZvYmowX3BhcmFtc19hMT0xJm9iajFfa2luZD12ZWN0b3Imb2JqMV9jb2xvcj0lMjNmNjhlNDUmb2JqMV9wYXJhbXNfYT10Jm9iajFfcGFyYW1zX2I9dCU1RTIlMkYyJm9iajFfcGFyYW1zX2M9dCU1RTMlMkY2Jm9iajFfcGFyYW1zX3g9MCZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPS0yJm9iajFfcGFyYW1zX3QxPTImb2JqMV9wYXJhbXNfbjA9LTEmb2JqMV9wYXJhbXNfbjE9MQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Curves</a
+              >
+            </h6>
+
+            \[\lim_{t \to a} \vec r(t) = \bv{\lim\limits_{t \to a} x(t)
+            \\\lim\limits_{t \to a} y(t) \\ \lim\limits_{t \to a} z(t)} \qquad
+            \text{and} \qquad \vec r'(t) = \bv{x'(t) \\ y'(t) \\ z'(t) } \]
+          </section>
+          <section data-auto-animate>
+            <h3 class="framelabel">Properties</h3>
+            <div class="r-stretch">
+              \[\begin{align*} &\frac{d}{dt} (c\vec r(t)) = c \vec r'(t) \\
+              &\frac{d}{dt} (\vec r(t) + \vec q(t)) = \vec r'(t) + \vec q'(t)
+              \\\end{align*}\]
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h3 class="framelabel">Properties</h3>
+            <div class="r-stretch">
+              \[\begin{align*} &\frac{d}{dt} (f(t) \vec r(t)) = f'(t)\vec r(t) +
+              f(t) \vec r'(t) \\ &\frac{d}{dt} (\vec q(t) \cdot \vec r(t)) =
+              \vec q'(t)\cdot\vec r(t) + \vec q(t) \cdot \vec r'(t) \\
+              &\frac{d}{dt} (\vec q(t) \times \vec r(t)) = \vec q'(t)\times\vec
+              r(t) + \vec q(t) \times \vec r'(t) \\ \end{align*}\]
+            </div>
+          </section>
+
+          <section data-auto-animate>
+            <h3 class="framelabel">Properties</h3>
+            <div class="r-stretch">
+              \[\begin{align*} &\frac{d}{dt} \vec r(f(t)) = f'(t)\vec r'(f(t))
+              \\ \end{align*}\]
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p class="r-fit-text">
+              Let $\vec r(t)$ parameterize a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD10cnVlJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzMyMzJmZiZvYmowX3BhcmFtc19nPXglNUUyKyUyQit5JTVFMislMkIreiU1RTImb2JqMF9wYXJhbXNfaz0xJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX2U9LTImb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM0ZGREQzMyZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0zKnBpJm9iajFfcGFyYW1zX3g9Y29zJTI4OSslMkYrMTArKit0JTI5KyUyRitzcXJ0JTI4Y29zJTI4OSslMkYrMTArKit0JTI5JTVFMislMkIrc2luJTI4dCUyOSU1RTQrJTJCK3NpbiUyODQuMisqK3QrJTJCKzErJTJGKzIwJTI5JTVFMiUyOSZvYmoxX3BhcmFtc195PS1zaW4lMjh0JTI5JTVFMislMkYrc3FydCUyOGNvcyUyODkrJTJGKzEwKyordCUyOSU1RTIrJTJCK3NpbiUyOHQlMjklNUU0KyUyQitzaW4lMjg0LjIrKit0KyUyQisxKyUyRisyMCUyOSU1RTIlMjkmb2JqMV9wYXJhbXNfej1zaW4lMjg0LjIqdCslMkIrMSslMkYrMjAlMjkrJTJGK3NxcnQlMjhjb3MlMjg5KyUyRisxMCsqK3QlMjklNUUyKyUyQitzaW4lMjh0JTI5JTVFNCslMkIrc2luJTI4NC4yKyordCslMkIrMSslMkYrMjAlMjklNUUyJTI5Jm9iajFfcGFyYW1zX3RhdT0wJm9iajFfcGFyYW1zX2NvbG9yPSUyM2UxZmYwMA=="
+                target="_blank"
+                >curve</a
+              >
+              on the surface of a sphere centered at the origin. Show that the
+              tangent vector is orthogonal to the position vector at every
+              point.
+            </p>
+            <iframe
+              src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD10cnVlJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzMyMzJmZiZvYmowX3BhcmFtc19nPXglNUUyKyUyQit5JTVFMislMkIreiU1RTImb2JqMF9wYXJhbXNfaz0xJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX2U9LTImb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM0ZGREQzMyZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0zKnBpJm9iajFfcGFyYW1zX3g9Y29zJTI4OSslMkYrMTArKit0JTI5KyUyRitzcXJ0JTI4Y29zJTI4OSslMkYrMTArKit0JTI5JTVFMislMkIrc2luJTI4dCUyOSU1RTQrJTJCK3NpbiUyODQuMisqK3QrJTJCKzErJTJGKzIwJTI5JTVFMiUyOSZvYmoxX3BhcmFtc195PS1zaW4lMjh0JTI5JTVFMislMkYrc3FydCUyOGNvcyUyODkrJTJGKzEwKyordCUyOSU1RTIrJTJCK3NpbiUyOHQlMjklNUU0KyUyQitzaW4lMjg0LjIrKit0KyUyQisxKyUyRisyMCUyOSU1RTIlMjkmb2JqMV9wYXJhbXNfej1zaW4lMjg0LjIqdCslMkIrMSslMkYrMjAlMjkrJTJGK3NxcnQlMjhjb3MlMjg5KyUyRisxMCsqK3QlMjklNUUyKyUyQitzaW4lMjh0JTI5JTVFNCslMkIrc2luJTI4NC4yKyordCslMkIrMSslMkYrMjAlMjklNUUyJTI5Jm9iajFfcGFyYW1zX3RhdT0wJm9iajFfcGFyYW1zX2NvbG9yPSUyM2UxZmYwMA=="
+              frameborder="0"
+              width="800px"
+              height="500px"
+            ></iframe>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Integration</h1>
+          </section>
+          <section>
+            Integrals are limits of sums. Vectors can be added and scaled, so
+            this definition also goes right through, though the interpretation
+            is less clear. \[\int_a^b \vec r(t)\,dt = \lim_{N\to\infty}
+            \sum_{i=1}^N \vec r(t_i^*) \,\Delta t\]
+
+            <div class="fragment">
+              \[ = \left\langle \int_a^b x(t)\,dt, \int_a^b y(t)\,dt ,\int_a^b
+              z(t)\,dt \right\rangle. \]
+            </div>
+            <p class="fragment"><strong>Note:</strong> this is not an area.</p>
+          </section>
+          <section>
+            <h3>The Fundamental Theorem</h3>
+
+            <div class="r-stack">
+              <div class="fragment current-visible">
+                \[f(b) - f(a) = \int_a^b f'(x)\,dx\]
+              </div>
+              <div class="fragment current-visible">
+                \[\vec r(t) - \vec r(t_0) = \int_{t_0}^t \vec r'(u)\,du \]
+              </div>
+              <div class="fragment">
+                \[\vec r(t) = \vec r(t_0) + \int_{t_0}^t \vec r'(u)\,du \]
+              </div>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Motion</h1>
+          </section>
+          <section>
+            <h3>
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT10JTVFMiZvYmowX3BhcmFtc196PXQlNUUz"
+                target="_blank"
+                >Position, Velocity, Acceleration</a
+              >
+            </h3>
+
+            <div class="r-fit-text">
+              Suppose the <strong>position</strong> of a particle in space at
+              time $t$ is given by $\vec r(t)$. Its derivative $\vec r'(t) =
+              \vec v(t)$ is called the <strong>velocity</strong>, and its second
+              derivative $\vec r''(t) = \vec a(t)$ is the
+              <strong>acceleration</strong>. \[\vec a(t) = \vec v'(t) = \vec
+              r''(t) \]
+
+              <div class="fragment">
+                <strong>Speed</strong> is the magnitude of velocity $v = |\vec
+                v(t)|$.
+              </div>
+              <div class="fragment">
+                You are likely familiar with Newton's Second Law of motion
+                \[\vec F = m \,\vec a.\]
+              </div>
+            </div>
+          </section>
+          <section data-auto-animate="">
+            <h6 class="framelabel">Quick exercises</h6>
+            <p class="fragment text-right">
+              1. Show that a particle that changes direction has nonzero
+              acceleration.
+            </p>
+            <p class="fragment r-fit-text">
+              Use contradiction. Assume $\vec a (t) = \vec 0$. Then $\vec v(t) =
+              \vec c$, a constant, so the particle does not change direction.
+            </p>
+          </section>
+          <section data-auto-animate="">
+            <h6 class="framelabel">Quick exercises</h6>
+
+            <p class="text-right">2. Is the converse true?</p>
+            <p class="fragment text-right r-fit-text">
+              No. Consider the straight-line path (for $t > 0$) $ \vec r(t) =
+              \langle t^2, t^2, t^2 \rangle $. It has direction \[ \frac{\vec
+              r'(t)}{|\vec r'(t)|} = \frac{\langle 1,1,1 \rangle}{\sqrt{3}} \]
+              which does not change, but $\vec r''(t) = \langle 2,2,2 \rangle
+              \neq \vec 0$.
+            </p>
+          </section>
+          <section data-auto-animate="">
+            <h6 class="framelabel">Quick exercises</h6>
+
+            <p class="text-right r-fit-text">
+              3. Find an expression for the <strong>range formula</strong>,
+              i.e., the distance a projectile fired from the ground with initial
+              speed $v_0$ at angle $\alpha$ will travel before landing.
+            </p>
+            <div class="fragment r-stretch">
+              <div
+                id="box-range-form"
+                class="jxgbox"
+                style="width: 600px; height: 400px"
+              ></div>
+              <script src="js/rangeformula.js"></script>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Example</h3>
+            <p class="r-fit-text">
+              A particle initially at rest at the origin is subjected to an
+              acceleration \[\vec a(t) = \begin{cases} \vec i - t\,\vec j, &
+              t\leq 6 \\ \vec 0, & t > 6 \end{cases}. \] Find its position at
+              $t=10$.
+            </p>
+            <div class="r-stretch"></div>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+            <video
+              src="assets/offswitch.mp4"
+              width="500px"
+              height="500px"
+              controls
+            ></video>
+          </section>
+          <section>
+            <section><h1>Learning Outcomes</h1></section>
+            <section id="learning-outcomes">
+              <h6 class="framelabel">You should be able to...</h6>
+              <ul>
+                <li>
+                  Formulate the Fundamental Theorem of Calculus for
+                  vector-valued functions.
+                </li>
+                <li>
+                  Identify position, velocity, speed, and acceleration using the
+                  machinery of vector-valued functions.
+                </li>
+                <li>
+                  Solve initial-value motion problems with piecewise-defined
+                  acceleration functions.
+                </li>
+                <li>
+                  Try your hand at the
+                  <a
+                    href="https://drew.youngren.nyc/svandbox/thruster/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >silly rocket game</a
+                  >.
+                </li>
+              </ul>
+            </section>
+          </section>
+          <!-- <section
+            data-background-gradient="linear-gradient(to bottom, #282a36, #8be9fd)"
+          >
+            <h3 class="framelabel">Rocketeering</h3>
+            <p>
+              <a href="thrustergame.html"
+                ><img
+                  src="assets/rocketwfire.png"
+                  alt="Rocket by Vivian"
+                  srcset=""
+                  style="float: right"
+                  width="20%"
+              /></a>
+              HW #3.3 asks you define a piecewise acceleration function to guide
+              a rocket to its home base.
+            </p>
+          </section> -->
+        </section>
+        <!-- <section>
+          <section>
+            <h1>Curvature</h1>
+          </section>
+          <section>
+            <video src="assets/curvature_anim.mp4" controls></video>
+          </section>
+        </section> -->
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

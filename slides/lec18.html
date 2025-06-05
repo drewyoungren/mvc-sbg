@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Conservative Vector Fields &amp; FTLI</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 18
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/simjeOlYYP"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>FTLI</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+              <!-- <span style="font-size: xx-small"
+                ><a
+                  href="https://onlineboard.eu/b/VjSxXeGk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >bb</a
+                ></span
+              > -->
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW 11 due Tues</li>
+              <li class="fragment">Recitation as usual</li>
+              <li class="fragment">
+                Quiz 7 this week
+                <ul>
+                  <li>Basic line integrals</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Path Integral</h6>
+            <p style="font-size: smaller">
+              Let $C$ be a smooth curve parametrized by $\vec r(t) = \langle
+              x(t), y(t) \rangle, a \leq t \leq b$ and $\vec F(x,y) = \langle
+              P(x,y), Q(x,y) \rangle$.
+            </p>
+
+            <div class="fragment">\[ \int\limits_C \vec F\cdot d\vec r \]</div>
+            <div class="fragment">
+              \[ = \int_a^b (P(x(t), y(t)) x'(t)+ Q(x(t), y(t)) y'(t))\,dt \]
+            </div>
+            <div class="fragment">
+              \[ = \int\limits_C P\,dx + Q\,dy = \int\limits_C \vec F\cdot\vec
+              T\,ds \]
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <div class="container">
+              <div class="col">
+                <p>
+                  Compute \[\int\limits_C (x-y)\,dx + xy\,dy\] where $C$ is the
+                  portion of the clockwise-oriented unit circle from $(1,0)$ to
+                  $(0, 1)$.
+                </p>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/line_int_example.png"
+                  alt="Plot of vector field with oriented curve."
+                  class="fragment"
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <p>
+              <em>Solution.</em> $\vec r(t) = \langle \cos t, -\sin t \rangle, 0
+              \leq t \leq \frac{3\pi}{2}$. We compute
+            </p>
+            <p>
+              \[ \int_0^{3\pi/2} (\cos t + \sin t)(-\sin t) + (\cos t)(\sin
+              t)\cos t\,dt \]\[ = -\frac{1}{6}-\frac{3 \pi }{4}\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">
+              <a href="lec17.html#/5" target="_blank" rel="noopener noreferrer">
+                &larr;
+              </a>
+              Work Integral
+            </h6>
+            <p style="font-size: smaller">
+              A wagon is pulled across the floor by a rope 5 meters away and 1
+              meter up with a force of 7 N. Find the work done. (The wagon
+              weighs more than 7 N.)
+            </p>
+            <img
+              src="assets/wagon.gif"
+              alt="GIF of wagon being pulled with force vectors plotted."
+              srcset=""
+              class="fragment"
+            />
+          </section>
+          <section>
+            <p>
+              <em>Solution.</em> $\vec r(t) = \langle t, 0 \rangle, 0 \leq t
+              \leq 5$. \[\vec F(x,y) = 7\frac{\langle 5, 1 \rangle - \langle x,
+              y \rangle}{|\langle 5, 1 \rangle - \langle x, y \rangle|} \] \[ W
+              = \int_0^5 7\frac{5 - t}{\sqrt{1 + (5 - t)^2}}\,dt \approx 28.7\,
+              \text{N}\text{m} \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Conservative Vector Fields</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">Definition</h3>
+            <p>
+              A vector field $\vec F$ is <strong>conservative</strong> if there
+              is a scalar field $f$ (called a <em>potential</em>) where \[\vec F
+              = \nabla f.\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <div class="container">
+              <div class="col">
+                <p>
+                  The radial vector field $x \,\vec i + y\, \vec j$ is
+                  conservative. Its potential is
+                </p>
+                <p class="fragment">\[f(x,y) = \frac{x^2 + y ^2}{2}\]</p>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/conservative_field_1.png"
+                  alt="A radial vector field."
+                  srcset=""
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <div class="container">
+              <div class="col">
+                <p>
+                  The vector field \[ -y\,\vec i + x\,\vec j \] is
+                  <em>not</em> conservative.
+                </p>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/nonconservative_field_1.png"
+                  alt="A circular vector field."
+                  srcset=""
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Test for Conservativeness</h6>
+            <p>
+              If $\vec F = \langle P, Q \rangle$ is a conservative vector field
+              \[P_y = Q_x.\]
+            </p>
+            <p class="fragment">
+              <em>Proof.</em> Suppose $\vec F = \langle P, Q \rangle = \nabla
+              f$. \[P_y = f_{xy} = f_{yx} = Q_x .\]
+            </p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Determine whether each of the following is conservative, and if
+              so, find a potential function.
+            </p>
+
+            <div>
+              \[ \vec F(x,y) = \langle y e^{xy}, x e^{xy} + y^3 \rangle \]
+              <p class="fragment">
+                Conservative. $\displaystyle f(x,y) = e^{xy} + \frac14y^4$
+              </p>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Determine whether each of the following is conservative, and if
+              so, find a potential function.
+            </p>
+
+            <div>
+              \[ \vec F(x,y) = \langle xy, xy \rangle \]
+              <p class="fragment">
+                Not conservative. $\displaystyle P_y = x \neq Q_x = y$
+              </p>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Determine whether each of the following is conservative, and if
+              so, find a potential function.
+            </p>
+
+            <div>
+              \[ \vec F(x,y,z) = \langle y + z, x + z, x + y + z \rangle \]
+              <p class="fragment">
+                Conservative. $\displaystyle f(x,y,z) = xy + xz + yz + \frac12
+                z^2$
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>A Fundamental Theorem</h1>
+          </section>
+          <section>
+            <p>Let's compute a path integral of a conservative vector field.</p>
+            <div>\[ \int\limits_C \nabla f \cdot d\vec r\]</div>
+            <p class="fragment" style="font-size: smaller">
+              with the usual definitions, \[ = \int_a^b \nabla f(\vec r(t))
+              \cdot \vec r'(t)\,dt \]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              \[ = \int_a^b \frac{d}{dt}(f\circ \vec r )(t)\,dt = f(\vec r(b)) -
+              f(\vec r(a)) \]
+            </p>
+          </section>
+          <section data-background-video="assets/2paths.mp4">
+            <h6 class="framelabel">Fundamental Theorem of Line Integrals</h6>
+
+            <p>
+              If $\vec F = \nabla f$ and $C$ is a continuous path from $P_0$ to
+              $P_1$, then \[\int\limits_C \vec F\cdot d\vec r = f(P_1) -
+              f(P_0).\]
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              <strong>
+                <a
+                  href="assets/2paths.mp4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Corollary.</a
+                >
+              </strong>
+              If $C$ is a closed curve, \[ \oint\limits_C \nabla f\cdot d\vec r
+              = 0 \]
+            </p>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <div class="container">
+              <div class="col">
+                <p>
+                  Compute the work done against gravity carrying a 15 lbs
+                  bowling ball up a helical ramp 70 ft high.
+                </p>
+              </div>
+              <div class="col">
+                <iframe
+                  src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0yKnBpJm9iajBfcGFyYW1zX3g9LjIrY29zJTI4Myt0JTI5Jm9iajBfcGFyYW1zX3k9LjIrc2luJTI4Myt0JTI5Jm9iajBfcGFyYW1zX3o9LjcqdCslMkYrJTI4MisqK3BpJTI5Jm9iajFfa2luZD1maWVsZCZvYmoxX2NvbG9yPSUyMzg3MDgwOCZvYmoxX3BhcmFtc19wPTAmb2JqMV9wYXJhbXNfcT0wJm9iajFfcGFyYW1zX3I9LS4wMSZvYmoxX3BhcmFtc19uVmVjPTY="
+                  frameborder="0"
+                  height="600px"
+                  width="400px"
+                ></iframe>
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+            <p>
+              $\vec F = \langle 0, 0, 15 \rangle = \nabla (15z)$ \[ W = \int_C
+              \vec F\cdot d\vec r = 15(70) - 15(0) = 1050
+              \text{lbs}\cdot\text{ft} \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <div class="container">
+              <div class="col">
+                <p style="font-size: smaller">
+                  Compute the line integral \[\int_C (x^2 - xy)\,dx + (y-
+                  \frac{x^2}{2} + 2)\,dy \] where $C$ is the polygonal path from
+                  $(2,0)$ to $(0,0)$ to $(2,1)$ to $(0,1)$.
+                </p>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/zpath.png"
+                  alt="Z-shaped path in a vector field"
+                  srcset=""
+                  class="r-stretch"
+                />
+              </div>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Conservation of Energy</h6>
+
+            <p style="font-size: smaller">
+              Suppose a force is given by $\vec F = -\nabla f$ and a particle of
+              mass $m$ traverses a path $\vec r(t), a \leq t \leq b$.
+            </p>
+
+            \[ \text{W} = \int\limits_C \vec F\cdot d\vec r\]
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Conservation of Energy</h6>
+
+            <p style="font-size: smaller">
+              Suppose a force is given by $\vec F = -\nabla f$ and a particle of
+              mass $m$ traverses a path $\vec r(t), a \leq t \leq b$.
+            </p>
+
+            \[ \text{W} = \int\limits_C \vec F\cdot d\vec r = f(\vec r(a)) -
+            f(\vec r(b))\]
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Conservation of Energy</h6>
+
+            <p style="font-size: smaller">
+              Suppose a force is given by $\vec F = -\nabla f$ and a particle of
+              mass $m$ traverses a path $\vec r(t), a \leq t \leq b$.
+            </p>
+
+            \[ \begin{align*}\text{W} &= \int_a^b m\vec r''(t)\cdot \vec
+            r'(t)\,dt \\ &= \int_a^b \frac{d}{dt}\left(\frac12 m \vec r'(t)
+            \cdot \vec r'(t) \right)\,dt \\ &= \frac12 m |\vec r'(b)|^2 -
+            \frac12 m |\vec r'(a)|^2 \end{align*}\]
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Conservation of Energy</h6>
+
+            <p style="font-size: smaller">
+              Suppose a force is given by $\vec F = -\nabla f$ and a particle of
+              mass $m$ traverses a path $\vec r(t), a \leq t \leq b$.
+            </p>
+
+            \[ \frac12 m |\vec r'(b)|^2 + f(\vec r(b)) = \frac12 m |\vec
+            r'(a)|^2 + f(\vec r(a)) \]
+          </section>
+          <section>
+            <h6 class="framelabel">Escape Velocity</h6>
+
+            <p style="font-size: smaller">
+              The Gravitational force from a mass $M$ at the origin on a mass
+              $m$ at position $\vec x$ is \[ \vec G = -\frac{GMm \vec x}{|\vec
+              x|^3}. \] Find the work done moving an object from the surface of
+              the earth to the end of the universe.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">On Earth</h6>
+            <div class="fragment" style="font-size: smaller">
+              \[\begin{align*}G &= 6.674 \times 10^{-11}
+              \frac{\text{N}\text{m}^2}{\text{kg}^2} \\ M &= 5.97\times10^{24}
+              \text{kg} \\ R &= 6.371\times 10^{6} \text{m} \end{align*}\]
+              Escape velocity is $\sqrt{\frac{2GM}{R}} = 11183.9
+              \frac{\text{m}}{\text{s}}$.
+            </div>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Interpret a line integral of a vector field as sum of line
+                integrals of scalar fields.
+              </li>
+              <li>
+                Determine if a vector field is conservative and find a potential
+                if so.
+              </li>
+              <li>Recognize when and how to apply FTLI.</li>
+              <li>Equate path-independence with closed loops yielding 0.</li>
+              <li>Solve mechanical problems with conservative forces.</li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: 'latest',
+          delimiters: [
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+          ],
+          ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

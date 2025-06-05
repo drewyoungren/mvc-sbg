@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Vector Fields &amp; Path Integrals</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 17
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/8FV9TXMOnKi"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>Vector Fields & Path Integrals</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <div class="container">
+              <div class="col">
+                <!-- <p style="text-align: left; font-size: x-small">
+                  <a
+                    href="https://onlineboard.eu/b/9WfDbISX"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >bbd</a
+                  >
+                </p> -->
+              </div>
+              <div class="col">
+                <p style="text-align: right">
+                  Drew Youngren <code>dcy2@columbia.edu</code>
+                </p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW 10 due Tues 4/8.</li>
+              <li class="fragment">
+                Exam 2 Thurs, 4/3
+                <ul>
+                  <li>Through HW9.</li>
+                  <li>Lecture <strong>9</strong>&ndash;16(.5)</li>
+                  <li>
+                    Review session tonight
+                    8&ndash;10pmhttps://3demos.ctl.columbia.edu/?c2NhbGU9MC41MiZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9ZmllbGQmb2JqMF9jb2xvcj0lMjMwMDBmY2Mmb2JqMF9wYXJhbXNfcD1zaW4lMjh4KnklMjkmb2JqMF9wYXJhbXNfcT0tYXRhbiUyOHNpbiUyODMqeiUyOSUyOSZvYmowX3BhcmFtc19yPXglNUUyKy0reSU1RTIrLSt6JTVFMyUyRjImb2JqMF9wYXJhbXNfblZlYz02
+                  </li>
+                </ul>
+              </li>
+              <li class="fragment">No quiz this week.</li>
+              <li class="fragment">Recitation is optional (office hours).</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section
+            data-background-iframe="https://3demos.ctl.columbia.edu/?currentChapter=How+To&scale=0.5&showPanel=false&obj0_kind=solid&obj0_color=%230d0887&obj0_params_coords=spher&obj0_params_a=0&obj0_params_b=2+pi&obj0_params_c=0&obj0_params_d=pi&obj0_params_e=0&obj0_params_f=1&obj1_kind=curve&obj1_color=%230ca701&obj1_params_a=0&obj1_params_b=2*pi&obj1_params_x=cos%28t%29&obj1_params_y=sin%28t%29&obj1_params_z=3&obj2_kind=level&obj2_color=%23870808&obj2_params_g=x%5E2+%2B+y%5E2+%2B+%28z+%2B+3%29%5E2&obj2_params_k=1&obj2_params_a=-1&obj2_params_b=1&obj2_params_c=-1&obj2_params_d=1&obj2_params_e=-4&obj2_params_f=-2"
+            data-background-opacity="0.5"
+          >
+            <h6 class="framelabel">MoI Integrals</h6>
+
+            <p>
+              Suppose the same mass $M$ were distributed evenly over the
+              following regions in space:
+            </p>
+            <ul>
+              <li>$B$ a solid ball of radius $R$.</li>
+              <li>$S$ a (hollow) sphere of radius $R$.</li>
+              <li>$C$ a ring (circle) of radius $R$.</li>
+            </ul>
+
+            <p>
+              Rank their
+              <a
+                href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9Y3VydmUmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MipwaSZvYmowX3BhcmFtc194PWNvcyUyOHQlMjkmb2JqMF9wYXJhbXNfeT1zaW4lMjh0JTI5Jm9iajBfcGFyYW1zX3o9LTEuNSZvYmowX3BhcmFtc19hMD0wJm9iajBfcGFyYW1zX2ExPTEmb2JqMV9raW5kPXN1cmZhY2Umb2JqMV9jb2xvcj0lMjNkYzk5OWUmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9cGkmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9MyUyRjIrcGkmb2JqMV9wYXJhbXNfeD1zaW4lMjh1JTI5K2NvcyUyOHYlMjkmb2JqMV9wYXJhbXNfeT1zaW4lMjh1JTI5K3NpbiUyOHYlMjkmb2JqMV9wYXJhbXNfej1jb3MlMjh1JTI5KyUyQisyLjImb2JqMV9wYXJhbXNfbXU9MSZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEmb2JqMl9raW5kPXNvbGlkJm9iajJfY29sb3I9JTIzNTgwMWE1Jm9iajJfcGFyYW1zX2Nvb3Jkcz1zcGhlciZvYmoyX3BhcmFtc19hPTAmb2JqMl9wYXJhbXNfYj0yK3BpJm9iajJfcGFyYW1zX2M9MCZvYmoyX3BhcmFtc19kPXBpKyZvYmoyX3BhcmFtc19lPTAmb2JqMl9wYXJhbXNfZj0xJm9iajJfcGFyYW1zX211PTE="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                moments of inertia
+              </a>
+              around a central axis from least to greatest.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Other Integrals</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Framework</h6>
+
+            <p>
+              Every integral has three essential parts, summarized as the
+              <em>where</em>, the <em>what</em>, and the <em>how</em>.
+            </p>
+
+            \[ \int\limits_D F\,d\omega \]
+
+            <ul>
+              <li class="fragment">
+                <strong>Where?</strong> the domain of integration $D$
+              </li>
+              <li class="fragment"><strong>What?</strong> the integrand $F$</li>
+              <li class="fragment">
+                <strong>How?</strong> the differential (form) $d\omega$
+              </li>
+            </ul>
+
+            <!-- <p class="fragment">
+              We'll be seeing a lot of different integrals in vector calculus,
+              you can keep yourself oriented by thinking about each of these for
+              every integral we encounter.
+            </p> -->
+          </section>
+          <section>
+            <h6 class="framelabel">We Need a New Integral</h6>
+            <p class="fragment" style="font-size: smaller">
+              Let $C$ be the (1-dimensional) ring above object \[\iiint_C f\,dV
+              = 0\] for <em>any</em> $f$.
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              Assume a constant
+              <em>linear density</em> of $\frac{M}{2\pi R} \frac{\text{unit of
+              mass}}{\text{unit of length}}$.
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              \[ \int_C (\text{distance to axis})^2 \times (\text{linear
+              density})\,d(\text{length}). \] This requires a new integral
+              called a <strong>line integral</strong> or
+              <strong>path integral</strong>.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Path Integrals</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Taxonomy</h6>
+
+            <p>
+              A <strong>line integral</strong>, also called a
+              <strong>path integral</strong>, is an integral whose domain of
+              integration is $C$, the <em>image</em> of a curve parametrized by
+              $\vec r(t)$.
+            </p>
+
+            <p>They come in different "flavors" ...</p>
+
+            <p class="fragment" style="font-size: smaller">
+              Go to
+              <a
+                href="https://3demos.ctl.columbia.edu/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >3Demos &rarr; Story &rarr; Path Integrals
+              </a>
+              for a demo of the flavors.
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">w/ respect to arc length</h3>
+
+            \[ \int\limits_{\mathcal C} f\,ds \]
+
+            <ul>
+              <li class="fragment">
+                <em>Where?</em> path in space $\mathcal C$
+                <ul class="nonelist">
+                  <li>
+                    given by $\vec r(t) = \langle x(t), y(t),\ldots \rangle$, $a
+                    \leq t \leq b$
+                  </li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <em>What?</em> scalar field $f(x,y,\ldots)$
+              </li>
+              <li class="fragment"><em>How?</em> w.r.t. arc length: $ds$</li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,ds \approx \sum_{i= 1}^N f(x_i^*,
+              y_i^*) \sqrt{\Delta x_i^2 + \Delta y_i^2} \]
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,ds \approx \sum_{i= 1}^N
+              f(x(t_i^*), y(t_i^*)) \sqrt{\frac{\Delta x_i^2}{\Delta t^2} +
+              \frac{\Delta y_i^2}{\Delta t^2}}\, \Delta t \]
+            </div>
+
+            <div class="fragment">
+              \[ \longrightarrow \int_a^b f(x(t), y(t)) \sqrt{x'(t)^2 +
+              y'(t)^2}\,dt \]
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,ds = \int_a^b f(x(t), y(t))
+              \sqrt{x'(t)^2 + y'(t)^2}\,dt \]
+            </div>
+
+            <div>\[ = \int_a^b f(\vec r(t)) |\vec r'(t)|\,dt \]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Interpretation</h6>
+
+            <p>
+              If $f$ is the height of a wall whose base runs along $\mathcal C$,
+              then $\int_{\mathcal C} f\,ds$ would be the area of the wall.
+            </p>
+
+            <p class="fragment">
+              <strong>N.B.</strong> Though $\int_C ds$ is always positive, $f$
+              could yield negative values, so $\int_C f\,ds$ can be negative.
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">w/ respect to a coordinate</h3>
+
+            \[ \int\limits_{\mathcal C} f\,dx \]
+
+            <ul>
+              <li class="fragment">
+                <em>Where?</em> <strong>oriented</strong> path in space
+                $\mathcal C$
+                <ul class="nonelist">
+                  <li>
+                    given by $\vec r(t) = \langle x(t), y(t),\ldots \rangle$, $a
+                    \leq t \leq b$
+                  </li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <em>What?</em> scalar field $f(x,y,\ldots)$
+              </li>
+              <li class="fragment">
+                <em>How</em>? w.r.t. the change in the $x$-direction: $dx$.
+              </li>
+            </ul>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,dx \approx \sum_{i= 1}^N f(x_i^*,
+              y_i^*) \Delta x_i \]
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,dx \approx \sum_{i= 1}^N
+              f(x(t_i^*), y(t_i^*)) \frac{\Delta x_i}{\Delta t} \, \Delta t \]
+            </div>
+
+            <div class="fragment">
+              \[ \longrightarrow \int_a^b f(x(t), y(t)) \,x'(t)\,dt \]
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Formula</h6>
+
+            <div>
+              \[ \int\limits_{\mathcal C} f\,dx = \int_a^b f(x(t), y(t))\,
+              x'(t)\,dt \]
+            </div>
+
+            <div>\[ = \int_a^b f(\vec r(t)) \,x'(t) \,dt \]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Interpretation</h6>
+
+            <p>
+              These integrals are certainly more abstract. They are most often
+              the building blocks of vector field integrals.
+            </p>
+
+            <p class="fragment">
+              <strong>N.B.</strong> Orientation of path matters here. Reversing
+              the direction negates the integral.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Let $C$ be the piece of the parabola $y=(x-1)^2$ from $(0,1)$ to
+              $(3,4)$, and let $f(x,y) = x+y$.
+            </p>
+
+            <p>
+              Compare the line integrals: \[\int_C f\, dx, \int_C f\, dy, \text{
+              and } \int_C f\, ds \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Solution</h6>
+
+            <p class="fragment">
+              \[ \int_C f\,dx = \int_0^3 (t + (t - 1)^2)\,dt = 7.5\]
+            </p>
+
+            <p class="fragment">
+              \[ \int_C f\,dy = \int_0^3 (t + (t - 1)^2) 2(t-1)\,dt = 16.5\]
+            </p>
+
+            <p class="fragment">
+              \[ \int_C f\,ds = \int_0^3 (t + (t - 1)^2)\sqrt{1 + 4(t-1)^2}\,dt
+              \approx 20.1 \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vector Fields</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              A <strong>vector field</strong> is simply a function \[ \vec F:
+              \RR^n \to \RR^n. \]
+            </p>
+
+            <div class="container fragment">
+              <div class="col">
+                <p style="font-size: smaller">
+                  We plot them by drawing arrows at regularly-spaces points in
+                  the domain. Here is:
+                </p>
+
+                \[\vec F(x,y) = \bv{\sin y \\ \cos x} \]
+              </div>
+              <div class="col">
+                <div
+                  id="box-vf"
+                  class="jxgbox"
+                  style="width: 500px; height: 500px"
+                ></div>
+
+                <script src="js/vf-examples.js" type="text/javascript"></script>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h6 class="framelabel">More Examples</h6>
+
+            <p>
+              One common use of vector fields is the velocity field of a fluid.
+              We picture the flow by "following the vector field".
+            </p>
+
+            <ul>
+              <li>
+                <a
+                  href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9ZmllbGQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfcD14KyUyRisyJm9iajBfcGFyYW1zX3E9eSslMkYrMiZvYmowX3BhcmFtc19yPS16Jm9iajBfcGFyYW1zX25WZWM9Ng=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Down and out
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://3demos.ctl.columbia.edu/?c2NhbGU9MCZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9ZmllbGQmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfcD0teSZvYmowX3BhcmFtc19xPXgmb2JqMF9wYXJhbXNfcj1zaW4lMjgzKmFyZyUyOHgrJTJCK2kqeSUyOSUyOSUyRjImb2JqMF9wYXJhbXNfblZlYz02"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Bob and weave
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://3demos.ctl.columbia.edu/?c2NhbGU9MC41MiZzaG93UGFuZWw9ZmFsc2UmZ3JpZD1mYWxzZSZvcnRobz1mYWxzZSZvYmowX2tpbmQ9ZmllbGQmb2JqMF9jb2xvcj0lMjMwMDBmY2Mmb2JqMF9wYXJhbXNfcD1zaW4lMjh4KnklMjkmb2JqMF9wYXJhbXNfcT0tYXRhbiUyOHNpbiUyODMqeiUyOSUyOSZvYmowX3BhcmFtc19yPXglNUUyKy0reSU1RTIrLSt6JTVFMyUyRjImb2JqMF9wYXJhbXNfblZlYz02"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Whirlpools
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 class="framelabel">Line Integral of a Vector Field</h3>
+
+            \[ \int\limits_{\mathcal C} \vec F \cdot\,d\vec r \]
+
+            <div style="font-size: smaller">
+              <ul>
+                <li class="fragment">
+                  <em>Where?</em> <strong>oriented</strong> path in space
+                  $\mathcal C$
+                  <ul class="nonelist">
+                    <li>
+                      given by $\vec r(t) = \langle x(t), y(t),\ldots \rangle$,
+                      $a \leq t \leq b$
+                    </li>
+                  </ul>
+                </li>
+                <li class="fragment">
+                  <em>What?</em> vector field $\vec F$
+                  <ul>
+                    <li>
+                      $\vec F(x,y,\ldots) = \langle P(x,y, \ldots), Q(x,y,
+                      \ldots), \ldots \rangle$
+                    </li>
+                  </ul>
+                </li>
+                <li class="fragment">
+                  <em>How?</em> along the path: $d\vec r$
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Formula</h6>
+
+            <div style="font-size: smaller">
+              \[ \int\limits_{\mathcal C} \vec F\cdot d\vec r = \int_a^b \langle
+              P(x(t), y(t)), Q(x(t), y(t)) \rangle \cdot \langle x'(t), y'(t)
+              \rangle\,dt \]
+            </div>
+
+            <div>\[ = \int_a^b \vec F(\vec r(t)) \cdot \vec r'(t)\,dt \]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Interpretation</h6>
+
+            <p>
+              $\int_C \vec F\cdot d\vec r$ measures how much a vector field
+              $\vec F$ <em>pushes along</em> a path $C$.
+            </p>
+
+            <img
+              src="assets/work-int-ex1.png"
+              alt="Two paths with common endpoints plotted over a vector field."
+              srcset=""
+              class="r-stretch"
+            />
+          </section>
+
+          <section data-auto-animate>
+            <h6 class="framelabel">Interpretation</h6>
+
+            <p>
+              $\int_C \vec F\cdot d\vec r$ measures how much a vector field
+              $\vec F$ <em>pushes along</em> a path $C$.
+            </p>
+
+            <ul>
+              <li class="fragment">
+                If $\vec F$ is a force, and $C$ is the path of an object, the
+                line integral is the <strong>work</strong> done by the force on
+                the object.
+              </li>
+              <li class="fragment">
+                Consider the
+                <a
+                  href="https://en.wikipedia.org/wiki/Wind_assistance#Road_running"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >question</a
+                >
+                of whether a marathon run was "wind-assisted."
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Work Integrals</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Work = Force &times; Distance</h6>
+
+            Suppose a particle moves along a path $C$ parametrized by $\vec
+            r(t)$ for $a \leq t \leq b$, and is subject to a force field $\vec
+            F$ at each point of the curve, then the total work done by the force
+            is
+            <div class="r-stack">
+              <div class="fragment current-visible">
+                \[W =\int\limits_C \vec F\cdot d\vec r \]
+              </div>
+              <div class="fragment">
+                \[W =\int\limits_C \vec F\cdot d\vec r = \int_a^b \vec F(\vec
+                r(t))\cdot \vec r'(t)\,dt \]
+              </div>
+            </div>
+          </section>
+          <section
+            data-background-image="assets/spring.gif"
+            data-background-opacity="0.6"
+            data-background-size="cover"
+          >
+            <h6 class="framelabel">Work = Force &times; Distance</h6>
+
+            <p class="fragment">
+              Hooke's Law: force of a spring is proportional to displacement. $F
+              = -k x$.
+            </p>
+
+            <p class="fragment">
+              Compute the work done by spring moving an object from position
+              $x_0$ to $x_1$.
+            </p>
+            <p class="fragment r-stretch">
+              $x(t) = x_0 + (x_1 - x_0)t$ for $0\leq t \leq 1$. \[ \int_0^1 -k(
+              x_0 + (x_1 - x_0)t) (x_1 - x_0)\,dt = \frac12kx_0^2 - \frac12 k
+              x_1^2 \]
+            </p>
+          </section>
+          <section
+            data-background-image="assets/ball_ramp.gif"
+            data-background-size="contain"
+            data-background-opacity="0.7"
+          >
+            <h6 class="framelabel">Example - Rolling rolling rolling</h6>
+
+            <p>
+              A ball falls down a parabolic ramp $y=x^2$ from $(-2,4)$ to the
+              origin. How much work was done by gravity?
+            </p>
+            <p class="fragment r-stretch">
+              $\vec r(t) = \left\langle t, t^2 \right\rangle$ for $-2\leq t \leq
+              0$. \[ \int_{-2}^{0} \left\langle 0, -mg \right\rangle \cdot
+              \left\langle 1, 2 t \right\rangle= mg4 \]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Alternate Forms</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">In Components</h6>
+
+            <div class="fragment" style="font-size: smaller">
+              \[ \vec F(x,y) = \langle P(x,y), Q(x,y) \rangle \text{ and } \vec
+              r(t) = \langle x(t), y(t) \rangle, a \leq t \leq b\]
+            </div>
+
+            <div class="fragment" style="font-size: smaller">
+              \[\int\limits_C \vec F\cdot d\vec r = \int_a^b \langle
+              P(x(t),y(t)), Q(x(t),y(t)) \rangle\cdot \langle x'(t),
+              y'(t)\rangle \,dt\]
+            </div>
+
+            <div class="fragment" style="font-size: smaller">
+              \[ = \int_a^b P(x(t),y(t)) \, x'(t)\,dt + Q(x(t),y(t))\, y'(t)
+              \,dt\]
+            </div>
+
+            <div class="fragment" style="font-size: smaller">
+              \[ = \int\limits_C P\,dx + Q\,dy\]
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Per Arc Length</h6>
+
+            <div class="fragment" style="font-size: smaller">
+              \[\int\limits_C \vec F\cdot d\vec r = \int_a^b \vec F(\vec
+              r(t))\cdot \vec r'(t) \,dt\]
+            </div>
+
+            <div class="fragment" style="font-size: smaller">
+              \[= \int_a^b \vec F(\vec r(t))\cdot \frac{ \vec r'(t) }{|\vec
+              r'(t)|} |\vec r'(t)| \,dt\]
+            </div>
+
+            <div class="fragment" style="font-size: smaller">
+              \[ = \int\limits_C \vec F \cdot \vec T\,ds \]
+            </div>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Sketch a vector field plot, and match a plot with its formula
+                from a list.
+              </li>
+              <li>
+                Convert path integrals of each kind to 1-dimensional integrals
+                via parametrization:
+                <ul>
+                  <li>w/ respect to arc length.</li>
+                  <li>w/ respect to individual coordinates.</li>
+                </ul>
+              </li>
+              <li>
+                Identify which of these depend on orientation of the curve and
+                how.
+              </li>
+              <li>
+                Estimate sign and/or magnitude of line integrals without direct
+                computation.
+              </li>
+              <li>
+                Convert work problems into appropriate forms of line integrals.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+        ],
+      });
+    </script>
+  </body>
+</html>

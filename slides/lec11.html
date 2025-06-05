@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - The Gradient</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script> -->
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 11
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/4KYVfynDKtm"
+                target="_blank"
+                rel="noopener noreferrer"
+                >&nbsp;&nbsp;&nbsp;&nbsp;</a
+              >
+            </h3>
+            <h1>The Gradient</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">No quiz this week</li>
+              <li class="fragment">Recitation 6 this week</li>
+              <li class="fragment">HW6 due next Tuesday</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">The Chain Rule</h3>
+
+            <p>
+              If $f(x_1, \ldots, x_n)$ is a differntiable function and each
+              $x_i$ depends smoothly on $t$, then \[ \frac{d(f\circ \vec x)}{dt}
+              = \sum_{i=1}^n \frac{\partial f}{\partial x_i} \frac{d x_i}{dt} \]
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">Notation</h3>
+
+            <p>
+              We write \[\nabla f = \left\langle \frac{\partial f}{\partial
+              x_1}, \ldots, \frac{\partial f}{\partial x_n} \right\rangle \]
+            </p>
+            <p class="fragment">
+              Thus, the chain rule becomes \[ \frac{d}{dt} f ( \vec x(t)) =
+              \nabla f(\vec x(t)) \cdot \vec x'(t) \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Quick Example</h6>
+
+            <p>
+              Show that any function of the form $f(x,y) = g(x^2 + y^2)$ where
+              $g$ is a differentiable function is symmetric in $\theta$ (the
+              usual polar coordinate). That is, \[ \frac{\partial f}{\partial
+              \theta} = 0.\]
+            </p>
+          </section>
+          <section>
+            <p><strong>Solution</strong>.</p>
+            <p class="fragment">
+              $x = r\cos \theta, y = r\sin \theta$. So, \[\frac{\partial
+              f}{\partial \theta} = \frac{\partial f}{\partial x}\frac{\partial
+              x}{\partial \theta} + \frac{\partial f}{\partial y}\frac{\partial
+              y}{\partial \theta} \] \[ = g'(x^2 + y^2)2x (-r\sin\theta) +
+              g'(x^2 + y^2)2y (r\cos\theta)\] \[ = g'(r^2)2r^2
+              (-\sin\theta\cos\theta + \cos\theta\sin\theta) = 0\]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section
+            data-background-image="assets/adiron.png"
+            data-background-opacity="0.6"
+          >
+            <h1>Directional Derivatives</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Definition</h6>
+
+            <p>
+              Let $\vec u$ be a unit vector ($|\vec u | = 1$). The
+              <strong>directional derivative</strong> of $f(\vec x)$ in the
+              direction $\vec u$ is given by. \[D_{\vec u} f(\vec x) = \lim_{h
+              \to 0} \frac{f(\vec x + h \vec u) - f(\vec x)}{h}\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Interpretation</h6>
+            <p>
+              <!-- <a href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc196PWV4cCUyOC0lMjh4Ky0reSU1RTIlMjklNUUyJTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9Y29zJTI4dCUyOSZvYmoxX3BhcmFtc19iPXNpbiUyOHQlMjkmb2JqMV9wYXJhbXNfYz1uKyorJTI4LTAuNzIyNTcyKmNvcyUyOHQlMjkrJTJCKzAuMzYxMjg2KnNpbiUyOHQlMjklMjkmb2JqMV9wYXJhbXNfeD0xJTJGMiZvYmoxX3BhcmFtc195PTElMkY0Jm9iajFfcGFyYW1zX3o9bisqKyUyOGV4cCUyOC0lMjg3JTJGMTYlMjklNUUyJTI5JTI5Jm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MitwaSZvYmoxX3BhcmFtc19uMD0wJm9iajFfcGFyYW1zX24xPTE=">Graphically</a>, this is just like taking a partial derivative but in
+              <em>any</em> direction instead of just parallel to the axes. -->
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX2FuaW1hdGlvbj10cnVlJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3o9ZXhwJTI4LSUyOHgrLSt5JTVFMiUyOSU1RTIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD12ZWN0b3Imb2JqMV9jb2xvcj0lMjMwMDAwMDAmb2JqMV9hbmltYXRpb249dHJ1ZSZvYmoxX3BhcmFtc19hPWNvcyUyOHQlMjkmb2JqMV9wYXJhbXNfYj1zaW4lMjh0JTI5Jm9iajFfcGFyYW1zX2M9bisqKyUyOC41JTJGZXhwJTI4MSUyRjE2JTI5KmNvcyUyOHQlMjkrLSsuNSUyRitleHAlMjgxJTJGMTYlMjkrKnNpbiUyOHQlMjklMjkmb2JqMV9wYXJhbXNfeD0wJm9iajFfcGFyYW1zX3k9MSUyRjImb2JqMV9wYXJhbXNfej1uKyorJTI4ZXhwJTI4LTElMkYxNiUyOSUyOSZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTIrcGkmb2JqMV9wYXJhbXNfbjA9MCZvYmoxX3BhcmFtc19uMT0xIA=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Graphically</a
+              >, this is just like taking a partial derivative but in
+              <em>any</em> direction instead of just parallel to the axes.
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">Formula</h3>
+            <p class="fragment">
+              Let $\vec r(t) = \vec x + t \vec u$, a line. Then,
+            </p>
+            <p class="fragment">
+              \[ (f\circ\vec r)'(0) = D_{\vec u}f(\vec x)\]
+            </p>
+            <p class="fragment">
+              \[ D_{\vec u}f(\vec x) = \nabla f(\vec x) \cdot \vec u \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Find the directional derivative of the function $f(x,y) =
+              e^{x-y^2}$ at the point $(0, 1)$ in the direction of $\left\langle
+              2, -1 \right\rangle$.
+            </p>
+            <p class="fragment" style="font-size: smaller">
+              <strong
+                ><a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX2FuaW1hdGlvbj10cnVlJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3o9ZXhwJTI4eCstK3klNUUyJTI5Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9Y3VydmUmb2JqMV9jb2xvcj0lMjMxY2YwMDAmb2JqMV9wYXJhbXNfYT0tMiZvYmoxX3BhcmFtc19iPTImb2JqMV9wYXJhbXNfeD0yK3Qmb2JqMV9wYXJhbXNfeT0xKy0rdCZvYmoxX3BhcmFtc196PWV4cCUyODIrdCstKyUyODErLSt0JTI5JTVFMiUyOSZvYmoyX2tpbmQ9Y3VydmUmb2JqMl9jb2xvcj0lMjNmZjg4MDAmb2JqMl9wYXJhbXNfYT0rLTImb2JqMl9wYXJhbXNfYj0yJm9iajJfcGFyYW1zX3g9Mit0Jm9iajJfcGFyYW1zX3k9MSstK3Qmb2JqMl9wYXJhbXNfej1leHAlMjgtMSUyOSslMkIrdCsqKyUyODQrJTJGKyUyOGUlMjklMjkmb2JqM19raW5kPXBvaW50Jm9iajNfY29sb3I9JTIzMDAwMDAwJm9iajNfcGFyYW1zX2E9MCZvYmozX3BhcmFtc19iPTEmb2JqM19wYXJhbXNfYz1leHAlMjgtMSUyOSZvYmozX3BhcmFtc190MD0wJm9iajNfcGFyYW1zX3QxPTE="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Solution</a
+                >.</strong
+              >
+              $\vec u = \left\langle 2/\sqrt5, -1/\sqrt5 \right\rangle$, so we
+              compute \[ \nabla f\cdot \vec u = \left\langle e^{x-y^2},
+              -2ye^{x-y^2} \right\rangle \cdot \left\langle 2/\sqrt5, -1/\sqrt5
+              \right\rangle \]
+            </p>
+            <p class="fragment">At $(0,1)$ gives $\frac{4}{e\sqrt5} $.</p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Properties</h1></section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Some Questions</h6>
+            <p>
+              Must there always be some $\vec u$ such that \[D_{\vec u} f = 0 ?
+              \]
+            </p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Some Questions</h6>
+            <p>What can we say about about \[D_{-\vec u} f ? \]</p>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Some Questions</h6>
+            <p>
+              What of a function where $D_{\vec u} f = 1 $ in all directions?
+            </p>
+            <div class="fragment">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuMzQmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS1zcXJ0JTI4NCstK3glNUUyJTI5Jm9iajBfcGFyYW1zX2Q9c3FydCUyODQrLSt4JTVFMiUyOSZvYmowX3BhcmFtc196PXNxcnQlMjh4JTVFMislMkIreSU1RTIlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD12ZWN0b3Imb2JqMV9jb2xvcj0lMjMwZDA4ODcmb2JqMV9hbmltYXRpb249dHJ1ZSZvYmoxX3BhcmFtc19hPWNvcyUyOHQlMjkmb2JqMV9wYXJhbXNfYj1zaW4lMjh0JTI5Jm9iajFfcGFyYW1zX2M9MSZvYmoxX3BhcmFtc194PTAmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9MCZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTIrcGk="
+                frameborder="0"
+                width="666px"
+                height="500px"
+              ></iframe>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1 class="fragment">$\nabla f$</h1>
+            <h2>The Gradient</h2>
+          </section>
+          <section>
+            <h3 class="framelabel">Defining properties of $\nabla f$</h3>
+
+            <div style="font-size: larger">
+              <ul>
+                <li class="fragment">Orthogonal to level sets.</li>
+                <li class="fragment">
+                  Points in the direction of greatest rate of change.
+                </li>
+                <li class="fragment">Magnitude is greatest rate of change.</li>
+              </ul>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Orthogonal to level sets</h3>
+
+            <p class="fragment">
+              Let $\vec r(t)$ be completely contained in the level set $f(\vec
+              x) = k$.
+            </p>
+            <p class="fragment">
+              Then $\displaystyle \frac{d}{dt} \left(f(\vec r(t))\right) = 0$
+              <span class="fragment">$ = \nabla f \cdot \vec r'(t)$</span>
+            </p>
+            <p class="fragment">
+              So $\nabla f$ is orthogonal to <em>every</em> tangent vector to
+              the level set.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Sketch some
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1maWVsZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19wPTJ4Jm9iajBfcGFyYW1zX3E9Mnkmb2JqMF9wYXJhbXNfcj0tMnomb2JqMF9wYXJhbXNfblZlYz02Jm9iajFfa2luZD1sZXZlbCZvYmoxX2NvbG9yPSUyM2RjNWU2NiZvYmoxX3BhcmFtc19nPXglNUUyKyUyQit5JTVFMistK3olNUUyJm9iajFfcGFyYW1zX2s9MS4yJm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTImb2JqMV9wYXJhbXNfYz0tMiZvYmoxX3BhcmFtc19kPTImb2JqMV9wYXJhbXNfZT0tMiZvYmoxX3BhcmFtc19mPTImb2JqMl9raW5kPWxldmVsJm9iajJfY29sb3I9JTIzNTgwMWE1Jm9iajJfcGFyYW1zX2c9eCU1RTIrJTJCK3klNUUyKy0reiU1RTImb2JqMl9wYXJhbXNfaz0uMiZvYmoyX3BhcmFtc19hPTAmb2JqMl9wYXJhbXNfYj0yJm9iajJfcGFyYW1zX2M9LTImb2JqMl9wYXJhbXNfZD0yJm9iajJfcGFyYW1zX2U9LTImb2JqMl9wYXJhbXNfZj0yJm9iajNfa2luZD1sZXZlbCZvYmozX2NvbG9yPSUyM2Y2OGU0NSZvYmozX3BhcmFtc19nPXglNUUyKyUyQisreSU1RTIrLSt6JTVFMiZvYmozX3BhcmFtc19rPS0wLjImb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9MiZvYmozX3BhcmFtc19jPS0yJm9iajNfcGFyYW1zX2Q9MiZvYmozX3BhcmFtc19lPS0yJm9iajNfcGFyYW1zX2Y9Mg=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >level surfaces</a
+              >
+              and gradient vectors of the function \[ f(x,y,z) = x^2 + y^2 -
+              z^2.\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Exercise</h6>
+
+            <p>
+              Find an equation for the tangent plane to the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPXorJTJCKzErLSt4K3krJTJCK3grZXhwJTI4eSUyOStjb3MlMjh6JTI5Jm9iajBfcGFyYW1zX2s9cGklMkYyJm9iajBfcGFyYW1zX2E9LTImb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTImb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX2U9LTImb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1wb2ludCZvYmoxX2NvbG9yPSUyM2Q0ZmYwMCZvYmoxX3BhcmFtc19hPTEmb2JqMV9wYXJhbXNfYj0xJm9iajFfcGFyYW1zX2M9cGkrJTJGKzImb2JqMV9wYXJhbXNfdDA9MCZvYmoxX3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+                >surface</a
+              >
+              \[ z + x e^y \cos(z) = x y - 1 + \frac{\pi}{2} \] at the point
+              $(1, 1, \pi/2)$.
+            </p>
+          </section>
+          <section>
+            <h3 class="framelabel">Maximum Rate of Change</h3>
+
+            <p>
+              We seek to evaluate \[ \max \limits_{|\vec u|=1} D_{\vec u} f(\vec
+              x)\]
+            </p>
+            <p class="fragment">
+              \[ = \max \limits_{|\vec u|=1} \nabla f( \vec x)\cdot \vec u \]
+            </p>
+            <div class="r-stack">
+              <p class="fragment current-visible">
+                \[ = \max \limits_{|\vec u|=1} |\nabla f (\vec x)| |\vec u| \cos
+                \theta \]
+              </p>
+              <p class="fragment fade-in">
+                \[ = |\nabla f (\vec x)| \text{ at }\theta = 0.\]
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Maximum Rate of Change</h3>
+
+            <p>$\theta = 0$ means $\vec u = \frac{\nabla f}{|\nabla f|}$</p>
+
+            <p class="fragment">
+              \[ \max \limits_{|\vec u|=1} D_{\vec u} f(\vec x) =
+              D_{\frac{\nabla f}{|\nabla f|}} f = \nabla f \cdot \frac{\nabla
+              f}{|\nabla f|}\]
+            </p>
+            <p class="fragment">
+              \[ = \frac{\nabla f \cdot \nabla f}{|\nabla f|} = \frac{|\nabla
+              f|^2}{|\nabla f|} = |\nabla f| \]
+            </p>
+          </section>
+          <!-- <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              What is the steepest part of the graph of $f(x,y) =
+              \frac{\tan^{-1}x}{1 + y^2}$?
+            </p>
+
+            <p class="fragment"></p>
+          </section> -->
+        </section>
+        <section>
+          <section>
+            <h1>Gradient A/Descent</h1>
+          </section>
+
+          <section>
+            <h6 class="framelabel">Heat-seeking Dots</h6>
+
+            <p style="font-size: smaller">
+              Consider a scattered array of objects in the domain of a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPTAmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTImb2JqMF9wYXJhbXNfej01KiUyOHglMkJ5JTI5KiUyOHgtMiUyRjMlMjkqJTI4eS0yJTJGMyUyOSUyRiUyODElMkI3KiUyOHgtMSUyRjIlMjklNUU0JTJCNyolMjh5LTElMkYyJTI5JTVFNCUyOSZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTE="
+                >scalar field</a
+              >
+              with the simple instructions to "follow the gradient".
+            </p>
+            <video
+              src="assets/gradient_ascent.mp4"
+              type="video/mp4"
+              controls="true"
+              class="r-stretch"
+            ></video>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p>
+              Find a path in the plane starting from $(2,1)$ that follows the
+              <em>negative</em> gradient of the function \[ f(x,y) = x^2 +
+              \frac{y^2}{4}.\]
+            </p>
+
+            <p class="fragment">
+              <strong>Solution.</strong> We set up the ODE $\vec r'(t) = -\nabla
+              f$ with $\vec r(0) = \langle 2,1 \rangle$.
+            </p>
+          </section>
+          <section>
+            <p>
+              This is a separable system. \[ \begin{align*} x'(t) &= -2 x(t) \\
+              y'(t) &= -\frac{y(t)}{2} \\ \end{align*} \longrightarrow
+              \begin{align*} x(t) &= 2e^{-2t} \\ y(t) &= e^{-t/2} \\
+              \end{align*} \]
+            </p>
+            <p class="fragment">
+              We can see this
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1ncmFwaCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc196PXglNUUyKyUyQit5JTVFMislMkYrNCZvYmowX3BhcmFtc190MD0wJm9iajBfcGFyYW1zX3QxPTEmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTUmb2JqMV9wYXJhbXNfeD0yK2UlNUUlMjgtMit0JTI5Jm9iajFfcGFyYW1zX3k9ZSU1RSUyOC10JTJGMiUyOSZvYmoxX3BhcmFtc196PSUyODIrZSU1RSUyOC0yK3QlMjklMjklNUUyKyUyQitlJTVFJTI4LXQlMjkrJTJGKzQmb2JqMl9raW5kPWN1cnZlJm9iajJfY29sb3I9JTIzNTgwMWE1Jm9iajJfcGFyYW1zX2E9MCZvYmoyX3BhcmFtc19iPTUmb2JqMl9wYXJhbXNfeD0yK2UlNUUlMjgtMit0JTI5Jm9iajJfcGFyYW1zX3k9ZSU1RSUyOC10JTJGMiUyOSZvYmoyX3BhcmFtc196PTA="
+                target="_blank"
+                rel="noopener noreferrer"
+                >trajectory</a
+              >
+              by relating $x$ and $y$ by $x = 2y^4$.
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Distinguish between the definition and the formula for
+                directional derivatives.
+              </li>
+              <li>Rattle off the 3 principal properties of the gradient.</li>
+              <li>Use the gradient to find tangent planes to level curves.</li>
+              <li>
+                Given the gradient at a point, identify directions with
+                particular growth rates.
+              </li>
+              <li>
+                Sketch a gradient field in 2 dimensions given a contour plot.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

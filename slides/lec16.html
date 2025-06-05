@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Applications of Integration</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>
+            <h3 class="framelabel">
+              Lecture 16
+              <a
+                href="https://link.excalidraw.com/l/2VYuQqjhg2J/8Gh2velLaB0"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
+            </h3>
+            <h1>Applications of Integration</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">HW 9 due Tues.</li>
+              <li class="fragment">
+                Quiz 6 this week.
+                <ul>
+                  <li>Double/triple integrals</li>
+                  <li>Coordinate systems</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                Exam 2 Thurs, 04/03
+                <ul>
+                  <li>Same format as last time</li>
+                  <li>New seat assignments</li>
+                  <li>
+                    Not cumulative in the narrow sense
+                    <span class="fragment"> but all math is cumulative.</span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+
+          <section data-auto-animate>
+            <h6 class="framelabel">Other Coordinates</h6>
+
+            <div style="font-size: smaller">
+              <ul>
+                <li>
+                  Polar coordinates $(r,\theta)$ \[ \iint_\mathcal R
+                  f(x,y)\,dxdy = \iint_\mathcal R f(r\cos \theta, r \sin
+                  \theta)\,r\,dr\,d\theta \]
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Other Coordinates</h6>
+
+            <div style="font-size: smaller">
+              <ul>
+                <li>
+                  Cylindrical coordinates $(r,\theta, z)$\[ \iiint_\mathcal E
+                  f(x,y,z)\,dxdydz = \iiint_\mathcal E f(r\cos \theta, r \sin
+                  \theta,z)\,r\,dz\,dr\,d\theta \]
+                </li>
+              </ul>
+            </div>
+          </section>
+          <section data-auto-animate>
+            <h6 class="framelabel">Other Coordinates</h6>
+
+            <div style="font-size: smaller">
+              <ul>
+                <li>
+                  Spherical coordinates $(\rho, \phi, \theta)$ \[
+                  \iiint_\mathcal E f(x,y,z)\,dxdydz = \]\[\iiint_\mathcal E
+                  f(\rho \sin \phi \cos \theta, \rho \sin \phi \sin \theta, \rho
+                  \cos \phi ) \, \rho^2 \sin \phi \, d\rho \, d\phi \, d\theta
+                  \]
+                </li>
+              </ul>
+            </div>
+
+            <p class="fragment">
+              where the bounds of integration for $\mathcal R$ or $\mathcal E$
+              are translated appropriately.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Find the volume of the "<a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNTImc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9c3BoZXImb2JqMF9wYXJhbXNfYT1waSslMkYrMiZvYmowX3BhcmFtc19iPTIrcGkmb2JqMF9wYXJhbXNfYz1waSslMkYrNCZvYmowX3BhcmFtc19kPXBpKyUyRisyJm9iajBfcGFyYW1zX2U9MiZvYmowX3BhcmFtc19mPTQrJTJGK3NpbiUyOHBoaSUyOQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >stadium</a
+              >" defined as the region above the $xy$-plane bound by a sphere of
+              radius 2, a cylinder of radius 4, and the cone $x^2 + y^2 = z^2$,
+              cut as shown.
+            </p>
+
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAuNTImc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9c3BoZXImb2JqMF9wYXJhbXNfYT1waSslMkYrMiZvYmowX3BhcmFtc19iPTIrcGkmb2JqMF9wYXJhbXNfYz1waSslMkYrNCZvYmowX3BhcmFtc19kPXBpKyUyRisyJm9iajBfcGFyYW1zX2U9MiZvYmowX3BhcmFtc19mPTQrJTJGK3NpbiUyOHBoaSUyOQ=="
+                frameborder="0"
+                width="100%"
+                height="100%"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <strong>Solution.</strong>
+
+            <p class="fragment">
+              \[ \int_{\pi/2}^{2\pi} \int_{\pi/4}^{\pi/2}\int_2^{4\csc \phi}
+              \rho^2 \sin\phi \,d\rho\,d\phi\,d\theta = \]
+            </p>
+            <p class="fragment">\[ = (32 - 2\sqrt{2})\pi \]</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>\[ \spadesuit = \int d\spadesuit \]</h1>
+          </section>
+          <section>
+            <h3 class="framelabel">Applied Integration</h3>
+            <div class="fragment">\[ \spadesuit = \int d\spadesuit \]</div>
+
+            <p class="fragment"><em>The whole is the sum of its parts.</em></p>
+          </section>
+          <section>
+            <h3 class="framelabel">Density</h3>
+            <p>
+              <strong>Density</strong>, a rate of
+              $\frac{\text{mass}}{\text{volume}}$ can vary continuously as a
+              function of location $\mu(x,y,z)$. \[ \text{mass}_{\text{total}} =
+              \iiint\limits_{\mathcal E} dm = \iiint\limits_{\mathcal E} \mu
+              \,dV \]
+            </p>
+            <p class="fragment">
+              but density can be more general:
+              <span class="fragment">$\frac{\text{stuff}}{\text{space}}$.</span>
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Examples</h6>
+
+            <div class="r-stretch" style="font-size: smaller">
+              <ul>
+                <li class="fragment">
+                  Resistivity $\mu(x)$ along a wire, $\frac{\Omega}{{\rm m}}$.
+                  \[\Omega = \int_0^\ell \mu(x)\, dx\]
+                </li>
+                <li class="fragment">
+                  Probability density function $\mu(x,y)$ of two random
+                  variables. \[P(E) = \iint\limits_E \mu(x,y)\, dA\]
+                </li>
+                <li class="fragment">
+                  Concentration of chemicals, like $[\text{H}_2\text{CO}_3] =
+                  \mu(x,y,z)$. \[\text{total carbonic acid} = \iiint\limits_D
+                  \mu(x,y,z)\,dV\]
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section
+            data-background-image="https://culinarylore.com/wp-content/uploads/2014/02/waiter-drinks-tray.jpg"
+            data-background-opacity="0.6"
+          >
+            <h1>Center of Mass</h1>
+          </section>
+          <section data-auto-animate="">
+            <h3 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPSUyOHgrJTJCKzElMjklNUUyKyUyQislMjh5Ky0rMSUyOSU1RTIrJTJCKyslMjh6Ky0rMSUyOSU1RTImb2JqMF9wYXJhbXNfaz0xJTJGMTYmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTAmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1sZXZlbCZvYmoxX2NvbG9yPSUyMzBkMDg4NyZvYmoxX3BhcmFtc19nPSUyOHgrLSsxJTI5JTVFMislMkIrJTI4eSstKzElMjklNUUyKyUyQisrJTI4eistKzElMjklNUUyJm9iajFfcGFyYW1zX2s9MSUyRjQmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MiZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0yJm9iajFfcGFyYW1zX2U9MCZvYmoxX3BhcmFtc19mPTImb2JqMl9raW5kPXN1cmZhY2Umb2JqMl9jb2xvcj0lMjM1ODAxYTUmb2JqMl9wYXJhbXNfYT0tMSZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfYz0wJm9iajJfcGFyYW1zX2Q9MitwaSZvYmoyX3BhcmFtc194PXUmb2JqMl9wYXJhbXNfeT0xKyUyQisuMDIrY29zJTI4diUyOSZvYmoyX3BhcmFtc196PTErLSsuMDIrc2luJTI4diUyOSZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTEmb2JqM19raW5kPXN1cmZhY2Umb2JqM19jb2xvcj0lMjNmNjhlNDUmb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9MiorcGkmb2JqM19wYXJhbXNfYz0wJm9iajNfcGFyYW1zX2Q9MSZvYmozX3BhcmFtc194PXQrJTJCKyUyODErLSt2JTI5K2NvcyUyOHUlMjklMkY4Jm9iajNfcGFyYW1zX3k9MSslMkIrJTI4MSstK3YlMjkrc2luJTI4dSUyOSUyRjgmb2JqM19wYXJhbXNfej12Jm9iajNfcGFyYW1zX3QwPS0xJm9iajNfcGFyYW1zX3QxPTE="
+                target="_blank"
+                >Discrete Mass Distribution</a
+              >
+            </h3>
+            <p>
+              Suppose point masses $m_1$ and $m_2$ are located at positions
+              $x_1$ and $x_2$, resp., along a line. The
+              <strong>center of mass</strong> $\bar x$ is the position that
+              balances the "moments".
+            </p>
+            <p>\[m_1 (x_1 - \bar x) + m_2(x_2 - \bar x) = 0\]</p>
+          </section>
+          <section data-auto-animate="">
+            <h3 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPSUyOHgrJTJCKzElMjklNUUyKyUyQislMjh5Ky0rMSUyOSU1RTIrJTJCKyslMjh6Ky0rMSUyOSU1RTImb2JqMF9wYXJhbXNfaz0xJTJGMTYmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTAmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1sZXZlbCZvYmoxX2NvbG9yPSUyMzBkMDg4NyZvYmoxX3BhcmFtc19nPSUyOHgrLSsxJTI5JTVFMislMkIrJTI4eSstKzElMjklNUUyKyUyQisrJTI4eistKzElMjklNUUyJm9iajFfcGFyYW1zX2s9MSUyRjQmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MiZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0yJm9iajFfcGFyYW1zX2U9MCZvYmoxX3BhcmFtc19mPTImb2JqMl9raW5kPXN1cmZhY2Umb2JqMl9jb2xvcj0lMjM1ODAxYTUmb2JqMl9wYXJhbXNfYT0tMSZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfYz0wJm9iajJfcGFyYW1zX2Q9MitwaSZvYmoyX3BhcmFtc194PXUmb2JqMl9wYXJhbXNfeT0xKyUyQisuMDIrY29zJTI4diUyOSZvYmoyX3BhcmFtc196PTErLSsuMDIrc2luJTI4diUyOSZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTEmb2JqM19raW5kPXN1cmZhY2Umb2JqM19jb2xvcj0lMjNmNjhlNDUmb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9MiorcGkmb2JqM19wYXJhbXNfYz0wJm9iajNfcGFyYW1zX2Q9MSZvYmozX3BhcmFtc194PXQrJTJCKyUyODErLSt2JTI5K2NvcyUyOHUlMjklMkY4Jm9iajNfcGFyYW1zX3k9MSslMkIrJTI4MSstK3YlMjkrc2luJTI4dSUyOSUyRjgmb2JqM19wYXJhbXNfej12Jm9iajNfcGFyYW1zX3QwPS0xJm9iajNfcGFyYW1zX3QxPTE="
+                target="_blank"
+                >Discrete Mass Distribution</a
+              >
+            </h3>
+
+            <p>
+              Suppose point masses $m_1$ and $m_2$ are located at positions
+              $x_1$ and $x_2$, resp., along a line. The
+              <strong>center of mass</strong> $\bar x$ is the position that
+              balances the "moments".
+            </p>
+            <p>\[\bar x = \frac{m_1 x_1 + m_2 x_2}{m_1 + m_2}\]</p>
+          </section>
+          <section data-auto-animate="">
+            <h3 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1sZXZlbCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19nPSUyOHgrJTJCKzElMjklNUUyKyUyQislMjh5Ky0rMSUyOSU1RTIrJTJCKyslMjh6Ky0rMSUyOSU1RTImb2JqMF9wYXJhbXNfaz0xJTJGMTYmb2JqMF9wYXJhbXNfYT0tMiZvYmowX3BhcmFtc19iPTAmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0yJm9iajFfa2luZD1sZXZlbCZvYmoxX2NvbG9yPSUyMzBkMDg4NyZvYmoxX3BhcmFtc19nPSUyOHgrLSsxJTI5JTVFMislMkIrJTI4eSstKzElMjklNUUyKyUyQisrJTI4eistKzElMjklNUUyJm9iajFfcGFyYW1zX2s9MSUyRjQmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MiZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0yJm9iajFfcGFyYW1zX2U9MCZvYmoxX3BhcmFtc19mPTImb2JqMl9raW5kPXN1cmZhY2Umb2JqMl9jb2xvcj0lMjM1ODAxYTUmb2JqMl9wYXJhbXNfYT0tMSZvYmoyX3BhcmFtc19iPTEmb2JqMl9wYXJhbXNfYz0wJm9iajJfcGFyYW1zX2Q9MitwaSZvYmoyX3BhcmFtc194PXUmb2JqMl9wYXJhbXNfeT0xKyUyQisuMDIrY29zJTI4diUyOSZvYmoyX3BhcmFtc196PTErLSsuMDIrc2luJTI4diUyOSZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTEmb2JqM19raW5kPXN1cmZhY2Umb2JqM19jb2xvcj0lMjNmNjhlNDUmb2JqM19wYXJhbXNfYT0wJm9iajNfcGFyYW1zX2I9MiorcGkmb2JqM19wYXJhbXNfYz0wJm9iajNfcGFyYW1zX2Q9MSZvYmozX3BhcmFtc194PXQrJTJCKyUyODErLSt2JTI5K2NvcyUyOHUlMjklMkY4Jm9iajNfcGFyYW1zX3k9MSslMkIrJTI4MSstK3YlMjkrc2luJTI4dSUyOSUyRjgmb2JqM19wYXJhbXNfej12Jm9iajNfcGFyYW1zX3QwPS0xJm9iajNfcGFyYW1zX3QxPTE="
+                target="_blank"
+                >Discrete Mass Distribution</a
+              >
+            </h3>
+            <p>
+              Suppose point masses $m_1$ and $m_2$ are located at positions
+              $x_1$ and $x_2$, resp., along a line. The
+              <strong>center of mass</strong> $\bar x$ is the position that
+              balances the "moments".
+            </p>
+            <p>
+              \[\bar x = \frac{m_1}{m_1 + m_2} x_1 + \frac{m_2}{m_1 + m_2} x_2\]
+            </p>
+            <p class="fragment">
+              aka, a <em>weighted average</em> of the positions.
+            </p>
+          </section>
+          <section data-auto-animate="">
+            <h3 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzNTgwMWE1Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD11Jm9iajBfcGFyYW1zX3k9MSslMkIrLjIrKitleHAlMjgtJTI4dSstKzElMkYzJTI5JTVFMiUyOSsqK2NvcyUyOHYlMjkmb2JqMF9wYXJhbXNfej0xKy0rLjIrKitleHAlMjgtJTI4dSstKzElMkYzJTI5JTVFMiUyOSsqK3NpbiUyOHYlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZjY4ZTQ1Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTIqK3BpJm9iajFfcGFyYW1zX2M9MCZvYmoxX3BhcmFtc19kPTEmb2JqMV9wYXJhbXNfeD10KyUyQislMjgxKy0rdiUyOStjb3MlMjh1JTI5JTJGOCZvYmoxX3BhcmFtc195PTErJTJCKyUyODErLSt2JTI5K3NpbiUyOHUlMjklMkY4Jm9iajFfcGFyYW1zX3o9diZvYmoxX3BhcmFtc190MD0tMSZvYmoxX3BhcmFtc190MT0x"
+                target="_blank"
+                >Continuous Mass Distribution</a
+              >
+            </h3>
+            <p>
+              Suppose mass is distributed continuously along the interval $a
+              \leq x \leq b$ with density $\mu(x)$. The
+              <strong>center of mass</strong> $\bar x$ is the position that
+              balances the "moments".
+            </p>
+            <p>\[\int_a^b (x - \bar x) \mu(x)\,dx = 0\]</p>
+          </section>
+          <section data-auto-animate="">
+            <h3 class="framelabel">
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzNTgwMWE1Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0xJm9iajBfcGFyYW1zX2M9MCZvYmowX3BhcmFtc19kPTIrcGkmb2JqMF9wYXJhbXNfeD11Jm9iajBfcGFyYW1zX3k9MSslMkIrLjIrKitleHAlMjgtJTI4dSstKzElMkYzJTI5JTVFMiUyOSsqK2NvcyUyOHYlMjkmb2JqMF9wYXJhbXNfej0xKy0rLjIrKitleHAlMjgtJTI4dSstKzElMkYzJTI5JTVFMiUyOSsqK3NpbiUyOHYlMjkmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZjY4ZTQ1Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTIqK3BpJm9iajFfcGFyYW1zX2M9MCZvYmoxX3BhcmFtc19kPTEmb2JqMV9wYXJhbXNfeD10KyUyQislMjgxKy0rdiUyOStjb3MlMjh1JTI5JTJGOCZvYmoxX3BhcmFtc195PTErJTJCKyUyODErLSt2JTI5K3NpbiUyOHUlMjklMkY4Jm9iajFfcGFyYW1zX3o9diZvYmoxX3BhcmFtc190MD0tMSZvYmoxX3BhcmFtc190MT0x"
+                target="_blank"
+                >Continuous Mass Distribution</a
+              >
+            </h3>
+            <p>
+              Suppose mass is distributed continuously along the interval $a
+              \leq x \leq b$ with density $\mu(x)$. The
+              <strong>center of mass</strong> $\bar x$ is the position that
+              balances the "moments".
+            </p>
+            <p>
+              \[\bar x = \frac{\int_a^b x \mu(x)\,dx}{\int_a^b \mu(x)\,dx} \]
+            </p>
+            <p class="fragment">
+              aka, a <em>weighted average</em> of the positions.
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Higher Dimensions</h6>
+
+            <p style="font-size: smaller">
+              A solid region $\mathcal E$ with continuously varying density
+              (mass per unit volume) $\mu(x,y,z)$ has
+              <strong>total mass</strong> \[M = \iiint_\mathcal E
+              \mu(x,y,z)\,dV.\]
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              The <strong>center of mass</strong> $(\bar{x},\bar y,\bar z)$ is
+              the <em>(weighted) average position</em> of the mass in the
+              object. More concisely, \[\bv{\bar{x} \\ \bar{y} \\ \bar{z}} =
+              \frac1M \bv{\iiint_\mathcal E x \mu(x,y, z)\,dV \\ \iiint_\mathcal
+              E y \mu(x,y, z)\,dV \\ \iiint_\mathcal E z \mu(x,y, z)\,dV}\]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              The nose of a race car is modeled by half of a right cone with
+              height $h$ and radius $R$. Assuming uniform density, how high is
+              the center of mass from the bottom.
+            </p>
+
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNob3dQYW5lbD1mYWxzZSZvYmowX2tpbmQ9c3VyZmFjZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD1waSZvYmowX3BhcmFtc194PXUmb2JqMF9wYXJhbXNfeT1jb3MlMjh2JTI5KyorJTI4MSstK3UlMjkrJTJGKzMmb2JqMF9wYXJhbXNfej1zaW4lMjh2JTI5KyorJTI4MSstK3UlMjkrJTJGKzMmb2JqMF9wYXJhbXNfdDA9MCZvYmowX3BhcmFtc190MT0xJm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzMGQwODg3Jm9iajFfcGFyYW1zX2E9MCZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfYz0wJm9iajFfcGFyYW1zX2Q9cGkmb2JqMV9wYXJhbXNfeD0tMSZvYmoxX3BhcmFtc195PWNvcyUyOHYlMjkqdSslMkYrMysqKzImb2JqMV9wYXJhbXNfej1zaW4lMjh2JTI5KnUrJTJGKzMrKisyJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MQ=="
+                frameborder="0"
+                height="100%"
+                width="100%"
+              ></iframe>
+            </div>
+          </section>
+        </section>
+
+        <section>
+          <section
+            data-background-image="http://giphygifs.s3.amazonaws.com/media/RmuN3xF9sBpL2/giphy.gif"
+            data-background-opacity="0.8"
+          >
+            <h1>Moment of Inertia</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Concept</h6>
+
+            <p style="font-size: smaller">
+              CoM measures <em>where</em> mass is located on average. It can't
+              measure how far it is spread out.
+            </p>
+
+            <p class="fragment" style="font-size: smaller">
+              The <strong>moment of inertia</strong> does this. For a mass
+              distribution $\mu(x,y,z)$ and a particular axis of rotation, \[ I
+              = \iiint\limits_{\mathcal E} (\text{distance to axis})^2
+              \mu(x,y,z)\,dV \]
+            </p>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+
+            <p style="font-size: smaller">
+              Find the center of mass and the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJnNjYWxlPTAmc2hvd1BhbmVsPWZhbHNlJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfYW5pbWF0aW9uPXRydWUmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD0xJm9iajBfcGFyYW1zX3g9dSZvYmowX3BhcmFtc195PWNvcyUyOHQrJTJGKzAuNTY2JTI5K3Ymb2JqMF9wYXJhbXNfej1zaW4lMjh0KyUyRiswLjU2NiUyOSt2Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MitwaSsqKzAuNTY2Jm9iajFfa2luZD1zdXJmYWNlJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfYW5pbWF0aW9uPXRydWUmb2JqMV9wYXJhbXNfYT0wJm9iajFfcGFyYW1zX2I9MSZvYmoxX3BhcmFtc19jPTAmb2JqMV9wYXJhbXNfZD0xJm9iajFfcGFyYW1zX3g9Y29zJTI4dCslMkYrMS4wMzklMjkrKit1KyUyQitzaW4lMjh0KyUyRisxLjAzOSUyOSsqK3Ymb2JqMV9wYXJhbXNfeT0tc2luJTI4dCslMkYrMS4wMzklMjkrKit1KyUyQitjb3MlMjh0KyUyRisxLjAzOSUyOSsqK3Ymb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MitwaSsqKzEuMDM5Jm9iajJfa2luZD1zdXJmYWNlJm9iajJfY29sb3I9JTIzMmE4NzA4Jm9iajJfYW5pbWF0aW9uPXRydWUmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9MSZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfZD0xJm9iajJfcGFyYW1zX3g9Y29zJTI4dCslMkYrLjQ3MiUyOSsqK3UrJm9iajJfcGFyYW1zX3k9diZvYmoyX3BhcmFtc196PXNpbiUyOCt0KyUyRisuNDcyKyUyOSsqK3Umb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0yK3BpKyorLjQ3Mg=="
+                target="_blank"
+              >
+                moments of inertia
+              </a>
+              about the standard axes for a mass distribution $\mu$ on the unit
+              square in $xy$.
+            </p>
+
+            <div class="fragment container">
+              <div class="col" style="font-size: smaller">
+                <p>\[\mu(x,y) = x + 2 y^2 \] in units of mass/area.</p>
+                <div class="r-stack">
+                  <p class="fragment smaller current-visible">
+                    \[\bar{x} = \frac{\int_0^1\int_0^1 x (x +
+                    2y^2)\,dy\,dx}{\int_0^1\int_0^1 (x + 2y^2)\,dy\,dx} =
+                    \frac47\]
+                  </p>
+
+                  <p class="fragment smaller current-visible">
+                    \[\bar{y} = \frac{\int_0^1\int_0^1 y (x +
+                    2y^2)\,dy\,dx}{\int_0^1\int_0^1 (x + 2y^2)\,dy\,dx} =
+                    \frac{9}{14}\]
+                  </p>
+                  <p class="fragment smaller current-visible">
+                    \[I_{x} = \int_0^1\int_0^1 y^2 (x + 2y^2)\,dy\,dx =
+                    \frac{17}{30}\]
+                  </p>
+                  <p class="fragment smaller current-visible">
+                    \[I_{y} = \int_0^1\int_0^1 x^2 (x + 2y^2)\,dy\,dx =
+                    \frac{17}{36}\]
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/nonuniform_density_square.png"
+                  alt="Density plot of square above"
+                  srcset=""
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">MoI Examples</h6>
+            <p>
+              Find an expression for the moment of inertia $I$ (about a central
+              axis) in terms of the total mass $M$ (with uniform density) for
+              the following shapes:
+            </p>
+
+            <ul>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9cmVjdCZvYmowX3BhcmFtc19hPS0xJm9iajBfcGFyYW1zX2I9MSZvYmowX3BhcmFtc19jPS0xJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc19lPS0xJm9iajBfcGFyYW1zX2Y9MQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Cube</a
+                >
+                with side $2R$.
+              </li>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9Y3lsJm9iajBfcGFyYW1zX2E9LXBpJm9iajBfcGFyYW1zX2I9cGkmb2JqMF9wYXJhbXNfYz0wJm9iajBfcGFyYW1zX2Q9MSZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0yKy0rMity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Right cone</a
+                >
+                with base radius $R$ and height $h$.
+              </li>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zb2xpZCZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19jb29yZHM9c3BoZXImb2JqMF9wYXJhbXNfYT0tcGkmb2JqMF9wYXJhbXNfYj1waSZvYmowX3BhcmFtc19jPTAmb2JqMF9wYXJhbXNfZD1waSslMkYrMiZvYmowX3BhcmFtc19lPTAmb2JqMF9wYXJhbXNfZj0x"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Half-ball</a
+                >
+                with radius $R$.
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes">
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Interpret a density function (in various dimensions) as a
+                distribution or an indication of "where stuff is."
+              </li>
+              <li>
+                Correctly compute center of mass for various distributions,
+                using symmetric arguments where appropriate.
+              </li>
+              <li>
+                Reason about and compare moments for different distributions
+                without necessarily computing the numeric value.
+              </li>
+              <li>
+                Reinterpret basic probability questions about multiple random
+                variables in terms of integrals.
+              </li>
+            </ul>
+          </section>
+        </section>
+        <!-- <section>
+          <section>
+            <h1>Probability</h1>
+          </section>
+        </section> -->
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>

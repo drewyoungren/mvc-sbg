@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>APMA E2000 - Intro to Curves</title>
+
+    <link rel="stylesheet" href="reveal.js/dist/reset.css" />
+    <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/dracula.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- local styles -->
+    <link rel="stylesheet" href="css/mvc-slides.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="reveal.js/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="plugin/drawer/drawer.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://jsxgraph.org/distrib/jsxgraph.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://jsxgraph.org/distrib/jsxgraphcore.js"
+    ></script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section data-auto-animate>
+            <h3 class="framelabel">Lecture 04</h3>
+            <h1>Intro to Curves</h1>
+            <h2>APMA E2000</h2>
+            <div class="r-stretch"></div>
+            <p style="text-align: right">
+              Drew Youngren <code>dcy2@columbia.edu</code>
+            </p>
+          </section>
+          <section>
+            <!-- Set up standard LaTeX macros -->
+            $\gdef\RR{\mathbb{R}}$ $\gdef\vec{\mathbf}$
+            $\gdef\bv#1{\begin{bmatrix} #1 \end{bmatrix}}$
+            $\gdef\proj{\operatorname{proj}}$ $\gdef\comp{\operatorname{comp}}$
+            <h2>Announcements</h2>
+
+            <ul>
+              <li class="fragment">
+                Quiz 1 (HW1 topics) this week.
+                <ul>
+                  <li>HW1 topics</li>
+                  <li>on Gradescope</li>
+                  <li>open for 24 hours (starting Thurs 7pm)</li>
+                  <li>30 minutes window</li>
+                </ul>
+              </li>
+              <li class="fragment">HW2 due next Tues</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h1>1-minute review</h1>
+          </section>
+          <section>
+            <h6 class="framelabel">Lines</h6>
+
+            <p>
+              A line in $\RR^n$ with position $\vec p$ and direction $\vec v$
+              has
+              <strong>
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc194PS0xKyUyQit0Jm9iajBfcGFyYW1zX3k9KzElMkYyK3Qmb2JqMF9wYXJhbXNfej0tMSslMkIrMit0Jm9iajFfa2luZD12ZWN0b3Imb2JqMV9jb2xvcj0lMjMwODg3MGEmb2JqMV9wYXJhbXNfYT0tMSZvYmoxX3BhcmFtc19iPTAmb2JqMV9wYXJhbXNfYz0tMSZvYmoxX3BhcmFtc194PTAmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9MCZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEmb2JqMl9raW5kPXZlY3RvciZvYmoyX2NvbG9yPSUyM2RjNWU2NiZvYmoyX3BhcmFtc19hPTEmb2JqMl9wYXJhbXNfYj0xJTJGMiZvYmoyX3BhcmFtc19jPTImb2JqMl9wYXJhbXNfeD0tMSZvYmoyX3BhcmFtc195PTAmb2JqMl9wYXJhbXNfej0tMSZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTE="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  parametric form
+                </a>
+              </strong>
+              \[ \vec r(t) = \vec p + t\,\vec v \]
+            </p>
+
+            <div class="fragment">
+              <h6 class="framelabel">Planes</h6>
+
+              <p>
+                A plane in $\RR^3$ with position vector $\vec p$ and normal
+                vector $\vec n$ has
+                <strong
+                  ><a
+                    href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1zdXJmYWNlJm9iajBfY29sb3I9JTIzMDg4NzIxJm9iajBfcGFyYW1zX2E9LTMmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX2M9LTMmb2JqMF9wYXJhbXNfZD0yJm9iajBfcGFyYW1zX3g9MSstK3UrJTJGKzIrJTJCK3YrJTJGKzQmb2JqMF9wYXJhbXNfeT0xKyUyQit1KyUyQit2Jm9iajBfcGFyYW1zX3o9MSslMkIrdislMkY4Jm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9MSZvYmoxX3BhcmFtc19iPTEmb2JqMV9wYXJhbXNfYz0xJm9iajFfcGFyYW1zX3g9MCZvYmoxX3BhcmFtc195PTAmb2JqMV9wYXJhbXNfej0wJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MSZvYmoyX2tpbmQ9dmVjdG9yJm9iajJfY29sb3I9JTIzZmJmZjAwJm9iajJfcGFyYW1zX2E9LTElMkY0Jm9iajJfcGFyYW1zX2I9LTElMkYxNiZvYmoyX3BhcmFtc19jPTEmb2JqMl9wYXJhbXNfeD0xJm9iajJfcGFyYW1zX3k9MSZvYmoyX3BhcmFtc196PTEmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0x"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >plane equation</a
+                  ></strong
+                >
+                \[ \vec n \cdot (\vec x - \vec p) = 0.\]
+              </p>
+              <p class="fragment">
+                <a
+                  href="./lec03.html#/4/3/0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Exercises</a
+                >
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Distances</h1>
+          </section>
+          <section>
+            <!-- <h3 class="framelabel">Distances</h3> -->
+            <div class="container">
+              <div class="col">
+                <div class="r-frame">
+                  <h6 class="framelabel">Definition</h6>
+                  <p style="font-size: smaller">
+                    The <strong>distance</strong> between sets is defined as the
+                    minimum of all distances between points in the respective
+                    sets. \[ \operatorname{dist}(X,Y) =
+                    \operatorname{min}\limits_{\vec x \in X, \vec y \in Y} |\vec
+                    x - \vec y| \]
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <img
+                  src="assets/mnh_si_map.png"
+                  alt="Manhattan to Staten Island Map"
+                  srcset=""
+                />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Point-to-Plane</h6>
+            <p>
+              Find the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPXBvaW50Jm9iajBfY29sb3I9JTIzZmQyNjI2Jm9iajBfcGFyYW1zX2E9MSZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfYz0yJm9iajBfcGFyYW1zX3QwPTAmb2JqMF9wYXJhbXNfdDE9MSZvYmoxX2tpbmQ9bGV2ZWwmb2JqMV9jb2xvcj0lMjM3NjAwMjcmb2JqMV9wYXJhbXNfZz14Ky0reSslMkIrNCt6Jm9iajFfcGFyYW1zX2s9MSZvYmoxX3BhcmFtc19hPS0yJm9iajFfcGFyYW1zX2I9MyZvYmoxX3BhcmFtc19jPS0yJm9iajFfcGFyYW1zX2Q9MyZvYmoxX3BhcmFtc19lPS0yJm9iajFfcGFyYW1zX2Y9MiZvYmoyX2tpbmQ9dmVjdG9yJm9iajJfY29sb3I9JTIzMGQwODg3Jm9iajJfcGFyYW1zX2E9MSUyRjMmb2JqMl9wYXJhbXNfYj0tMSUyRjMmb2JqMl9wYXJhbXNfYz00JTJGMyZvYmoyX3BhcmFtc194PTErLSt0JTJGMyZvYmoyX3BhcmFtc195PTJ0KyUyQit0JTJGMyZvYmoyX3BhcmFtc196PTJ0Ky0rNCt0JTJGMyZvYmoyX3BhcmFtc190MD0wJm9iajJfcGFyYW1zX3QxPTEmb2JqM19raW5kPXZlY3RvciZvYmozX2NvbG9yPSUyM2RjNWU2NiZvYmozX3BhcmFtc19hPTAmb2JqM19wYXJhbXNfYj0yJm9iajNfcGFyYW1zX2M9MiZvYmozX3BhcmFtc194PTEmb2JqM19wYXJhbXNfeT0wJm9iajNfcGFyYW1zX3o9MCZvYmozX3BhcmFtc190MD0wJm9iajNfcGFyYW1zX3QxPTEmb2JqNF9raW5kPXZlY3RvciZvYmo0X2NvbG9yPSUyMzU4MDFhNSZvYmo0X3BhcmFtc19hPTEmb2JqNF9wYXJhbXNfYj0tMSZvYmo0X3BhcmFtc19jPTQmb2JqNF9wYXJhbXNfeD0xJm9iajRfcGFyYW1zX3k9MCZvYmo0X3BhcmFtc196PTAmb2JqNF9wYXJhbXNfdDA9MCZvYmo0X3BhcmFtc190MT0x"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                distance
+              </a>
+              from a position $\vec y$ to a plane with normal $\vec n$ and
+              position $\vec p$.
+            </p>
+            <div class="fragment">\[ |\proj_{\vec n} (\vec y - \vec p)| \]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Skew Lines</h6>
+            <p>
+              Find the distance between
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzNDEzM2ZmJm9iajBfcGFyYW1zX2E9LTMmb2JqMF9wYXJhbXNfYj0zJm9iajBfcGFyYW1zX3g9LXQmb2JqMF9wYXJhbXNfeT10Jm9iajBfcGFyYW1zX3o9MSZvYmowX3BhcmFtc190YXU9MCZvYmowX3BhcmFtc19jb2xvcj0lMjM5MGE3MDAmb2JqMV9raW5kPWN1cnZlJm9iajFfY29sb3I9JTIzY2MwMDAwJm9iajFfcGFyYW1zX2E9LTMmb2JqMV9wYXJhbXNfYj0zJm9iajFfcGFyYW1zX3g9MSstK3Qmb2JqMV9wYXJhbXNfeT0xKyUyQisyK3Qmb2JqMV9wYXJhbXNfej0yKyUyQit0Jm9iajFfcGFyYW1zX3RhdT0wJm9iajFfcGFyYW1zX2NvbG9yPSUyM2E3M2YwMA=="
+                target="_blank"
+                rel="noopener noreferrer"
+                >skew lines</a
+              >
+              \[\bv{ - t \\ t \\ 1 } \text{ and } \bv{ 1 - t \\ 1 + 2t \\ 2 +
+              t}.\]
+            </p>
+            <p class="r-stretch"></p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Space Curves</h1></section>
+          <section>
+            <div class="r-frame">
+              <h6 class="framelabel">Definition</h6>
+              <p>
+                A <strong>curve</strong> in $\RR^n$ is the image of a
+                <em>vector-valued function</em> <br />$\vec r: \RR \to \RR^n$.
+              </p>
+              <p>
+                It has the form \[ \vec r(t) = \left\langle x(t), y(t), z(t)
+                \right\rangle. \]
+              </p>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Examples</h3>
+            <ul>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT10JTVFMiZvYmowX3BhcmFtc196PXQlNUUz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Twisted Cubic</a
+                >: $\left\langle t, t^2, t^3 \right\rangle$
+              </li>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJm9iajBfa2luZD1jdXJ2ZSZvYmowX2NvbG9yPSUyMzBkMDg4NyZvYmowX3BhcmFtc19hPS0yK3BpJm9iajBfcGFyYW1zX2I9MitwaSZvYmowX3BhcmFtc194PWNvcyUyOHQlMjkmb2JqMF9wYXJhbXNfeT1zaW4lMjh0JTI5Jm9iajBfcGFyYW1zX3o9dCslMkYrNA=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Helix</a
+                >: $\left\langle \cos(t), \sin(t), t \right\rangle$
+              </li>
+              <li class="fragment">
+                <a
+                  href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTYmb2JqMF9wYXJhbXNfeD1jb3MlMjg4KnBpKnQrJTJGMyUyOSZvYmowX3BhcmFtc195PXNpbiUyODMqcGkqdCslMkYrMyUyOSZvYmowX3BhcmFtc196PXNpbiUyODcqcGkqdCslMkYrMyUyOQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Wacky</a
+                >: $\left\langle \cos(8 t), \sin(3 t), \sin(7 t) \right\rangle$
+              </li>
+            </ul>
+          </section>
+          <section>
+            <style>
+              td.stewex {
+                font-size: 1.5rem;
+                text-justify: left;
+              }
+            </style>
+            <h6 class="framelabel">Exercise</h6>
+            <p>
+              Which
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTQrcGkmb2JqMF9wYXJhbXNfeD10K2NvcyUyOHQlMjkmb2JqMF9wYXJhbXNfeT10Jm9iajBfcGFyYW1zX3o9dCtzaW4lMjh0JTI5Jm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyMzAwODAxNSZvYmoxX3BhcmFtc19hPTAmb2JqMV9wYXJhbXNfYj0yKnBpJm9iajFfcGFyYW1zX3g9Y29zJTI4dCUyOSZvYmoxX3BhcmFtc195PXNpbiUyOHQlMjkmb2JqMV9wYXJhbXNfej1jb3MlMjgyKnQlMjkrJm9iajJfa2luZD1jdXJ2ZSZvYmoyX2NvbG9yPSUyM2RjNWU2NiZvYmoyX3BhcmFtc19hPS0xMiZvYmoyX3BhcmFtc19iPTEyJm9iajJfcGFyYW1zX3g9Y29zJTI4dCUyOSZvYmoyX3BhcmFtc195PXNpbiUyOHQlMjkmb2JqMl9wYXJhbXNfej0xKyUyRislMjgxKyUyQit0JTVFMiUyOSsmb2JqM19raW5kPWN1cnZlJm9iajNfY29sb3I9JTIzNTgwMWE1Jm9iajNfcGFyYW1zX2E9LTEyJm9iajNfcGFyYW1zX2I9MSZvYmozX3BhcmFtc194PWNvcyUyOHQlMjkmb2JqM19wYXJhbXNfeT1zaW4lMjh0JTI5Jm9iajNfcGFyYW1zX3o9ZXhwJTI4MC44KnQlMjkmb2JqNF9raW5kPWN1cnZlJm9iajRfY29sb3I9JTIzZjY4ZTQ1Jm9iajRfcGFyYW1zX2E9LTImb2JqNF9wYXJhbXNfYj0yJm9iajRfcGFyYW1zX3g9dCZvYmo0X3BhcmFtc195PTErJTJGKyUyODErJTJCK3QlNUUyJTI5Jm9iajRfcGFyYW1zX3o9dCU1RTIrJm9iajVfa2luZD1jdXJ2ZSZvYmo1X2NvbG9yPSUyMzkzMTBhMiZvYmo1X3BhcmFtc19hPS0yKnBpJm9iajVfcGFyYW1zX2I9MipwaSZvYmo1X3BhcmFtc194PWNvcyUyOHQlMjklNUUyJm9iajVfcGFyYW1zX3k9c2luJTI4dCUyOSU1RTImb2JqNV9wYXJhbXNfej10"
+                target="_blank"
+                rel="noopener noreferrer"
+                >curve</a
+              >
+              is which?
+            </p>
+
+            <div class="container">
+              <div class="col">
+                <table>
+                  <tr>
+                    <td class="stewex">
+                      A. $\langle t \cos t, t, t\sin t\rangle$
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="stewex">
+                      B. $\langle \cos t, \sin t, 1/(1+t^2)\rangle$
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="stewex">C. $\langle t, 1/(1+t^2),t^2\rangle$</td>
+                  </tr>
+                  <tr>
+                    <td class="stewex">
+                      D. $\langle \cos t, \sin t, \cos 2t\rangle$
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="stewex">
+                      E. $\langle \cos 8t, \sin 8t, e^{0.8t}\rangle$
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="stewex">
+                      F. $\langle \cos^2 t, \sin^2 t, t\rangle$
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col flexy">
+                <img
+                  src="assets/curve-example-2.png"
+                  alt="curve example"
+                  width="250px"
+                  height="250px"
+                />
+                <img src="assets/curve-example-1.png" alt="curve example" />
+                <img src="assets/curve-example-4.png" alt="curve example" />
+                <img src="assets/curve-example-6.png" alt="curve example" />
+                <img src="assets/curve-example-5.png" alt="curve example" />
+                <img src="assets/curve-example-3.png" alt="curve example" />
+              </div>
+            </div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Find a parametrization of the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPWxldmVsJm9iajBfY29sb3I9JTIzMzIzMmZmJm9iajBfcGFyYW1zX2c9eCU1RTIrJTJCK3klNUUyJm9iajBfcGFyYW1zX2s9NCZvYmowX3BhcmFtc19hPS0yJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc19jPS0yJm9iajBfcGFyYW1zX2Q9MiZvYmowX3BhcmFtc19lPS0yJm9iajBfcGFyYW1zX2Y9MiZvYmoxX2tpbmQ9bGV2ZWwmb2JqMV9jb2xvcj0lMjNmZjMzMzMmb2JqMV9wYXJhbXNfZz14Ky0rMit5KyUyQis0K3omb2JqMV9wYXJhbXNfaz0yJm9iajFfcGFyYW1zX2E9LTImb2JqMV9wYXJhbXNfYj0yJm9iajFfcGFyYW1zX2M9LTImb2JqMV9wYXJhbXNfZD0yJm9iajFfcGFyYW1zX2U9LTImb2JqMV9wYXJhbXNfZj0y"
+                target="_blank"
+                rel="noopener noreferrer"
+                >intersection</a
+              >
+              of the cylinder $x^2 + y^2 = 4$ and the plane $x - 2y +4z = 2$.
+            </p>
+
+            <p class="fragment">
+              <strong>Solution</strong>. Parametrize the circle of radius 2 to
+              get $x(t) = 2 \cos t$ and $y = 2 \sin t$. Then solve for $z$ in
+              the plane equation. \[\vec r(t) = \langle 2 \cos t, y = 2 \sin t,
+              \frac14(2-2\cos t + 4\sin t) \rangle.\]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Calculus</h1>
+            <p class="fragment">Finally.</p>
+          </section>
+          <section>
+            <h3 class="framelabel">Limits</h3>
+            \[\lim_{t \to a} \vec r(t) = \vec L\]
+            <div class="r-stretch">
+              <iframe
+                src="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mc2NhbGU9MCZzaG93UGFuZWw9ZmFsc2Umb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzZjY4ZTQ1Jm9iajBfcGFyYW1zX2E9LTEmb2JqMF9wYXJhbXNfYj0yJm9iajBfcGFyYW1zX3g9c2luJTI4dCUyOSZvYmowX3BhcmFtc195PWUlNUV0Jm9iajBfcGFyYW1zX3o9Y29zJTI4dCUyOSZvYmowX3BhcmFtc19hMD0wJm9iajBfcGFyYW1zX2ExPTEmb2JqMV9raW5kPXZlY3RvciZvYmoxX2NvbG9yPSUyMzkzMTBhMiZvYmoxX3BhcmFtc19hPXNpbiUyODElMkZuJTI5Jm9iajFfcGFyYW1zX2I9ZXhwJTI4MSUyRm4lMjkmb2JqMV9wYXJhbXNfYz1jb3MlMjgxJTJGbiUyOSZvYmoxX3BhcmFtc194PTAmb2JqMV9wYXJhbXNfeT0wJm9iajFfcGFyYW1zX3o9MCZvYmoxX3BhcmFtc190MD0wJm9iajFfcGFyYW1zX3QxPTEmb2JqMV9wYXJhbXNfbjA9MSZvYmoxX3BhcmFtc19uMT0xJm9iajJfa2luZD12ZWN0b3Imb2JqMl9jb2xvcj0lMjNmZGM5MjYmb2JqMl9wYXJhbXNfYT0wJm9iajJfcGFyYW1zX2I9MSZvYmoyX3BhcmFtc19jPTEmb2JqMl9wYXJhbXNfeD0wJm9iajJfcGFyYW1zX3k9MCZvYmoyX3BhcmFtc196PTAmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0x"
+                height="100%"
+                width="100%"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </section>
+          <section>
+            <h3 class="framelabel">Limits</h3>
+            \[\lim_{t \to a} \vec r(t) = \bv{\lim_{t \to a} x(t) \\ \lim_{t \to
+            a} y(t) \\ \lim_{t \to a} z(t) \\ }\]
+          </section>
+
+          <section>
+            <h3 class="framelabel">Derivatives</h3>
+
+            <p>
+              The <strong>derivative</strong> of a vector-valued function is
+              defined exactly as in one-variable calculus, as a
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SW50cm8mb2JqMF9raW5kPWN1cnZlJm9iajBfY29sb3I9JTIzMGQwODg3Jm9iajBfcGFyYW1zX2E9MCZvYmowX3BhcmFtc19iPTImb2JqMF9wYXJhbXNfeD10Jm9iajBfcGFyYW1zX3k9dCU1RTImb2JqMF9wYXJhbXNfej10JTVFMyZvYmoxX2tpbmQ9dmVjdG9yJm9iajFfY29sb3I9JTIzZGM1ZTY2Jm9iajFfcGFyYW1zX2E9JTI4MSstK24lMjkqMSslMkIrbiolMjh0Ky0rMSUyOSZvYmoxX3BhcmFtc19iPSUyODErLStuJTI5KiUyOHQrJTJCKzElMjkrJTJCK24qJTI4dCU1RTIrLSsxJTI5Jm9iajFfcGFyYW1zX2M9JTI4MSstK24lMjkqJTI4dCU1RTIrJTJCK3QrJTJCKzElMjkrJTJCK24qJTI4dCU1RTMrLSsxJTI5Jm9iajFfcGFyYW1zX3g9MSZvYmoxX3BhcmFtc195PTEmb2JqMV9wYXJhbXNfej0xJm9iajFfcGFyYW1zX3QwPTAmb2JqMV9wYXJhbXNfdDE9MiZvYmoxX3BhcmFtc19uMD0wJm9iajFfcGFyYW1zX24xPTE="
+                target="_blank"
+                >limit of a difference quotient</a
+              >.
+            </p>
+            \[\vec r'(a) = \lim_{t \to a} \frac{\vec r(t) - \vec r(a)}{t - a} \]
+            <div class="fragment">\[= \bv{x'(a) \\ y'(a) \\ z'(a)}\]</div>
+          </section>
+          <section>
+            <h6 class="framelabel">Example</h6>
+            <p>
+              Where does the tangent line to the curve $\langle t, t^2, t^3
+              \rangle$ at $(1,1,1)$ intersect the $xy$-plane?
+            </p>
+            <p class="fragment">
+              <strong>Solution</strong>. First, note $\vec r(1) = \langle 1,1,1
+              \rangle$ and $\vec r'(1) = \langle 1,2,3 \rangle$ are position and
+              direction vectors for the
+              <a
+                href="https://3demos.ctl.columbia.edu/?Y3VycmVudENoYXB0ZXI9SG93K1RvJmdyaWQ9dHJ1ZSZvYmowX2tpbmQ9Y3VydmUmb2JqMF9jb2xvcj0lMjMwZDA4ODcmb2JqMF9wYXJhbXNfYT0wJm9iajBfcGFyYW1zX2I9MiZvYmowX3BhcmFtc194PXQmb2JqMF9wYXJhbXNfeT10JTVFMiZvYmowX3BhcmFtc196PXQlNUUzJm9iajFfa2luZD1jdXJ2ZSZvYmoxX2NvbG9yPSUyM2RjNWU2NiZvYmoxX3BhcmFtc19hPS0xJm9iajFfcGFyYW1zX2I9MSZvYmoxX3BhcmFtc194PTErJTJCK3Qmb2JqMV9wYXJhbXNfeT0xKyUyQisyK3Qmb2JqMV9wYXJhbXNfej0xKyUyQiszK3Qmb2JqMl9raW5kPXBvaW50Jm9iajJfY29sb3I9JTIzMDAwMDAwJm9iajJfcGFyYW1zX2E9MiUyRjMmb2JqMl9wYXJhbXNfYj0xJTJGMyZvYmoyX3BhcmFtc19jPTAmb2JqMl9wYXJhbXNfdDA9MCZvYmoyX3BhcmFtc190MT0x"
+                >tangent line</a
+              >. We therefore solve \[\bv{1 + s \\ 1 + 2s \\ 1 + 3s} = \bv{x \\
+              y \\ 0}.\]
+            </p>
+          </section>
+        </section>
+        <section>
+          <section><h1>Learning Outcomes</h1></section>
+          <section id="learning-outcomes"></section>
+          <section>
+            <h6 class="framelabel">You should be able to...</h6>
+            <ul>
+              <li>
+                Formulate the Fundamental Theorem of Calculus for vector-valued
+                functions.
+              </li>
+              <li>
+                Identify position, velocity, speed, and acceleration using the
+                machinery of vector-valued functions.
+              </li>
+              <li>
+                Solve initial-value motion problems with piecewise-defined
+                acceleration functions.
+              </li>
+              <li>
+                Try your hand at the
+                <a
+                  href="https://drew.youngren.nyc/svandbox/thruster/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >silly rocket game</a
+                >.
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="reveal.js/dist/reveal.js"></script>
+    <script src="reveal.js/plugin/notes/notes.js"></script>
+    <script src="reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="reveal.js/plugin/math/math.js"></script>
+    <script src="plugin/drawer/drawer.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        katex: {
+          version: "latest",
+          delimiters: [
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+        drawer: {
+          pathSize: 2,
+        },
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealMath.KaTeX,
+          RevealDrawer,
+        ],
+      });
+    </script>
+  </body>
+</html>
