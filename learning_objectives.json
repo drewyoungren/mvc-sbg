@@ -109,7 +109,7 @@
   },
   {
     "file": "lec13.html",
-    "title": "L11: Optimization",
+    "title": "LO11: Optimization",
     "objectives": [
       "Model an optimization problem by identifying:",
       [
@@ -125,7 +125,7 @@
   },
   {
     "file": "lec14.html",
-    "title": "L12: Integrals",
+    "title": "LO12: Integrals",
     "objectives": [
       "Express a multiple integral as a limit of Riemann sums.",
       "Detect syntactic errors in expressions of iterated integrals.",
@@ -137,7 +137,7 @@
   },
   {
     "file": "lec15.html",
-    "title": "L13: Changing Coordinates",
+    "title": "LO13: Changing Coordinates",
     "objectives": [
       "Convert a specific point's coordinates between\n                rectangular/cylindrical/spherical coordinates.",
       "Convert a general expression in rectangular coordinates into\n                cylindrical and spherical coordinates.",
