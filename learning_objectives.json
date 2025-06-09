@@ -1,41 +1,177 @@
 [
   {
-    "file": "lec02.html",
-    "title": "The Products",
+    "file": "lec01.html",
+    "title": "LO1: Positions and Distances",
     "objectives": [
-      "Exploit the algebraic and geometric formulas of the dot product\n                to:compute said product.calculate angles.identify orthogonal vectors.",
+      "Associate a locus of points using distances to a vector expression using magnitudes.",
+      "Use linear combinations to specify positions in relation to one another.",
+      "Express linear interpolations and weighted averages as convex combinations."
+    ]
+  },
+  {
+    "file": "lec02.html",
+    "title": "LO2: the Products",
+    "objectives": [
+      "Exploit the algebraic and geometric formulas of the dot product to:",
       "compute said product.",
       "calculate angles.",
       "identify orthogonal vectors.",
-      "Relate scalar and vector projection to one another and interpret\n                visually.",
-      "Use the formulas to determine if projection identities hold or\n                have cournterexamples."
+      "Relate scalar and vector projection to one another and interpret visually.",
+      "Use the formulas to determine if projection identities hold or have cournterexamples."
+    ]
+  },
+  {
+    "file": "lec03.html",
+    "title": "LO3: Lines & Planes",
+    "objectives": [
+      "Compute and articulate the direction and magnitude of the\n                cross-product in terms of the inputs.",
+      "Demonstrate that both lines and planes (in dim 3) can be\n                determined with 2 vectors.",
+      "Contrast the (prescriptive) parametric form with the\n                (descriptive) equation forms of each.",
+      "Find intersections and generally solve problems of the form\n                \"Find the line plane that...\"",
+      "Select the appropriate role of projection in distance problems\n                between points, lines, and planes."
+    ]
+  },
+  {
+    "file": "lec04.html",
+    "title": "LO4: Intro to Curves",
+    "objectives": [
+      "Parametrize simple curves such as lines, graphs, and circles.",
+
+      "Formulate the Fundamental Theorem of Calculus for vector-valued\n                functions.",
+      "Identify position, velocity, speed, and acceleration using the\n                machinery of vector-valued functions.",
+      "Solve initial-value motion problems with piecewise-defined\n                acceleration functions."
+    ]
+  },
+
+  {
+    "file": "lec06.html",
+    "title": "LO5: Arc Length & Curvature",
+    "objectives": [
+      "Compute the arc length of a fixes section of a curve.",
+      "Parametrize a curve by arc length",
+      "Compute and interpret curvature."
+    ]
+  },
+  {
+    "file": "lec07.html",
+    "title": "L06: Scalar Fields",
+    "objectives": [
+      "Identify domains and images of functions of several variables.",
+      "Match formulas, graphs, and contour plots of scalar fields.",
+      "Sketch level sets for basic functions of 2 variables.",
+      "Identify continuous functions and compute limits for functions\n                of 2 variables.",
+      "Express partial derivatives in limit form and compute them in\n                arbitrary dimensions.",
+      "Verify Clairaut's Theorem in higher dimensions.",
+      "Interpret PDE's and verify (but not find) solutions.",
+      "Approximate partial derivatives given a contour plot and/or\n                tabular data."
+    ]
+  },
+  {
+    "file": "lec09.html",
+    "title": "LO7: Linearization",
+    "objectives": [
+      "Determine (quickly) whether a functions of several variables is\n                linear.",
+      "Identify the correct linearization formula for a given function\n                and connect it to tangent lines/planes.",
+      "Identify an appropriate function and point to use linearization\n                in estimating various quantities.",
+      "Use linearization and/or differentials to estimate error (and\n                relative error.)"
+    ]
+  },
+  {
+    "file": "lec10.html",
+    "title": "LO8: Chain Rule",
+    "objectives": [
+      "Sketch a dependence tree for compositions.",
+      "Select the correct form of the chain rule for arbitrary compositions of scalar fields.",
+      "Compute higher order derivatives via the chain rule.",
+      "Implicitly find rates of change by reexpressing relations between quantities as level sets."
+    ]
+  },
+  {
+    "file": "lec11.html",
+    "title": "LO9: The Gradient",
+    "objectives": [
+      "Distinguish between the definition and the formula for\n                directional derivatives.",
+      "Rattle off the 3 principal properties of the gradient.",
+      "Use the gradient to find tangent planes to level curves.",
+      "Given the gradient at a point, identify directions with rates.",
+      "Sketch a gradient field in 2 dimensions given a contour plot."
+    ]
+  },
+  {
+    "file": "lec12.html",
+    "title": "LO10: Local Extrema",
+    "objectives": [
+      "Provide a technical definition of local extrema.",
+      "Identify critical points of scalar fields.",
+      "Give examples of each class of critical point in 2 and 3\n                dimensions.",
+      "Correctly implement the 2nd derivative test in 2 dimensions."
+    ]
+  },
+  {
+    "file": "lec13.html",
+    "title": "L11: Optimization",
+    "objectives": [
+      "Model an optimization problem by identifying:",
+      [
+        "the target function.",
+        "the variables and domain of feasibility.",
+        "any constraint functions."
+      ],
+      "Identify whether a domain is open, closed, or neither, and where for extrema.",
+      "Set up and solve systems of equations for the method of Lagrange multipliers.",
+      "Interpret the Lagrange equations geometrically.",
+      "Utilize the Extreme Value Theorem to find global minima and maxima."
     ]
   },
   {
     "file": "lec14.html",
-    "title": "Integrals",
+    "title": "L12: Integrals",
     "objectives": [
       "Express a multiple integral as a limit of Riemann sums.",
       "Detect syntactic errors in expressions of iterated integrals.",
-      "Set up iterated integrals (in 2 and 3 dimensions) for regions\n                bounded by graphs of functions.",
-      "Given an iterated integral in 2 variables, sketch the region of\n                integration and change the order.",
-      "Change the order of integration for iterated integrals in 3\n                dimensions for select cases.",
+      "Set up iterated integrals (in 2 and 3 dimensions) for regions.",
+      "Given an iterated integral in 2 variables, sketch the region of integration and change the order.",
+      "Change the order of integration for iterated integrals in 3 dimensions for select cases.",
       "Compute volumes and areas via multiple integration."
     ]
   },
   {
-    "file": "lec22.html",
-    "title": "Stokes' Theorem",
+    "file": "lec15.html",
+    "title": "L13: Changing Coordinates",
     "objectives": [
-      "Combine the \"del\" operations where well-defined and establish\n                which yield zero.",
-      "Determine if a boundary curve is oriented positively relative to\n                an oriented surface and vice versa.",
-      "State Stokes' Theorem and identify its necessary components.",
-      "Verify both sides of the equality in Stokes' in basic examples."
+      "Convert a specific point's coordinates between\n                rectangular/cylindrical/spherical coordinates.",
+      "Convert a general expression in rectangular coordinates into\n                cylindrical and spherical coordinates.",
+      "Select an appropriate coordinate system, convert, and compute\n                for multiple integrals.",
+      "Explain the role of the Jacobian term in area/volume integrals.",
+      "Recognize and formulate expressions for planes, cones,\n                cylinders, and spheres in various coordinate systems."
+    ]
+  },
+  {
+    "file": "lec16.html",
+    "title": "LO14: Applications of Integration",
+    "objectives": [
+      "Interpret a density function (in various dimensions) as a\n                distribution or an indication of \"where stuff is.\"",
+      "Correctly compute center of mass for various distributions,\n                using symmetric arguments where appropriate.",
+      "Reason about and compare moments for different distributions\n                without necessarily computing the numeric value.",
+      "Reinterpret basic probability questions about multiple random\n                variables in terms of integrals."
+    ]
+  },
+  {
+    "file": "lec17.html",
+    "title": "LO15: Vector Fields & Path Integrals",
+    "objectives": [
+      "Sketch a vector field plot, and match a plot with its formula\n                from a list.",
+      "Convert path integrals of each kind to 1-dimensional integrals\n                via parametrization:w/ respect to arc length.w/ respect to individual coordinates.",
+      "w/ respect to arc length.",
+      "w/ respect to individual coordinates.",
+      "Identify which of these depend on orientation of the curve and\n                how.",
+      "Estimate sign and/or magnitude of line integrals without direct\n                computation.",
+      "Convert work problems into appropriate forms of line integrals."
     ]
   },
   {
     "file": "lec18.html",
-    "title": "Conservative Vector Fields & FTLI",
+    "title": "LO16: Conservative Vector Fields & FTLI",
     "objectives": [
       "Interpret a line integral of a vector field as sum of line\n                integrals of scalar fields.",
       "Determine if a vector field is conservative and find a potential\n                if so.",
@@ -46,7 +182,7 @@
   },
   {
     "file": "lec19.html",
-    "title": "Green's Theorem",
+    "title": "LO17: Green's Theorem",
     "objectives": [
       "Verify the hypotheses of Green's Theorem.",
       "Use Green's Theorem to compute areas in the plane.",
@@ -55,154 +191,8 @@
     ]
   },
   {
-    "file": "lec23.html",
-    "title": "The Divergence Theorem",
-    "objectives": [
-      "State the Divergence Theorem and identify its necessary\n                components.",
-      "Verify both sides of the equality in the Div Thm in basic\n                examples.",
-      "Exploit the Divergence Theorem to compute flux through a\n                not-necessarily closed surface.",
-      "Create a specific example in which both Stokes' and Divergence\n                Theorems apply."
-    ]
-  },
-  {
-    "file": "lec15.html",
-    "title": "Changing Coordinates",
-    "objectives": [
-      "Convert a specific point's coordinates between\n                rectangular/cylindrical/spherical coordinates.",
-      "Convert a general expression in rectangular coordinates into\n                cylindrical and spherical coordinates.",
-      "Select an appropriate coordinate system, convert, and compute\n                for multiple integrals.",
-      "Explain the role of the Jacobian term in area/volume integrals.",
-      "Recognize and formulate expressions for planes, cones,\n                cylinders, and spheres in various coordinate systems."
-    ]
-  },
-  {
-    "file": "lec03.html",
-    "title": "Lines & Planes",
-    "objectives": [
-      "Compute and articulate the direction and magnitude of the\n                cross-product in terms of the inputs.",
-      "Demonstrate that both lines and planes (in dim 3) can be\n                determined with 2 vectors.",
-      "Contrast the (prescriptive) parametric form with the\n                (descriptive) equation forms of each.",
-      "Find intersections and generally solve problems of the form\n                \"Find the line plane that...\"",
-      "Select the appropriate role of projection in distance problems\n                between points, lines, and planes."
-    ]
-  },
-  {
-    "file": "lec24.html",
-    "title": "Summary of Things",
-    "objectives": []
-  },
-  {
-    "file": "lec08.html",
-    "title": "Partial Derivatives",
-    "objectives": [
-      "Express partial derivatives in limit form and compute them in\n                arbitrary dimensions.",
-      "Verify Cairaut's Theorem in higher dimensions.",
-      "Interpret PDE's and verify (but not find) solutions.",
-      "Approximate partial derivatives given a contour plot and/or\n                tabular data."
-    ]
-  },
-  {
-    "file": "lec04.html",
-    "title": "Intro to Curves",
-    "objectives": []
-  },
-  {
-    "file": "lec12.html",
-    "title": "Local Extrema",
-    "objectives": [
-      "Provide a technical definition of local extrema.",
-      "Identify critical points of scalar fields.",
-      "Give examples of each class of critical point in 2 and 3\n                dimensions.",
-      "Correctly implement the 2nd derivative test in 2 dimensions."
-    ]
-  },
-  {
-    "file": "lec13.html",
-    "title": "Optimization",
-    "objectives": [
-      "Model an optimization problem by identifying:the target function.the variables and domain of feasibility.any constraint functions.",
-      "the target function.",
-      "the variables and domain of feasibility.",
-      "any constraint functions.",
-      "Identify whether a domain is open, closed, or neither, and where\n                to look for extrema.",
-      "Set up and solve systems of equations for the method of Lagrange\n                multipliers.",
-      "Interpret the Lagrange equations geometrically.",
-      "Utilize the Extreme Value Theorem to find global minima and\n                maxima."
-    ]
-  },
-  {
-    "file": "lec05.html",
-    "title": "Motion in Space",
-    "objectives": [
-      "Formulate the Fundamental Theorem of Calculus for\n                  vector-valued functions.",
-      "Identify position, velocity, speed, and acceleration using the\n                  machinery of vector-valued functions.",
-      "Solve initial-value motion problems with piecewise-defined\n                  acceleration functions.",
-      "Try your hand at thesilly rocket game."
-    ]
-  },
-  {
-    "file": "lec09.html",
-    "title": "Linearization",
-    "objectives": [
-      "Determine (quickly) whether a functions of several variables is\n                linear.",
-      "Identify the correct linearization formula for a given function\n                and connect it to tangent lines/planes.",
-      "Identify an appropriate function and point to use linearization\n                in estimating various quantities.",
-      "Use linearization and/or differentials to estimate error (and\n                relative error.)"
-    ]
-  },
-  {
-    "file": "lec10.html",
-    "title": "Chain Rule",
-    "objectives": [
-      "Sketch a dependence tree for compositions.",
-      "Select the correct form of the chain rule for arbitrary\n                compositions of scalar fields.",
-      "Compute higher order derivatives via the chain rule.",
-      "Implicitly find rates of change by reexpressing relations\n                between quantities as level sets."
-    ]
-  },
-  {
-    "file": "lec06.html",
-    "title": "Arc Length & Curvature",
-    "objectives": [
-      "Parametrize simple curves such as lines, graphs, and circles.",
-      "Match plots of curves with their parametrizations.",
-      "Apply and interpret rules of differential calculus to\n                vector-valued functions."
-    ]
-  },
-  {
-    "file": "lec07.html",
-    "title": "Scalar Fields",
-    "objectives": [
-      "Identify domains and images of functions of several variables.",
-      "Match formulas, graphs, and contour plots of scalar fields.",
-      "Sketch level sets for basic functions of 2 variables.",
-      "Identify continuous functions and compute limits for functions\n                of 2 variables."
-    ]
-  },
-  {
-    "file": "lec11.html",
-    "title": "The Gradient",
-    "objectives": [
-      "Distinguish between the definition and the formula for\n                directional derivatives.",
-      "Rattle off the 3 principal properties of the gradient.",
-      "Use the gradient to find tangent planes to level curves.",
-      "Given the gradient at a point, identify directions with\n                particular growth rates.",
-      "Sketch a gradient field in 2 dimensions given a contour plot."
-    ]
-  },
-  {
-    "file": "lec16.html",
-    "title": "Applications of Integration",
-    "objectives": [
-      "Interpret a density function (in various dimensions) as a\n                distribution or an indication of \"where stuff is.\"",
-      "Correctly compute center of mass for various distributions,\n                using symmetric arguments where appropriate.",
-      "Reason about and compare moments for different distributions\n                without necessarily computing the numeric value.",
-      "Reinterpret basic probability questions about multiple random\n                variables in terms of integrals."
-    ]
-  },
-  {
     "file": "lec20.html",
-    "title": "Surfaces",
+    "title": "LO18: Surfaces",
     "objectives": [
       "Parameterize surfaces of 3 types:graphs of functions of 2 variables.surfaces of revolution.parts of spheres.",
       "graphs of functions of 2 variables.",
@@ -214,7 +204,7 @@
   },
   {
     "file": "lec21.html",
-    "title": "Flux",
+    "title": "LO19: Flux",
     "objectives": [
       "Describe what it means for a surface to be oriented (and\n                orientable).",
       "Given a specified orientation of a surface, find a\n                parametrization that is compatible.",
@@ -224,31 +214,23 @@
     ]
   },
   {
-    "file": "lec16.5.html",
-    "title": "Applications of Integration",
-    "objectives": []
-  },
-  {
-    "file": "lec01.html",
-    "title": "Points and Vectors",
+    "file": "lec22.html",
+    "title": "LO20: Stokes' Theorem",
     "objectives": [
-      "Link relations on variables to sets in Euclidean space\n                (coordinate axies, planes, etc.).",
-      "Evaluate the results of vector operations formulaically and\n                visually.",
-      "Use linear combinations to specify positions in relation to one\n                another.",
-      "Express linear interpolations and weighted averages as convex\n                combinations."
+      "Combine the \"del\" operations where well-defined and establish\n                which yield zero.",
+      "Determine if a boundary curve is oriented positively relative to\n                an oriented surface and vice versa.",
+      "State Stokes' Theorem and identify its necessary components.",
+      "Verify both sides of the equality in Stokes' in basic examples."
     ]
   },
   {
-    "file": "lec17.html",
-    "title": "Vector Fields & Path Integrals",
+    "file": "lec23.html",
+    "title": "LO21: The Divergence Theorem",
     "objectives": [
-      "Sketch a vector field plot, and match a plot with its formula\n                from a list.",
-      "Convert path integrals of each kind to 1-dimensional integrals\n                via parametrization:w/ respect to arc length.w/ respect to individual coordinates.",
-      "w/ respect to arc length.",
-      "w/ respect to individual coordinates.",
-      "Identify which of these depend on orientation of the curve and\n                how.",
-      "Estimate sign and/or magnitude of line integrals without direct\n                computation.",
-      "Convert work problems into appropriate forms of line integrals."
+      "State the Divergence Theorem and identify its necessary\n                components.",
+      "Verify both sides of the equality in the Div Thm in basic\n                examples.",
+      "Exploit the Divergence Theorem to compute flux through a\n                not-necessarily closed surface.",
+      "Create a specific example in which both Stokes' and Divergence\n                Theorems apply."
     ]
   }
 ]

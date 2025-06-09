@@ -7,7 +7,10 @@ OUTPUT_JSON = Path("learning_objectives.json")
 
 results = []
 
-for file_path in INPUT_DIR.glob("*.html"):
+file_paths = list(INPUT_DIR.glob("*.html"))
+file_paths.sort()
+
+for file_path in file_paths:
     with open(file_path, "r", encoding="utf-8") as f:
         soup = BeautifulSoup(f, "html.parser")
 
