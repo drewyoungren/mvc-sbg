@@ -1,7 +1,7 @@
 [
   {
     "file": "lec01.html",
-    "title": "LO1: Positions and Distances",
+    "title": "LO1: Linear Combinations",
     "objectives": [
       "Associate a locus of points using distances to a vector expression using magnitudes.",
       "Use linear combinations to specify positions in relation to one another.",
@@ -13,32 +13,33 @@
     "title": "LO2: the Products",
     "objectives": [
       "Exploit the algebraic and geometric formulas of the dot product to:",
-      "compute said product.",
-      "calculate angles.",
-      "identify orthogonal vectors.",
+      [
+        "compute said product.",
+        "calculate angles.",
+        "identify orthogonal vectors."
+      ],
       "Relate scalar and vector projection to one another and interpret visually.",
-      "Use the formulas to determine if projection identities hold or have cournterexamples."
+      "Use the formulas to determine if projection identities hold or have cournterexamples.",
+      "Compute and articulate the direction and magnitude of the cross-product in terms of the inputs."
     ]
   },
   {
     "file": "lec03.html",
     "title": "LO3: Lines & Planes",
     "objectives": [
-      "Compute and articulate the direction and magnitude of the\n                cross-product in terms of the inputs.",
-      "Demonstrate that both lines and planes (in dim 3) can be\n                determined with 2 vectors.",
-      "Contrast the (prescriptive) parametric form with the\n                (descriptive) equation forms of each.",
-      "Find intersections and generally solve problems of the form\n                \"Find the line plane that...\"",
+      "Demonstrate that both lines and planes (in dim 3) can be determined with 2 vectors.",
+      "Contrast the (prescriptive) parametric form with the (descriptive) equation forms of each.",
+      "Find intersections and generally solve problems of the form \"Find the line/plane that...\"",
       "Select the appropriate role of projection in distance problems\n                between points, lines, and planes."
     ]
   },
   {
     "file": "lec04.html",
-    "title": "LO4: Intro to Curves",
+    "title": "LO4: Parametric Curves",
     "objectives": [
       "Parametrize simple curves such as lines, graphs, and circles.",
-
-      "Formulate the Fundamental Theorem of Calculus for vector-valued\n                functions.",
-      "Identify position, velocity, speed, and acceleration using the\n                machinery of vector-valued functions.",
+      "Formulate the Fundamental Theorem of Calculus for vector-valued functions.",
+      "Identify position, velocity, speed, and acceleration using the machinery of vector-valued functions.",
       "Solve initial-value motion problems with piecewise-defined\n                acceleration functions."
     ]
   },
@@ -59,21 +60,21 @@
       "Identify domains and images of functions of several variables.",
       "Match formulas, graphs, and contour plots of scalar fields.",
       "Sketch level sets for basic functions of 2 variables.",
-      "Identify continuous functions and compute limits for functions\n                of 2 variables.",
-      "Express partial derivatives in limit form and compute them in\n                arbitrary dimensions.",
+      "Identify continuous functions and compute limits for functions of 2 variables.",
+      "Express partial derivatives in limit form and compute them in arbitrary dimensions.",
       "Verify Clairaut's Theorem in higher dimensions.",
-      "Interpret PDE's and verify (but not find) solutions.",
-      "Approximate partial derivatives given a contour plot and/or\n                tabular data."
+      "Interpret PDEs and verify (but not find) solutions.",
+      "Approximate partial derivatives given a contour plot and/or tabular data."
     ]
   },
   {
     "file": "lec09.html",
     "title": "LO7: Linearization",
     "objectives": [
-      "Determine (quickly) whether a functions of several variables is\n                linear.",
-      "Identify the correct linearization formula for a given function\n                and connect it to tangent lines/planes.",
-      "Identify an appropriate function and point to use linearization\n                in estimating various quantities.",
-      "Use linearization and/or differentials to estimate error (and\n                relative error.)"
+      "Determine (quickly) whether a functions of several variables is linear.",
+      "Identify the correct linearization formula for a given function and connect it to tangent lines/planes.",
+      "Identify an appropriate function and point to use linearization in estimating various quantities.",
+      "Use linearization and/or differentials to estimate error (and relative error.)"
     ]
   },
   {
@@ -139,33 +140,36 @@
     "file": "lec15.html",
     "title": "LO13: Changing Coordinates",
     "objectives": [
-      "Convert a specific point's coordinates between\n                rectangular/cylindrical/spherical coordinates.",
-      "Convert a general expression in rectangular coordinates into\n                cylindrical and spherical coordinates.",
-      "Select an appropriate coordinate system, convert, and compute\n                for multiple integrals.",
+      "Convert a specific point's coordinates between rectangular/cylindrical/spherical coordinates.",
+      "Convert a general expression in rectangular coordinates into cylindrical and spherical coordinates.",
+      "Select an appropriate coordinate system, convert, and compute for multiple integrals.",
       "Explain the role of the Jacobian term in area/volume integrals.",
-      "Recognize and formulate expressions for planes, cones,\n                cylinders, and spheres in various coordinate systems."
+      "Recognize and formulate expressions for planes, cones, cylinders, and spheres in various coordinate systems."
     ]
   },
   {
     "file": "lec16.html",
     "title": "LO14: Applications of Integration",
     "objectives": [
-      "Interpret a density function (in various dimensions) as a\n                distribution or an indication of \"where stuff is.\"",
-      "Correctly compute center of mass for various distributions,\n                using symmetric arguments where appropriate.",
-      "Reason about and compare moments for different distributions\n                without necessarily computing the numeric value.",
-      "Reinterpret basic probability questions about multiple random\n                variables in terms of integrals."
+      "Interpret a density function (in various dimensions) as a distribution or an indication of \"where stuff is.\"",
+      "Correctly compute center of mass for various distributions, using symmetric arguments where appropriate.",
+      "Reason about and compare moments for different distributions without necessarily computing the numeric value.",
+      "Reinterpret basic probability questions about multiple random variables in terms of integrals."
     ]
   },
   {
     "file": "lec17.html",
     "title": "LO15: Vector Fields & Path Integrals",
     "objectives": [
-      "Sketch a vector field plot, and match a plot with its formula\n                from a list.",
-      "Convert path integrals of each kind to 1-dimensional integrals\n                via parametrization:w/ respect to arc length.w/ respect to individual coordinates.",
-      "w/ respect to arc length.",
-      "w/ respect to individual coordinates.",
-      "Identify which of these depend on orientation of the curve and\n                how.",
-      "Estimate sign and/or magnitude of line integrals without direct\n                computation.",
+      "Sketch a vector field plot, and match a plot with its formula from a list.",
+      "Convert path integrals of each kind to 1-dimensional integrals via parametrization:",
+      [
+        "w/ respect to arc length.",
+        "w/ respect to individual coordinates.",
+        "of a vector field"
+      ],
+      "Identify which of these depend on orientation of the curve and how.",
+      "Estimate sign and/or magnitude of line integrals without direct computation.",
       "Convert work problems into appropriate forms of line integrals."
     ]
   },
@@ -173,8 +177,8 @@
     "file": "lec18.html",
     "title": "LO16: Conservative Vector Fields & FTLI",
     "objectives": [
-      "Interpret a line integral of a vector field as sum of line\n                integrals of scalar fields.",
-      "Determine if a vector field is conservative and find a potential\n                if so.",
+      "Interpret a line integral of a vector field as sum of line integrals of scalar fields.",
+      "Determine if a vector field is conservative and find a potential if so.",
       "Recognize when and how to apply FTLI.",
       "Equate path-independence with closed loops yielding 0.",
       "Solve mechanical problems with conservative forces."
@@ -186,7 +190,7 @@
     "objectives": [
       "Verify the hypotheses of Green's Theorem.",
       "Use Green's Theorem to compute areas in the plane.",
-      "Interpret the scalar curl as the spin of a vector field.",
+      "Interpret the scalar curl as the \"spin\" of a vector field.",
       "Utilize the flux form of Green's when appropriate."
     ]
   },
@@ -206,31 +210,25 @@
     "file": "lec21.html",
     "title": "LO19: Flux",
     "objectives": [
-      "Describe what it means for a surface to be oriented (and\n                orientable).",
-      "Given a specified orientation of a surface, find a\n                parametrization that is compatible.",
-      "Construct a flux integral as a double integral via\n                parametrization.",
-      "Reason, without direct computation, about the sign or magnitude\n                of a flux integral.",
+      "Describe what it means for a surface to be oriented (and orientable).",
+      "Given a specified orientation of a surface, find a parametrization that is compatible.",
+      "Construct a flux integral as a double integral via parametrization.",
+      "Reason, without direct computation, about the sign or magnitude of a flux integral.",
       "Compute the divergence and curl of a 3D vector field."
     ]
   },
   {
     "file": "lec22.html",
-    "title": "LO20: Stokes' Theorem",
+    "title": "LO20: Theorems of Gauss and Stokes",
     "objectives": [
-      "Combine the \"del\" operations where well-defined and establish\n                which yield zero.",
-      "Determine if a boundary curve is oriented positively relative to\n                an oriented surface and vice versa.",
+      "Combine the \"del\" operations where well-defined and establish which yield zero.",
+      "Determine if a boundary curve is oriented positively relative to an oriented surface and vice versa.",
       "State Stokes' Theorem and identify its necessary components.",
-      "Verify both sides of the equality in Stokes' in basic examples."
-    ]
-  },
-  {
-    "file": "lec23.html",
-    "title": "LO21: The Divergence Theorem",
-    "objectives": [
-      "State the Divergence Theorem and identify its necessary\n                components.",
-      "Verify both sides of the equality in the Div Thm in basic\n                examples.",
-      "Exploit the Divergence Theorem to compute flux through a\n                not-necessarily closed surface.",
-      "Create a specific example in which both Stokes' and Divergence\n                Theorems apply."
+      "Verify both sides of the equality in Stokes' in basic examples.",
+      "State the Divergence Theorem and identify its necessary components.",
+      "Verify both sides of the equality in the Div Thm in basic examples.",
+      "Exploit the Divergence Theorem to compute flux through a not-necessarily closed surface.",
+      "Create a specific example in which both Stokes' and Divergence Theorems apply."
     ]
   }
 ]
